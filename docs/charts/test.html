@@ -1,0 +1,14 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Sales</title>
+<div id="vis"></div>
+<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+<script>
+(async () => {
+  const res = await fetch("../../charts/sales.vl.json");  // relative to this file
+  const spec = await res.json();
+  vegaEmbed("#vis", spec, {actions:false});
+})();
+</script>
