@@ -1,5 +1,5 @@
 ```mermaid
-flowchart TD   
+flowchart LR   
 
   classDef entidad stroke:#333,stroke-width:2px;
   classDef relacion stroke:#a66,stroke-width:2px;
@@ -23,8 +23,7 @@ flowchart TD
   IncluyeLC{INCLUYE_LOTES}:::relacion
 
   %% Atributos LOTE
-  subgraph LOTE
-  direction RL 
+  subgraph Lotes
   cod_lote(((cod_lote PK))):::atributo --> Lote
   num_cajas(((num_cajas))):::atributo --> Lote
   kilos_total(((kilos_total))):::atributo --> Lote
@@ -32,30 +31,39 @@ flowchart TD
   precio_salida_kg(((precio_salida_kg))):::atributo --> Lote
   precio_salida_total(((precio_salida_total))):::atributo --> Lote
   end
+
   %% Atributos ESPECIE
+  subgraph Especies
   cod_especie(((cod_especie PK))):::atributo --> Especie
   nombre_especie(((nombre))):::atributo --> Especie
   tipo_especie(((tipo))):::atributo --> Especie
+  end
 
   %% Atributos BARCO
+  subgraph Barcos
   matricula(((matricula PK))):::atributo --> Barco
   nombre_barco(((nombre))):::atributo --> Barco
   clase_barco(((clase))):::atributo --> Barco
   capitan(((capitan))):::atributo --> Barco
   armador(((armador))):::atributo --> Barco
+  end
 
   %% Atributos COMPRADOR
+  subgraph Compradores
   cod_comprador(((cod_comprador PK))):::atributo --> Comprador
   nombre_compr(((nombre))):::atributo --> Comprador
   direccion_compr(((direccion))):::atributo --> Comprador
   dni_cif(((dni_cif))):::atributo --> Comprador
   cuota_anual(((cuota_anual))):::atributo --> Comprador
+  end
 
   %% Atributos FACTURA_COMPRADOR
+  subgraph Facturas
   num_fact_c(((num_factura PK))):::atributo --> FacturaC
   fecha_emision_c(((fecha_emision))):::atributo --> FacturaC
   importe_total_c(((importe_total))):::atributo --> FacturaC
   estado_c(((estado))):::atributo --> FacturaC
+  end
 
   %% Atributos de la RELACIÓN ADJUDICACIÓN
   precio_compra_kg(((precio_compra_kg))):::atributo --> Adjudicacion
