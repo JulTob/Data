@@ -3,9 +3,6 @@ flowchart LR
 
   classDef entidad stroke:#333,stroke-width:2px;
   classDef relacion stroke:#a66,stroke-width:2px;
-
-  classDef entidad stroke:#333,stroke-width:2px;
-  classDef relacion stroke:#a66,stroke-width:2px;
   classDef atributo stroke:#446,stroke-width:1.5px;
 
   %% Entidades
