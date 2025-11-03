@@ -7,7 +7,7 @@ erDiagram
 
     %% ======== ENTIDADES PRINCIPALES ======== %%
     ESPECIE {
-        string cod_especie PK "Identificador único de especie"
+        string cod_especie PK  
         string nombre       "Nombre común"
         string tipo         "Tipo de especie (molusco, pescado blanco...)"
     }
