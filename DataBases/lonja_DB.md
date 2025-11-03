@@ -70,7 +70,7 @@ erDiagram
         int id_faena PK "Identificador de la faena"
         string matricula FK "BARCO"  
         string cod_especie FK "ESPECIE"  
-        string nombre_caladero FK "CALADERO" "Lugar de captura"
+        string nombre_caladero FK "CALADERO"  
         float kilos "Cantidad capturada"
         date fecha_inicio "Inicio de la faena"
         date fecha_fin "Fin de la faena"
