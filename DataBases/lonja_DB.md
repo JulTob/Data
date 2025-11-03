@@ -82,7 +82,7 @@ erDiagram
         date fecha_emision "Fecha de emisión"
         float importe_total "Importe total"
         string estado "Pendiente o pagada"
-        string cod_comprador FK "COMPRADOR" "Comprador asociado"
+        string cod_comprador FK "COMPRADOR" 
     }
 
     PAGO_COMPRADOR {
