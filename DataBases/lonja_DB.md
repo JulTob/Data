@@ -59,7 +59,7 @@ erDiagram
         float precio_compra_kg  "Precio adjudicado por kg"
         float precio_total      "Precio total adjudicado"
         string cod_especie FK    "ESPECIE"  
-        string matricula FK "BARCO" "Barco que capturó el lote"
+        string matricula FK "BARCO" 
         string cod_comprador FK "COMPRADOR"  
         string num_factura_c FK "FACTURA_COMPRADOR"  
         string num_factura_b FK "FACTURA_BARCO"  
@@ -68,7 +68,7 @@ erDiagram
     %% ======== FAENA (RELACIÓN TERNARIA) ======== %%
     FAENA {
         int id_faena PK "Identificador de la faena"
-        string matricula FK "BARCO" "Barco que faena"
+        string matricula FK "BARCO"  
         string cod_especie FK "ESPECIE" "Especie capturada"
         string nombre_caladero FK "CALADERO" "Lugar de captura"
         float kilos "Cantidad capturada"
@@ -97,7 +97,7 @@ erDiagram
         date fecha_emision "Fecha de emisión"
         float importe_total "Importe total"
         string cif_barco "CIF del barco"
-        string matricula FK "BARCO" "Barco asociado"
+        string matricula FK "BARCO"  
     }
 
     PAGO_BARCO {
