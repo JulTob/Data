@@ -58,11 +58,11 @@ erDiagram
         float precio_salida_total "Precio total de salida"
         float precio_compra_kg  "Precio adjudicado por kg"
         float precio_total      "Precio total adjudicado"
-        string cod_especie FK "ESPECIE" "Especie del lote"
+        string cod_especie FK    "ESPECIE"  
         string matricula FK "BARCO" "Barco que capturó el lote"
-        string cod_comprador FK "COMPRADOR" "Comprador que lo adquiere"
-        string num_factura_c FK "FACTURA_COMPRADOR" "Factura asociada al comprador"
-        string num_factura_b FK "FACTURA_BARCO" "Factura asociada al barco"
+        string cod_comprador FK "COMPRADOR"  
+        string num_factura_c FK "FACTURA_COMPRADOR"  
+        string num_factura_b FK "FACTURA_BARCO"  
     }
 
     %% ======== FAENA (RELACIÓN TERNARIA) ======== %%
