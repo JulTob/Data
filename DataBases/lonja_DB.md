@@ -89,7 +89,7 @@ erDiagram
         int id_pago PK "Identificador del pago"
         date fecha "Fecha del pago"
         float importe "Importe del pago"
-        string num_factura FK "FACTURA_COMPRADOR" "Factura abonada"
+        string num_factura FK "FACTURA_COMPRADOR" 
     }
 
     FACTURA_BARCO {
