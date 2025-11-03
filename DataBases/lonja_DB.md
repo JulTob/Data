@@ -104,7 +104,7 @@ erDiagram
         int id_pago PK "Identificador del pago"
         date fecha "Fecha del pago"
         float importe "Importe del pago"
-        string num_factura FK "FACTURA_BARCO" "Factura pagada"
+        string num_factura FK "FACTURA_BARCO" 
     }
 
     %% ======== RELACIONES Y CARDINALIDADES ======== %%
