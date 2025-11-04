@@ -6,64 +6,67 @@ erDiagram
     direction LR
 
     %% ======== ENTIDADES PRINCIPALES ======== %%
-    ESPECIE {
-        string cod_especie PK  
-        string nombre       "Nombre común"
-        string tipo         "Tipo de especie (molusco, pescado blanco...)"
-    }
-
-    CALADERO {
-        string nombre PK "Nombre único del caladero"
-        float extension   "Área en km²"
-        float latitud     "Latitud GPS"
-        float longitud    "Longitud GPS"
-    }
-
-    BARCO {
-        string matricula PK "Identificador del barco"
-        string nombre        "Nombre del barco"
-        string clase         "Clase o tipo del barco"
-        string capitan       "Nombre del capitán"
-        string armador       "Nombre del armador"
-        string cif_barco UK  "Identificador fiscal del barco"
-    }
 
     COMPRADOR {
-        string cod_comprador PK "Código del comprador"
-        string nombre          "Nombre o razón social"
-        string direccion       "Dirección postal"
-        string dni_cif UK      "DNI o CIF"
-        float cuota_anual      "Cuota anual a la lonja"
-    }
+        ID     cod_comprador PK ""
+        STRING nombre           ""
+        STRING direccion        ""
+        STRING dni_cif       UK ""
+        MONEY  cuota_anual       ""
+        }
 
-    %% ======== ESPECIALIZACIÓN DE COMPRADORES ======== %%
-    COMPRADOR_CONTADO {
-        string cod_comprador PK, FK "COMPRADOR" 
-    }
+        %% ======== ESPECIALIZACIÓN DE COMPRADORES ======== %%
+        COMPRADOR_CONTADO {
+            ID cod_comprador PK, FK "COMPRADOR" 
+            }
 
-    COMPRADOR_CREDITO {
-        string cod_comprador PK, FK "COMPRADOR" 
-        string num_cuenta          "Cuenta bancaria"
-        float importe_acumulado    "Importe acumulado del mes"
-        date fecha_vencimiento     "Fecha límite de pago"
-    }
+        COMPRADOR_CREDITO {
+            ID     cod_comprador PK, FK "COMPRADOR" 
+            IBAN   num_cuenta           ""
+            MONEY  importe_acumulado    ""
+            DATE   fecha_vencimiento    ""
+            }
+
+    ESPECIE {
+        ID     cod_especie  PK  
+        STRING nombre       UK ""
+        STRING tipo            ""
+        }
+
+    CALADERO {
+        STRING    nombre     PK   ""
+        FLOAT     extension       ""
+        GEO       latitud         ""
+        GEO       longitud        ""
+        }
+
+    BARCO {
+        ID     matricula PK  ""
+        STRING nombre    UK  ""
+        STRING clase         ""
+        STRING capitan       ""
+        STRING armador   UK  ""
+        STRING cif_barco UK  ""
+        }
+
+
 
     %% ======== LOTES Y SUBASTAS ======== %%
     LOTE {
-        string cod_lote PK "Código del lote"
-        int num_cajas           "Número de cajas"
-        float kilos_total       "Peso total (kg)"
-        date fecha_llegada      "Fecha de llegada"
-        float precio_salida_kg  "Precio de salida por kg"
-        float precio_salida_total "Precio total de salida"
-        float precio_compra_kg  "Precio adjudicado por kg"
-        float precio_total      "Precio total adjudicado"
-        string cod_especie FK    "ESPECIE"  
-        string matricula FK "BARCO" 
-        string cod_comprador FK "COMPRADOR"  
-        string num_factura_c FK "FACTURA_COMPRADOR"  
-        string num_factura_b FK "FACTURA_BARCO"  
-    }
+        ID       cod_lote      PK    ""
+        INT      num_cajas           ""
+        FLOAT    kilos_total         ""
+        DATE     fecha_llegada       ""
+        FLOAT    precio_salida_kg    ""
+        FLOAT    precio_salida_total ""
+        FLOAT    precio_compra_kg    ""
+        FLOAT    precio_total        ""
+        ID       cod_especie   FK    "ESPECIE"  
+        ID       matricula     FK    "BARCO" 
+        ID       cod_comprador FK    "COMPRADOR"  
+        ID       num_factura_c FK    "FACTURA_COMPRADOR"  
+        ID       num_factura_b FK    "FACTURA_BARCO"  
+        }
 
     %% ======== FAENA (RELACIÓN TERNARIA) ======== %%
     FAENA {
@@ -134,6 +137,7 @@ erDiagram
     %% --- Estilo visual --- %%
     style COMPRADOR_CONTADO stroke:#2962FF,stroke-width:2px
     style COMPRADOR_CREDITO stroke:#2962FF,stroke-width:2px
+    style COMPRADOR stroke:#2962FF,stroke-width:2px
     style FAENA stroke:#FF9800,stroke-width:2px
 
 
