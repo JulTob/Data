@@ -227,22 +227,22 @@ erDiagram
         ID          id_pago     PK     "AUTONUM"
         DATE        fecha              ""
         CURRENCY    importe            ""
-        string num_factura FK "FACTURA_COMPRADOR" 
+        STRING      num_factura FK     "FACTURA_COMPRADOR" 
         }
 
     FACTURA_BARCO {
-        string num_factura PK "Número de factura"
-        date fecha_emision "Fecha de emisión"
-        float importe_total "Importe total"
-        string cif_barco "CIF del barco"
-        string matricula FK "BARCO"  
-    }
+        STRING   num_factura   PK   "ShortText(20)"
+        DATE     fecha_emision      ""
+        CURRENCY importe_total      ""
+        CIF      cif_barco     FK   ""
+        ID       matricula     FK   "BARCO"  
+        }
 
     PAGO_BARCO {
-        int id_pago PK "Identificador del pago"
-        date fecha "Fecha del pago"
-        float importe "Importe del pago"
-        string num_factura FK "FACTURA_BARCO" 
+        INT        id_pago PK      "AUTONUM"
+        DATE       fecha           ""
+        CURRENCY   importe         ""
+        STRING     num_factura FK  "FACTURA_BARCO" 
     }
 
     %% ======== RELACIONES Y CARDINALIDADES ======== %%
