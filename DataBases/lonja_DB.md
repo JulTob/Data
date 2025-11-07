@@ -48,16 +48,26 @@ La lonja de pescado de Santa Pola desea agilizar la gestión de su negocio a tal
         - [ ]  una fecha de inicio
         - [ ]  y otra de fin).
         - [ ]  
-- [ ]  Una vez empezada la subasta, los distintos compradores pujan por los lotes en los que están interesados. A los compradores se les asigna un código (no repetible), su nombre,
-dirección, DNI o CIF, así como la cuota anual que deben pagar a la lonja en cuestión.
+- [ ]  Una vez empezada la subasta, los distintos compradores pujan por los lotes en los que están interesados. A los compradores se les asigna un código (no repetible),
+- [ ]  su nombre,
+- [ ]  dirección,
+- [ ]  DNI o CIF,
+- [ ]  así como la cuota anual que deben pagar a la lonja en cuestión.
 
 Finalmente, cada lote será adquirido por el comprador que realice la mejor puja. De
-estas adquisiciones se guarda el precio de compra por kilo y el precio total de
-adjudicación del lote.
-• Es crucial la información de los pagos que realiza la lonja a los barcos que entregan la
-pesca diaria y de los pagos que efectúan los compradores por la adquisición de los lotes.
-Respecto a los compradores, existen compradores que tienen crédito, realizando los
-pagos al final de cada mes; de estos compradores se guarda un número de cuenta
+estas 
+- [ ] adquisiciones se guarda 
+- [ ] el precio de compra por kilo y
+- [ ] el precio total de adjudicación del lote.
+
+Es crucial la información de los 
+- [ ] pagos que realiza la lonja a los barcos que entregan la
+pesca diaria
+- [ ] y de los pagos que efectúan los compradores por la adquisición de los lotes.
+
+
+- [ ] Respecto a los compradores, existen compradores que
+  - [ ] tienen crédito, realizando los pagos al final de cada mes; de estos compradores se guarda un número de cuenta
 bancaria, el último importe acumulado hasta el momento y la fecha de vencimiento del
 pago (sólo nos interesa la mensualidad en curso). Por otro lado, existen los compradores
 que realizan los pagos al contado sobre los que no se necesita guardar información
@@ -132,6 +142,7 @@ a) Un documento de Word o pdf con la siguiente información:
 perdida.
 b) El fichero Microsoft Visio con el diseño del modelo relacional.
 c) Las base de datos de Access que se construya a partir del modelo relacional.
+# Diagrama
 ```mermaid
 flowchart LR   
   %% Atributos LOTE
@@ -238,6 +249,7 @@ flowchart LR
   IncluyeLC ---|"(1,1)"| Lote
 
 ```
+# Relacional
 ```mermaid
 ---
 title: LONJA - Julio Toboso
@@ -361,28 +373,95 @@ erDiagram
     FACTURA_COMPRADOR ||--o{ PAGO_COMPRADOR : "pagos"
 
     %% --- Barcos --- %%
-    BARCO ||--o{ FAENA : "realiza"
-    BARCO ||--o{ LOTE : "captura"
-    BARCO ||--o{ FACTURA_BARCO : "emite"
+    BARCO   ||--o{ FAENA : "realiza"
+    BARCO   ||--o{ LOTE : "captura"
+    BARCO   ||--o{ FACTURA_BARCO : "emite"
     FACTURA_BARCO ||--o{ PAGO_BARCO : "pagos"
 
     %% --- Especies y Caladeros --- %%
-    ESPECIE ||--o{ LOTE : "clasifica"
-    ESPECIE ||--o{ FAENA : "objetivo"
-    CALADERO ||--o{ FAENA : "en"
+    ESPECIE   ||--o{ LOTE : "clasifica"
+    ESPECIE   ||--o{ FAENA : "objetivo"
+    CALADERO  ||--o{ FAENA : "en"
 
     %% --- Facturas y Lotes --- %%
     FACTURA_COMPRADOR ||--o{ LOTE : "incluye"
-    FACTURA_BARCO ||--o{ LOTE : "incluye"
+    FACTURA_BARCO     ||--o{ LOTE : "incluye"
 
     %% --- Estilo visual --- %%
     style COMPRADOR_CONTADO stroke:#2962FF,stroke-width:2px
     style COMPRADOR_CREDITO stroke:#2962FF,stroke-width:2px
-    style COMPRADOR stroke:#2962FF,stroke-width:2px
+    style COMPRADOR stroke:#2962FF,stroke-width:4px
     style FAENA stroke:#FF9800,stroke-width:2px
 
 
 ```
 # Notas:
 - Los tipos ID son aliases para lo que seguramente debería ser un STRING, pero que representa un código único que bien podría ser un INT o POSITIVE.
-- GEO es un alias para el tipo que se utilice para coordenadas. 
+- GEO es un alias para el tipo que se utilice para coordenadas.
+
+# Implementación 
+```sql
+CREATE TABLE ESPECIE (
+    cod_especie   VARCHAR(5) PRIMARY KEY,
+    nombre        VARCHAR(30),
+    tipo          VARCHAR(20)
+);
+
+CREATE TABLE CALADERO (
+    nombre        VARCHAR(40) PRIMARY KEY,
+    extension     NUMBER(10,2),
+    latitud       NUMBER(8,5),
+    longitud      NUMBER(8,5)
+);
+
+CREATE TABLE BARCO (
+    matricula     CHAR(10) PRIMARY KEY,
+    nombre        VARCHAR(30),
+    clase         VARCHAR(20),
+    capitan       VARCHAR(30),
+    armador       VARCHAR(30)
+);
+
+CREATE TABLE COMPRADOR (
+    cod_comprador CHAR(5) PRIMARY KEY,
+    nombre        VARCHAR(40),
+    direccion     VARCHAR(60),
+    dni_cif       VARCHAR(15) UNIQUE,
+    cuota_anual   NUMBER(8,2)
+);
+
+CREATE TABLE COMPRADOR_CREDITO (
+    cod_comprador CHAR(5) PRIMARY KEY REFERENCES COMPRADOR,
+    num_cuenta    VARCHAR(20),
+    importe_acumulado NUMBER(8,2),
+    fecha_vencimiento DATE
+);
+
+CREATE TABLE COMPRADOR_CONTADO (
+    cod_comprador CHAR(5) PRIMARY KEY REFERENCES COMPRADOR
+);
+
+CREATE TABLE LOTE (
+    cod_lote          CHAR(6) PRIMARY KEY,
+    num_cajas         NUMBER,
+    kilos_total       NUMBER(8,2),
+    fecha_llegada     DATE,
+    precio_salida_kg  NUMBER(8,2),
+    precio_salida_total NUMBER(10,2),
+    cod_especie       CHAR(5) REFERENCES ESPECIE,
+    matricula         CHAR(10) REFERENCES BARCO,
+    cod_comprador     CHAR(5) REFERENCES COMPRADOR,
+    precio_compra_kg  NUMBER(8,2),
+    precio_total      NUMBER(10,2)
+);
+
+CREATE TABLE FAENA (
+    id_faena          NUMBER PRIMARY KEY,
+    matricula         CHAR(10) REFERENCES BARCO,
+    cod_especie       CHAR(5) REFERENCES ESPECIE,
+    nombre_caladero   VARCHAR(40) REFERENCES CALADERO,
+    kilos             NUMBER(8,2),
+    fecha_inicio      DATE,
+    fecha_fin         DATE
+);
+```
