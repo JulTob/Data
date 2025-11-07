@@ -144,27 +144,36 @@ b) El fichero Microsoft Visio con el diseño del modelo relacional.
 c) Las base de datos de Access que se construya a partir del modelo relacional.
 # Diagrama
 ```mermaid
-flowchart LR   
+flowchart LR
+  classDef atributo stroke:#088,stroke-width:2px;
+  classDef pk stroke:#800,stroke-width:4px;
+  classDef entidad stroke:#880,stroke-width:4px;
+
   %% Atributos LOTE
   subgraph Lotes
-  cod_lote([cod_lote PK]):::atributo --> Lote
-  num_cajas([num_cajas]):::atributo --> Lote
-  kilos_total([kilos_total]):::atributo --> Lote
-  fecha_llegada([fecha_llegada]):::atributo --> Lote
-  precio_salida_kg([precio_salida_kg]):::atributo --> Lote
-  precio_salida_total([precio_salida_total]):::atributo --> Lote
-  end
+    cod_lote([cod_lote]):::pk --> Lote
+    num_cajas([num_cajas]):::atributo --> Lote
+    kilos_total([kilos_total]):::atributo --> Lote
+    fecha_llegada([fecha_llegada]):::atributo --> Lote
+    precio_salida_kg([precio_salida_kg]):::atributo --> Lote
+    precio_salida_total([precio_salida_total]):::atributo --> Lote
+    Lote:::entidad
+    end
 
 
 ```
 ```mermaid
 flowchart LR   
+  classDef atributo stroke:#088,stroke-width:2px;
+  classDef pk stroke:#800,stroke-width:4px;
+  classDef entidad stroke:#880,stroke-width:4px;
 
   %% Atributos ESPECIE
   subgraph Especies
-  cod_especie([cod_especie PK]):::atributo --> Especie
+  cod_especie([cod_especie]):::pk --> Especie
   nombre_especie([nombre]):::atributo --> Especie
   tipo_especie([tipo]):::atributo --> Especie
+  Especie:::entidad
   end
 
 ```
