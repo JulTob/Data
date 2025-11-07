@@ -147,7 +147,7 @@ c) Las base de datos de Access que se construya a partir del modelo relacional.
 flowchart LR
   classDef atributo stroke:#088,stroke-width:2px;
   classDef pk stroke:#800,stroke-width:4px;
-  classDef entidad stroke:#880,stroke-width:4px;
+  classDef entidad stroke:#404,stroke-width:4px;
 
   %% Atributos LOTE
   subgraph Lotes
@@ -166,7 +166,7 @@ flowchart LR
 flowchart LR   
   classDef atributo stroke:#088,stroke-width:2px;
   classDef pk stroke:#800,stroke-width:4px;
-  classDef entidad stroke:#880,stroke-width:4px;
+  classDef entidad stroke:#404,stroke-width:4px;
 
   %% Atributos ESPECIE
   subgraph Especies
@@ -179,10 +179,14 @@ flowchart LR
 ```
 ```mermaid
 flowchart LR   
+  classDef atributo stroke:#088,stroke-width:2px;
+  classDef pk stroke:#800,stroke-width:4px;
+  classDef entidad stroke:#404,stroke-width:4px;
 
   %% Atributos BARCO
   subgraph Barcos
-  matricula([matricula PK]):::atributo --> Barco
+  Barco:::entidad
+  matricula([matricula]):::pk --> Barco
   nombre_barco([nombre]):::atributo --> Barco
   clase_barco([clase]):::atributo --> Barco
   capitan([capitan]):::atributo --> Barco
@@ -192,7 +196,11 @@ flowchart LR
 
 ```
 ```mermaid
-flowchart LR   
+flowchart LR
+  classDef atributo stroke:#088,stroke-width:2px;
+  classDef pk stroke:#800,stroke-width:4px;
+  classDef entidad stroke:#404,stroke-width:4px;
+
   %% Atributos COMPRADOR
   subgraph Compradores
   cod_comprador([cod_comprador PK]):::atributo --> Comprador
@@ -204,6 +212,9 @@ flowchart LR
 ```
 ```mermaid
 flowchart LR   
+  classDef atributo stroke:#088,stroke-width:2px;
+  classDef pk stroke:#800,stroke-width:4px;
+  classDef entidad stroke:#404,stroke-width:4px;
 
   %% Atributos FACTURA_COMPRADOR
   subgraph Facturas
@@ -216,9 +227,9 @@ flowchart LR
 ```mermaid
 flowchart LR   
 
-  classDef entidad stroke:#333,stroke-width:2px;
-  classDef relacion stroke:#a66,stroke-width:2px;
-  classDef atributo stroke:#446,stroke-width:1.5px;
+  classDef relacion stroke:#840,stroke-width:2px;
+  classDef atributo stroke:#088,stroke-width:2px;
+  classDef entidad stroke:#404,stroke-width:4px;
 
   %% Entidades
   Lote[LOTE]:::entidad
