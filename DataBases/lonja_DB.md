@@ -229,8 +229,8 @@ flowchart LR
 
 
   %% Atributos de la RELACIÓN ADJUDICACIÓN
-  precio_compra_kg(((precio_compra_kg))):::atributo --> Adjudicacion
-  precio_total(((precio_total))):::atributo --> Adjudicacion
+  precio_compra_kg([precio_compra_kg]):::atributo --> Adjudicacion
+  precio_total([precio_total]):::atributo --> Adjudicacion
 
   %% Conexiones y cardinalidades
   Lote ---|"(1,1)"| DeEspecie
