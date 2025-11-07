@@ -159,8 +159,6 @@ flowchart LR
     precio_salida_total([precio_salida_total]):::atributo --> Lote
     Lote:::entidad
     end
-
-
 ```
 ```mermaid
 flowchart LR   
@@ -175,6 +173,7 @@ flowchart LR
   tipo_especie([tipo]):::atributo --> Especie
   Especie:::entidad
   end
+
 
 ```
 ```mermaid
