@@ -208,6 +208,10 @@ flowchart LR
   dni_cif([dni_cif]):::atributo --> Comprador
   cuota_anual([cuota_anual]):::atributo --> Comprador
   end
+
+  Comprador -->|es un| CompradorContado
+  Comprador -->|es un| CompradorCredito
+
 ```
 ```mermaid
 flowchart LR   
