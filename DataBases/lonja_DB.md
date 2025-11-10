@@ -440,14 +440,14 @@ CREATE TABLE ESPECIE (
     cod_especie   VARCHAR(5) PRIMARY KEY,
     nombre        VARCHAR(30),
     tipo          VARCHAR(20)
-);
+    );
 
 CREATE TABLE CALADERO (
     nombre        VARCHAR(40) PRIMARY KEY,
-    extension     NUMBER(10,2),
-    latitud       NUMBER(8,5),
-    longitud      NUMBER(8,5)
-);
+    extension     DECIMAL(10,2),
+    latitud       DECIMAL(8,5),
+    longitud      DECIMAL(8,5)
+    );
 
 CREATE TABLE BARCO (
     matricula     CHAR(10) PRIMARY KEY,
@@ -455,15 +455,15 @@ CREATE TABLE BARCO (
     clase         VARCHAR(20),
     capitan       VARCHAR(30),
     armador       VARCHAR(30)
-);
+    );
 
 CREATE TABLE COMPRADOR (
     cod_comprador CHAR(5) PRIMARY KEY,
     nombre        VARCHAR(40),
     direccion     VARCHAR(60),
     dni_cif       VARCHAR(15) UNIQUE,
-    cuota_anual   NUMBER(8,2)
-);
+    cuota_anual   DECIMAL(8,2)
+    );
 
 CREATE TABLE COMPRADOR_CREDITO (
     cod_comprador CHAR(5) PRIMARY KEY REFERENCES COMPRADOR,
@@ -477,26 +477,46 @@ CREATE TABLE COMPRADOR_CONTADO (
 );
 
 CREATE TABLE LOTE (
-    cod_lote          CHAR(6) PRIMARY KEY,
-    num_cajas         NUMBER,
-    kilos_total       NUMBER(8,2),
-    fecha_llegada     DATE,
-    precio_salida_kg  NUMBER(8,2),
-    precio_salida_total NUMBER(10,2),
-    cod_especie       CHAR(5) REFERENCES ESPECIE,
-    matricula         CHAR(10) REFERENCES BARCO,
-    cod_comprador     CHAR(5) REFERENCES COMPRADOR,
-    precio_compra_kg  NUMBER(8,2),
-    precio_total      NUMBER(10,2)
-);
+    cod_lote           CHAR(5) PRIMARY KEY,
+    num_cajas          INT,
+    kilos_totales      DECIMAL(8,2),
+    fecha_llegada      DATE,
+    precio_kg_salida   DECIMAL(8,2),
+    precio_total_salida DECIMAL(8,2),
+    cod_especie        VARCHAR(5) REFERENCES ESPECIE,
+    matricula_barco    CHAR(10) REFERENCES BARCO
+    );
 
 CREATE TABLE FAENA (
-    id_faena          NUMBER PRIMARY KEY,
-    matricula         CHAR(10) REFERENCES BARCO,
-    cod_especie       CHAR(5) REFERENCES ESPECIE,
-    nombre_caladero   VARCHAR(40) REFERENCES CALADERO,
-    kilos             NUMBER(8,2),
-    fecha_inicio      DATE,
-    fecha_fin         DATE
-);
+    matricula_barco CHAR(10) REFERENCES BARCO,
+    nombre_caladero VARCHAR(40) REFERENCES CALADERO,
+    cod_especie     VARCHAR(5) REFERENCES ESPECIE,
+    kilos           DECIMAL(8,2),
+    fecha_inicio    DATE,
+    fecha_fin       DATE,
+    PRIMARY KEY (matricula_barco, nombre_caladero, cod_especie, fecha_inicio)
+    );
+
+CREATE TABLE ADQUISICION (
+    cod_lote        CHAR(5) REFERENCES LOTE,
+    cod_comprador   CHAR(5) REFERENCES COMPRADOR,
+    precio_kg_compra DECIMAL(8,2),
+    precio_total_compra DECIMAL(8,2),
+    PRIMARY KEY (cod_lote, cod_comprador)
+    );
+
+CREATE TABLE PAGO_BARCO (
+    cod_pago        CHAR(5) PRIMARY KEY,
+    matricula_barco CHAR(10) REFERENCES BARCO,
+    importe         DECIMAL(8,2),
+    fecha           DATE
+    );
+
+CREATE TABLE PAGO_COMPRADOR (
+    cod_pago        CHAR(5) PRIMARY KEY,
+    cod_comprador   CHAR(5) REFERENCES COMPRADOR,
+    importe         DECIMAL(8,2),
+    fecha           DATE
+    );
+
 ```
