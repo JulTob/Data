@@ -43,6 +43,18 @@ flowchart LR
     precio_salida_total([precio_salida_total]):::atributo --> Lote
     end
 ```
+```sql
+CREATE TABLE LOTE (
+    cod_lote            CHAR(5) PRIMARY KEY,
+    num_cajas           NUMBER(6,0),
+    kilos_totales       NUMBER(8,2),
+    fecha_llegada       DATE,
+    precio_kg_salida    NUMBER(8,2),
+    precio_total_salida NUMBER(8,2),
+    cod_especie         VARCHAR(5) REFERENCES ESPECIE,
+    matricula_barco     CHAR(10) REFERENCES BARCO
+    );
+```
 
 ### Especies
 - [x]  De cada especie guardaremos
@@ -132,6 +144,14 @@ flowchart LR
 
     end
 ```
+```sql
+CREATE TABLE CALADERO (
+    nombre        VARCHAR(40) PRIMARY KEY,
+    extension     NUMBER(10,2),
+    latitud       NUMBER(8,5),
+    longitud      NUMBER(8,5)
+    );
+```
 
 ### Faenaje
 - [x]  Faena
@@ -172,6 +192,17 @@ flowchart LR
   Barco[BARCO]:::entidad
   Especie[ESPECIE]:::entidad
 ```
+```sql
+CREATE TABLE FAENA (
+    matricula_barco CHAR(10)   REFERENCES BARCO,
+    nombre_caladero VARCHAR(40) REFERENCES CALADERO,
+    cod_especie     VARCHAR(5) REFERENCES ESPECIE,
+    kilos           NUMBER(8,2),
+    fecha_inicio    DATE,
+    fecha_fin       DATE,
+    PRIMARY KEY (matricula_barco, nombre_caladero, cod_especie, fecha_inicio)
+    );
+```
 
 # Compradores
 - [ ]  Compradores.
@@ -200,7 +231,7 @@ flowchart LR
     cuota_anual([cuota_anual]):::atributo --> Comprador
     end
 
-  Comprador --> es{d} -->|1:0..1| CompradorCredito[COMPRADOR_CREDITO]:::entidad
+  Comprador --> es{d} -->|1:0..1| CompradorCredito[CREDITOR]:::entidad
 
 ```
 ```mermaid
@@ -243,7 +274,7 @@ CREATE TABLE COMPRADOR (
 CREATE TABLE CREDITOR (
     cod_comprador     CHAR(5) PRIMARY KEY
                       REFERENCES COMPRADOR,
-    num_cuenta        VARCHAR(34),
+    num_cuenta        CHAR(24),
     importe_acumulado NUMBER(10,2),
     fecha_vencimiento DATE
     );
@@ -257,6 +288,22 @@ Por tanto:
 - No hay basura ni nulos forzados.
 - Contado = los que no están en COMPRADOR_CREDITO
   -   Totalidad cubierta, sin necesidad de un atributo tipo
+
+Un IBAN es un número de cuenta, pero contiene caracteres no numéricos (ES, FR, US...). Considero mejor guardarla como un CHAR de 24 caracteres. Se requerirá verificación. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Finalmente, cada lote será adquirido por el comprador que realice la mejor puja. De
@@ -571,54 +618,8 @@ erDiagram
 ```sql
 
 
-CREATE TABLE CALADERO (
-    nombre        VARCHAR(40) PRIMARY KEY,
-    extension     DECIMAL(10,2),
-    latitud       DECIMAL(8,5),
-    longitud      DECIMAL(8,5)
-    );
 
 
-
-CREATE TABLE COMPRADOR (
-    cod_comprador CHAR(5) PRIMARY KEY,
-    nombre        VARCHAR(40),
-    direccion     VARCHAR(60),
-    dni_cif       VARCHAR(15) UNIQUE,
-    cuota_anual   DECIMAL(8,2)
-    );
-
-CREATE TABLE COMPRADOR_CREDITO (
-    cod_comprador CHAR(5) PRIMARY KEY REFERENCES COMPRADOR,
-    num_cuenta    VARCHAR(20),
-    importe_acumulado NUMBER(8,2),
-    fecha_vencimiento DATE
-);
-
-CREATE TABLE COMPRADOR_CONTADO (
-    cod_comprador CHAR(5) PRIMARY KEY REFERENCES COMPRADOR
-);
-
-CREATE TABLE LOTE (
-    cod_lote           CHAR(5) PRIMARY KEY,
-    num_cajas          INT,
-    kilos_totales      DECIMAL(8,2),
-    fecha_llegada      DATE,
-    precio_kg_salida   DECIMAL(8,2),
-    precio_total_salida DECIMAL(8,2),
-    cod_especie        VARCHAR(5) REFERENCES ESPECIE,
-    matricula_barco    CHAR(10) REFERENCES BARCO
-    );
-
-CREATE TABLE FAENA (
-    matricula_barco CHAR(10) REFERENCES BARCO,
-    nombre_caladero VARCHAR(40) REFERENCES CALADERO,
-    cod_especie     VARCHAR(5) REFERENCES ESPECIE,
-    kilos           DECIMAL(8,2),
-    fecha_inicio    DATE,
-    fecha_fin       DATE,
-    PRIMARY KEY (matricula_barco, nombre_caladero, cod_especie, fecha_inicio)
-    );
 
 CREATE TABLE ADQUISICION (
     cod_lote        CHAR(5) REFERENCES LOTE,
