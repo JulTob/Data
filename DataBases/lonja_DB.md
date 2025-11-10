@@ -92,68 +92,64 @@ adicional.
 - [ ] y los códigos de lote facturados.
 
 
-3.1. Modelo ERE.
-A partir de la información descrita en al anterior apartado realizar el diseño del esquema
-conceptual (ERE) utilizando Microsoft Word o similar para documentarlo. Dicho documento,
-además de contar con el grafo ERE ajustado a los elementos impartidos en clase, ha de contar
-con un apartado que indique, razonadamente, todos los supuestos semánticos que se han
-realizado, y que surgen de la ausencia de información relativa en ellos en el propio enunciado.
-En definitiva, se trata de incluir, además de los supuestos semánticos que se consideren
-oportunos para justificar todas las decisiones de diseño y la semántica perdida si la hubiese, los
-siguientes elementos:
-• Entidades.
-• Interrelaciones (Relaciones).
-• Tipo de Interrelaciones (Tipo de Relación).
-• Participación de las entidades en las Interrelaciones.
-• Participaciones máximas y mínimas de las entidades en las Interrelaciones.
-• Respecto a las relaciones, existe una relación ternaria que el alumno debe identificar.
+### 3.1. Modelo ERE.
+A partir de la información descrita en al anterior apartado realizar el diseño del esquema conceptual (ERE) utilizando Microsoft Word o similar para documentarlo. Dicho documento, además de contar con el grafo ERE ajustado a los elementos impartidos en clase, ha de contar con un apartado que indique, razonadamente, todos los supuestos semánticos que se han realizado, y que surgen de la ausencia de información relativa en ellos en el propio enunciado.
+En definitiva, se trata de incluir, además de los supuestos semánticos que se consideren oportunos para justificar todas las decisiones de diseño y la semántica perdida si la hubiese, los siguientes elementos:
+- Entidades.
+- Interrelaciones (Relaciones).
+- Tipo de Interrelaciones (Tipo de Relación).
+- Participación de las entidades en las Interrelaciones.
+- Participaciones máximas y mínimas de las entidades en las Interrelaciones.
+- Respecto a las relaciones, existe una relación ternaria que el alumno debe identificar.
 De igual manera se debe identificar la cardinalidad de cada rama, así como las
 participaciones máximas y mínimas.
-• Atributos según tipología.
-• Generalización – Especialización.
-• … en definitiva todos los elementos explicados para los esquemas ERE necesarios para
+- Atributos según tipología.
+- Generalización – Especialización.
+- … en definitiva todos los elementos explicados para los esquemas ERE necesarios para
 reflejar el enunciado los más fielmente posible.
 
-3.2. Modelo Relacional.
+### 3.2. Modelo Relacional.
 Basándose en el esquema conceptual (Modelo ERE) desarrollado en el anterior apartado
 se deberá crear el Modelo Relacional, el cual reflejará lo más fielmente posible una solución al
 problema que se nos plantea. Éste se ha de documentar utilizando la herramienta Microsoft Visio
 usando la plantilla para Bases de Datos relacionales con notaciones IDEF1X haciendo constar,
 los siguientes elementos:
-• Tablas con sus atributos o campos y sus dominios.
-• Claves Primarias y Alternativas.
-• Claves Ajenas indicando su dependencia.
-• Los posibles o no nulos.
-• Valores por defecto.
-• Cardinalidades.
-• Acción para la preservación de la Integridad Referencial.
-•
-… en definitiva, todos los elementos explicados para los esquemas relacionales que sean
-necesarios para plasmar el enunciado.
-Solo se podrán usar los siguientes tipos de datos: VARCHAR, CHAR, NUMBER y
-DATE. Recordad que es importante que el tipo de dato, y en general el dominio de cada atributo,
-esté desarrollado conforme al concepto que representa.
-La forma de transformar una relación ternaria del tipo Muchos, Muchos, Muchos
-(N:N:N) es, una vez creadas las tablas correspondientes a las entidades partícipes, crear una
-nueva tabla que representará dicha relación ternaria y que debe incluir como claves foráneas las
-claves principales de cada una de las tres entidades partícipes. El conjunto formado por estas
-claves foráneas será la clave principal de la nueva tabla. En dicha nueva tabla se debe incluir
-también los atributos de la relación siguiendo los mismos criterios que se siguen en los atributos
-de una relación binaria de tipo N:N.
-3.3. Creación de la base de datos.
-En consonancia con lo desarrollado en el anterior apartado, construid el definitivo
-esquema de base de datos relacional en Access.
-4. Formato y fecha de entrega
-Esta práctica se entregará de forma individual. El plazo máximo para la entrega de esta
-práctica es el 05/11/2025 a las 23:55 horas a través del portal de entrega de tareas de la asignatura
+- Tablas con sus atributos o campos y sus dominios.
+- Claves Primarias y Alternativas.
+- Claves Ajenas indicando su dependencia.
+- Los posibles o no nulos.
+- Valores por defecto.
+- Cardinalidades.
+- Acción para la preservación de la Integridad Referencial.
+- … en definitiva, todos los elementos explicados para los esquemas relacionales que sean necesarios para plasmar el enunciado.
+- 
+Solo se podrán usar los siguientes tipos de datos:
+- VARCHAR,
+- CHAR,
+- NUMBER
+- y DATE.
+
+Recordad que es importante que el tipo de dato, y en general el dominio de cada atributo, esté desarrollado conforme al concepto que representa.
+
+La forma de transformar una relación ternaria del tipo Muchos, Muchos, Muchos (N:N:N) es, una vez creadas las tablas correspondientes a las entidades partícipes, crear una nueva tabla que representará dicha relación ternaria y que debe incluir como claves foráneas las claves principales de cada una de las tres entidades partícipes. El conjunto formado por estas claves foráneas será la clave principal de la nueva tabla. En dicha nueva tabla se debe incluir también los atributos de la relación siguiendo los mismos criterios que se siguen en los atributos de una relación binaria de tipo N:N.
+
+### 3.3. Creación de la base de datos.
+En consonancia con lo desarrollado en el anterior apartado, construid el definitivo esquema de base de datos relacional en Access.
+
+### 4. Formato y fecha de entrega
+Esta práctica se entregará de forma individual. El plazo máximo para la entrega de esta práctica es el 05/11/2025 a las 23:55 horas a través del portal de entrega de tareas de la asignatura
 del acceso identificado de la UMH.
+
 Se entregará un fichero comprimido en formato .zip o .rar cuyo contenido ha de ser:
+
 a) Un documento de Word o pdf con la siguiente información:
+
 1. DNI, Nombre y Apellidos del Alumno.
 2. Diseño Conceptual incluyendo los supuestos semánticos y la semántica
 perdida.
-b) El fichero Microsoft Visio con el diseño del modelo relacional.
-c) Las base de datos de Access que se construya a partir del modelo relacional.
+   1. El fichero Microsoft Visio con el diseño del modelo relacional.
+   2. Las base de datos de Access que se construya a partir del modelo relacional.
+   
 # Diagrama
 ```mermaid
 flowchart LR
