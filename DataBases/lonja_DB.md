@@ -67,18 +67,30 @@ pesca diaria
 
 
 - [ ] Respecto a los compradores, existen compradores que
-  - [ ] tienen crédito, realizando los pagos al final de cada mes; de estos compradores se guarda un número de cuenta
-bancaria, el último importe acumulado hasta el momento y la fecha de vencimiento del
-pago (sólo nos interesa la mensualidad en curso). Por otro lado, existen los compradores
-que realizan los pagos al contado sobre los que no se necesita guardar información
-adicional. Un comprador no puede ser de ambos tipos a la vez.
-• La lonja genera una factura que incluye uno o varios lotes que ha adquirido el
-comprador. De estas facturas se guarda un número, una fecha de emisión y el importe
-total. En dichas facturas consta el comprador (que es quien deberá abonarla) así como
-los lotes que incluye. En las facturas emitidas por los barcos, la lonja almacena además
-de los datos mencionados de la factura, el CIF del barco y los códigos de lote
-facturados. En las facturas emitidas a los compradores sin crédito necesitamos saber el
-estado de éstas (pendiente o pagada).
+  - [ ] tienen crédito, realizando los pagos al final de cada mes;
+  - [ ]  de estos compradores se guarda un número de cuenta
+bancaria,
+  - [ ]  el último importe acumulado hasta el momento
+  - [ ]  y la fecha de vencimiento del pago (sólo nos interesa la mensualidad en curso).
+  - [ ]  Por otro lado, existen los compradores que realizan los pagos al contado sobre los que no se necesita guardar información
+adicional.
+  - [ ]  Un comprador no puede ser de ambos tipos a la vez.
+
+- [ ]  La lonja genera una factura
+  - [ ]  que incluye uno o varios lotes que ha adquirido
+  - [ ]  el comprador.
+  - [ ] De estas facturas se guarda un número,
+  - [ ] una fecha de emisión
+  - [ ] y el importe total.
+  - [ ] En dichas facturas consta el comprador (que es quien deberá abonarla)
+  - [ ] así como los lotes que incluye.
+  - [ ] En las facturas emitidas a los compradores sin crédito necesitamos saber el estado de éstas (pendiente o pagada).
+
+- [ ] En las facturas emitidas por los barcos,
+- [ ] la lonja almacena además de los datos mencionados de la factura,
+- [ ] el CIF del barco
+- [ ] y los códigos de lote facturados.
+
 
 3.1. Modelo ERE.
 A partir de la información descrita en al anterior apartado realizar el diseño del esquema
