@@ -66,13 +66,28 @@ flowchart LR
 ```
     
 - [x]  Se almacenará también información sobre los barcos que entregan la pesca en la lonja
+  - [x]  Su matrícula,
+  - [x]  nombre,
+  - [x]  clase,
+  - [x]  nombre del capitán
+  - [x]  y así como del armador.
+```mermaid
+flowchart LR   
+  classDef atributo stroke:#088,stroke-width:2px;
+  classDef pk stroke:#800,stroke-width:4px;
+  classDef entidad stroke:#404,stroke-width:4px;
 
-- [x]  De dichos barcos guardaremos su matrícula,
-- [x]  nombre,
-- [x]  clase,
-- [x]  nombre del capitán
-- [x]  y así como del armador.
-    
+  %% Atributos BARCO
+  subgraph Barcos
+  Barco:::entidad
+  matricula([matricula]):::pk --> Barco
+  nombre([nombre]):::atributo --> Barco
+  clase([clase]):::atributo --> Barco
+  capitan([capitan]):::atributo --> Barco
+  armador([armador]):::atributo --> Barco
+  end
+```
+
 - [ ]  Resulta que los barcos pueden capturar las especies que componen los lotes
 - [ ]  y faenar en diferentes caladeros.
     
@@ -237,24 +252,7 @@ flowchart LR
 ```
 
 
-```mermaid
-flowchart LR   
-  classDef atributo stroke:#088,stroke-width:2px;
-  classDef pk stroke:#800,stroke-width:4px;
-  classDef entidad stroke:#404,stroke-width:4px;
 
-  %% Atributos BARCO
-  subgraph Barcos
-  Barco:::entidad
-  matricula([matricula]):::pk --> Barco
-  nombre_barco([nombre]):::atributo --> Barco
-  clase_barco([clase]):::atributo --> Barco
-  capitan([capitan]):::atributo --> Barco
-  armador([armador]):::atributo --> Barco
-  end
-
-
-```
 ```mermaid
 flowchart LR
   classDef atributo stroke:#088,stroke-width:2px;
