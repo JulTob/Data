@@ -71,6 +71,7 @@ CREATE TABLE ESPECIE (
     tipo          VARCHAR(20)
     );
 ```
+
 - [x]  Se almacenará también información sobre los barcos que entregan la pesca en la lonja
   - [x]  Su matrícula,
   - [x]  nombre,
@@ -93,6 +94,7 @@ flowchart LR
   armador([armador]):::atributo --> Barco
   end
 ```
+
 ```sql
 CREATE TABLE BARCO (
     matricula     CHAR(10) PRIMARY KEY,
@@ -101,7 +103,7 @@ CREATE TABLE BARCO (
     capitan       VARCHAR(30),
     armador       VARCHAR(30)
     );
-``
+```
     
 - [x]  De los caladeros nos interesa conocer
   - [x]  el nombre (único),
