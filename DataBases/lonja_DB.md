@@ -88,14 +88,13 @@ flowchart LR
   end
 ```
 
-- [ ]  Resulta que los barcos pueden capturar las especies que componen los lotes
-- [ ]  y faenar en diferentes caladeros.
     
-- [ ]  De dichos caladeros nos interesa conocer el nombre (único),
-- [ ]  su extensión
-- [ ]  y ubicación (definida mediante las coordenadas GPS
-    - [ ]  latitud y
-    - [ ]  longitud).
+- [ ]  De los caladeros nos interesa conocer
+  - [ ]  el nombre (único),
+  - [ ]  su extensión
+  - [ ]  y ubicación (definida mediante las coordenadas GPS
+      - [ ]  latitud y
+      - [ ]  longitud).
         
 - [ ]  En la lonja es imperativo saber
     - [ ]  qué barcos
@@ -151,6 +150,8 @@ adicional.
 
 - [ ] Los lotes se subastan.
 - [ ] Queremos saber  **qué barco capturó cada lote**,
+- [ ] Los barcos pueden capturar las especies que componen los lotes
+- [ ] Los barcos pueden faenar en diferentes caladeros.
 
 ### 3.1. Modelo ERE.
 A partir de la información descrita en al anterior apartado realizar el diseño del esquema conceptual (ERE) utilizando Microsoft Word o similar para documentarlo. Dicho documento, además de contar con el grafo ERE ajustado a los elementos impartidos en clase, ha de contar con un apartado que indique, razonadamente, todos los supuestos semánticos que se han realizado, y que surgen de la ausencia de información relativa en ellos en el propio enunciado.
