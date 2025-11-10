@@ -119,8 +119,8 @@ flowchart LR
     - [x]  las especies
     - [x]  los kilos de cada especie
     - [ ]  y periodo de tiempo de faena representado por
-        - [ ]  una fecha de inicio
-        - [ ]  y otra de fin.
+        - [x]  una fecha de inicio
+        - [x]  y otra de fin.
 ```mermaid
 flowchart LR   
   classDef atributo stroke:#088,stroke-width:2px;
@@ -150,11 +150,12 @@ flowchart LR
   Especie[ESPECIE]:::entidad
 ```
 
-- [ ]  Una vez empezada la subasta, los distintos compradores pujan por los lotes en los que están interesados. A los compradores se les asigna un código (no repetible),
-- [ ]  su nombre,
-- [ ]  dirección,
-- [ ]  DNI o CIF,
-- [ ]  así como la cuota anual que deben pagar a la lonja en cuestión.
+- [ ]  Compradores.
+  - [ ]  Código (no repetible),
+  - [ ]  su nombre,
+  - [ ]  dirección,
+  - [ ]  DNI o CIF,
+  - [ ]  así como la cuota anual que deben pagar a la lonja.
 
 Finalmente, cada lote será adquirido por el comprador que realice la mejor puja. De
 estas 
