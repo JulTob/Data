@@ -1,4 +1,4 @@
-# Práctica 1 — Lonja de Santa Pola  
+#a<º Práctica 1 — Lonja de Santa Pola  
 
 **Modelo Conceptual (ERE) y Relacional**
 
@@ -98,6 +98,7 @@ flowchart LR
 ```mermaid
 flowchart LR   
   classDef atributo stroke:#088,stroke-width:2px;
+  classDef atributo_der stroke:#088,stroke-width:6px;
   classDef pk stroke:#800,stroke-width:4px;
   classDef entidad stroke:#404,stroke-width:4px;
 
@@ -105,7 +106,7 @@ flowchart LR
   subgraph Caladeros
     Caladero[CALADERO]:::entidad
     nombre([nombre]):::pk --> Caladero
-    ubicacion([ubicacion]):::atributo --> Caladero
+    ubicacion([ubicacion]):::atributo_der --> Caladero
       latitud([latitud]):::atributo --> ubicacion
       longitud([longitud]):::atributo --> ubicacion
 
