@@ -212,6 +212,7 @@ CREATE TABLE FAENA (
   - [x]  DNI o CIF,
   - [x]  así como la cuota anual que deben pagar a la lonja.
 
+
 ```mermaid
 flowchart LR
   classDef atributo stroke:#088,stroke-width:2px;
@@ -234,6 +235,14 @@ flowchart LR
   Comprador --> es{d} -->|1:0..1| CompradorCredito[CREDITOR]:::entidad
 
 ```
+
+- [x] Existen compradores que tienen crédito, realizando los pagos al final de cada mes;
+  - [x]  Se guarda un número de cuenta bancaria,
+  - [x]  el último importe acumulado hasta el momento
+  - [x]  y la fecha de vencimiento del pago (sólo nos interesa la mensualidad en curso).
+  - [x]  Por otro lado, existen los compradores que realizan los pagos al contado sobre los que no se necesita guardar información adicional.
+  - [x]  Un comprador no puede ser de ambos tipos a la vez.
+
 ```mermaid
 flowchart LR
   classDef atributo stroke:#088,stroke-width:2px;
@@ -246,7 +255,11 @@ flowchart LR
   %% Atributos CREDITOR
   subgraph Creditores
     Creditor[CREDITOR]:::entidad
-    cod_comprador([cod_comprador]):::pkfk 
+    Creditor --- cod_comprador([cod_comprador]):::pkfk 
+    Creditor --- iban([iban]):::atributo
+    Creditor --- importe_acumulado([importe_acumulado]):::atributo
+    Creditor --- fecha_vencimiento([fecha_vencimiento]):::atributo
+    
     end
 
   cod_comprador--> Comprador
@@ -259,8 +272,10 @@ Diseño:
   - cod_comprador = PK y FK a COMPRADOR.
   - Si un comprador está en esta tabla ⇒ es de crédito.
   - Si no está ⇒ es de contado.
+
 Eso se llama especialización por predicado.
-Sin tabla para contado. No es necesaria. Ambos grupos son excluyentes. Se está en  _creditor_, no es _contador_.
+
+Sin tabla para contado. No es necesaria. Ambos grupos son excluyentes. Si está en  _creditor_, no es _contador_.
 
 ```sql
 CREATE TABLE COMPRADOR (
@@ -274,11 +289,12 @@ CREATE TABLE COMPRADOR (
 CREATE TABLE CREDITOR (
     cod_comprador     CHAR(5) PRIMARY KEY
                       REFERENCES COMPRADOR,
-    num_cuenta        CHAR(24),
+    iban              CHAR(24),
     importe_acumulado NUMBER(10,2),
     fecha_vencimiento DATE
     );
 ```
+
 Suponemos que todo comprador que no aparece en COMPRADOR_CREDITO opera al contado.
 Por tanto: 
 - Cada cod_comprador puede aparecer a lo sumo una vez en COMPRADOR_CREDITO (PK).
@@ -305,12 +321,12 @@ Un IBAN es un número de cuenta, pero contiene caracteres no numéricos (ES, FR,
 
 
 
+### Adquisiciones
+Finalmente, cada lote será adquirido por el comprador que realice la mejor puja. 
 
-Finalmente, cada lote será adquirido por el comprador que realice la mejor puja. De
-estas 
-- [ ] adquisiciones se guarda 
-- [ ] el precio de compra por kilo y
-- [ ] el precio total de adjudicación del lote.
+- [ ] Adquisiciones 
+  - [ ] el precio de compra por kilo
+  - [ ] el precio total de adjudicación del lote.
 
 Es crucial la información de los 
 - [ ] pagos que realiza la lonja a los barcos que entregan la
@@ -318,15 +334,6 @@ pesca diaria
 - [ ] y de los pagos que efectúan los compradores por la adquisición de los lotes.
 
 
-- [ ] Respecto a los compradores, existen compradores que
-  - [ ] tienen crédito, realizando los pagos al final de cada mes;
-  - [ ]  de estos compradores se guarda un número de cuenta
-bancaria,
-  - [ ]  el último importe acumulado hasta el momento
-  - [ ]  y la fecha de vencimiento del pago (sólo nos interesa la mensualidad en curso).
-  - [ ]  Por otro lado, existen los compradores que realizan los pagos al contado sobre los que no se necesita guardar información
-adicional.
-  - [ ]  Un comprador no puede ser de ambos tipos a la vez.
 
 - [ ]  La lonja genera una factura
   - [ ]  que incluye uno o varios lotes que ha adquirido
@@ -616,31 +623,27 @@ erDiagram
 
 # Implementación 
 ```sql
-
-
-
-
-
 CREATE TABLE ADQUISICION (
-    cod_lote        CHAR(5) REFERENCES LOTE,
-    cod_comprador   CHAR(5) REFERENCES COMPRADOR,
-    precio_kg_compra DECIMAL(8,2),
-    precio_total_compra DECIMAL(8,2),
+    cod_lote           CHAR(5) REFERENCES LOTE,
+    cod_comprador      CHAR(5) REFERENCES COMPRADOR,
+    precio_kg_compra   NUMBER(8,2),
+    precio_total_compra NUMBER(8,2),
     PRIMARY KEY (cod_lote, cod_comprador)
-    );
+);
 
 CREATE TABLE PAGO_BARCO (
     cod_pago        CHAR(5) PRIMARY KEY,
     matricula_barco CHAR(10) REFERENCES BARCO,
-    importe         DECIMAL(8,2),
+    importe         NUMBER(8,2),
     fecha           DATE
-    );
+);
 
 CREATE TABLE PAGO_COMPRADOR (
-    cod_pago        CHAR(5) PRIMARY KEY,
-    cod_comprador   CHAR(5) REFERENCES COMPRADOR,
-    importe         DECIMAL(8,2),
-    fecha           DATE
-    );
+    cod_pago      CHAR(5) PRIMARY KEY,
+    cod_comprador CHAR(5) REFERENCES COMPRADOR,
+    importe       NUMBER(8,2),
+    fecha         DATE
+);
+
 
 ```
