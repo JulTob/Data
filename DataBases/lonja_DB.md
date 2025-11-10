@@ -153,6 +153,45 @@ perdida.
 # Diagrama
 ```mermaid
 flowchart LR
+  %% === Entity Styles ===
+  classDef entidad fill:#eef,stroke:#003,stroke-width:2px;
+  classDef relacion fill:#fff,stroke:#900,stroke-width:2px;
+  classDef atributo fill:#ddf,stroke:#069,stroke-width:1px;
+  classDef clave fill:#ddf,stroke:#069,stroke-width:1px,font-style:italic;
+  classDef derivado fill:#f9f9f9,stroke:#999,stroke-dasharray:3 3;
+  classDef especializacion fill:#eef,stroke:#36a,stroke-width:2px,stroke-dasharray:5 2;
+
+  %% === Example Entity: LOTE ===
+  subgraph LOTE[LOTE]
+    cod_lote((cod_lote)):::clave --> LOTE
+    num_cajas((num_cajas)):::atributo --> LOTE
+    kilos_total((kilos_total)):::atributo --> LOTE
+    fecha_llegada((fecha_llegada)):::atributo --> LOTE
+    precio_salida_kg((precio_salida_kg)):::atributo --> LOTE
+    precio_salida_total((precio_salida_total)):::derivado --> LOTE
+  end
+
+  %% === Entity: COMPRADOR ===
+  subgraph COMPRADOR[COMPRADOR]
+    cod_comprador((cod_comprador)):::clave --> COMPRADOR
+    nombre((nombre)):::atributo --> COMPRADOR
+    direccion((direccion)):::atributo --> COMPRADOR
+    dni_cif((dni_cif)):::atributo --> COMPRADOR
+    cuota_anual((cuota_anual)):::atributo --> COMPRADOR
+  end
+
+  %% === Relation: ADJUDICA ===
+  COMPRADOR --- ADJUDICA{ADJUDICA}:::relacion --- LOTE
+  precio_compra_kg((precio_compra_kg)):::atributo --> ADJUDICA
+  precio_total((precio_total)):::atributo --> ADJUDICA
+
+  %% Cardinalities
+  COMPRADOR -- "(0,N)" --> ADJUDICA
+  LOTE -- "(1,1)" --> ADJUDICA
+
+```
+```mermaid
+flowchart LR
   classDef atributo stroke:#088,stroke-width:2px;
   classDef pk stroke:#800,stroke-width:4px;
   classDef entidad stroke:#404,stroke-width:4px;
