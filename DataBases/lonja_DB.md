@@ -106,7 +106,8 @@ CREATE TABLE BARCO (
     armador       VARCHAR(30)
     );
 ```
-    
+
+### Caladeros
 - [x]  De los caladeros nos interesa conocer
   - [x]  el nombre (único),
   - [x]  su extensión
@@ -131,7 +132,8 @@ flowchart LR
 
     end
 ```
-      
+
+### Faenaje
 - [x]  Faena
     - [x]  qué barcos
     - [x]  en qué caladeros
@@ -171,6 +173,7 @@ flowchart LR
   Especie[ESPECIE]:::entidad
 ```
 
+# Compradores
 - [ ]  Compradores.
   - [x]  Código (no repetible),
   - [x]  su nombre,
