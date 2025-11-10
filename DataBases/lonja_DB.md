@@ -30,25 +30,42 @@ flowchart LR
   classDef atributo stroke:#088,stroke-width:2px;
   classDef pk stroke:#800,stroke-width:4px;
   classDef entidad stroke:#404,stroke-width:4px;
+  classDef relacion stroke:#840,stroke-width:2px;
 
   %% Atributos LOTE
   subgraph Lotes
+    Lote[LOTE]:::entidad
     cod_lote([cod_lote]):::pk --> Lote
     num_cajas([num_cajas]):::atributo --> Lote
     kilos_total([kilos_total]):::atributo --> Lote
     fecha_llegada([fecha_llegada]):::atributo --> Lote
     precio_salida_kg([precio_salida_kg]):::atributo --> Lote
     precio_salida_total([precio_salida_total]):::atributo --> Lote
-    Lote:::entidad
     end
 ```
 
-- [x]  De cada especie guardaremos cierto código no repetible,
+- [x]  De cada especie guardaremos
+  - [x]  cierto código no repetible,
   - [x]  un nombre
-  - [ ]  y un tipo (por ejemplo, moluscos, pescado blanco, etc.).
+  - [x]  y un tipo (por ejemplo, moluscos, pescado blanco, etc.).
+```mermaid
+flowchart LR   
+  classDef atributo stroke:#088,stroke-width:2px;
+  classDef pk stroke:#800,stroke-width:4px;
+  classDef entidad stroke:#404,stroke-width:4px;
 
+  %% Atributos ESPECIE
+  subgraph Especies
+  cod_especie([cod_especie]):::pk --> Especie
+  nombre_especie([nombre]):::atributo --> Especie
+  tipo_especie([tipo]):::atributo --> Especie
+  Especie:::entidad
+  end
+
+
+```
     
-- [x]  Se almacenará también información sobre los barcos que entregan la pesca en la lonja para saber  **qué barco capturó cada lote**,
+- [x]  Se almacenará también información sobre los barcos que entregan la pesca en la lonja
 
 - [x]  De dichos barcos guardaremos su matrícula,
 - [x]  nombre,
@@ -118,7 +135,7 @@ adicional.
 - [ ] y los códigos de lote facturados.
 
 - [ ] Los lotes se subastan.
-
+- [ ] Queremos saber  **qué barco capturó cada lote**,
 
 ### 3.1. Modelo ERE.
 A partir de la información descrita en al anterior apartado realizar el diseño del esquema conceptual (ERE) utilizando Microsoft Word o similar para documentarlo. Dicho documento, además de contar con el grafo ERE ajustado a los elementos impartidos en clase, ha de contar con un apartado que indique, razonadamente, todos los supuestos semánticos que se han realizado, y que surgen de la ausencia de información relativa en ellos en el propio enunciado.
@@ -219,22 +236,7 @@ flowchart LR
 
 ```
 
-```mermaid
-flowchart LR   
-  classDef atributo stroke:#088,stroke-width:2px;
-  classDef pk stroke:#800,stroke-width:4px;
-  classDef entidad stroke:#404,stroke-width:4px;
 
-  %% Atributos ESPECIE
-  subgraph Especies
-  cod_especie([cod_especie]):::pk --> Especie
-  nombre_especie([nombre]):::atributo --> Especie
-  tipo_especie([tipo]):::atributo --> Especie
-  Especie:::entidad
-  end
-
-
-```
 ```mermaid
 flowchart LR   
   classDef atributo stroke:#088,stroke-width:2px;
