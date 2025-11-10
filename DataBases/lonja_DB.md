@@ -44,6 +44,7 @@ flowchart LR
     end
 ```
 
+### Especies
 - [x]  De cada especie guardaremos
   - [x]  cierto código no repetible,
   - [x]  un nombre
@@ -72,6 +73,7 @@ CREATE TABLE ESPECIE (
     );
 ```
 
+### Barcos
 - [x]  Se almacenará también información sobre los barcos que entregan la pesca en la lonja
   - [x]  Su matrícula,
   - [x]  nombre,
