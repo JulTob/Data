@@ -1,4 +1,4 @@
-#a<º Práctica 1 — Lonja de Santa Pola  
+#  Práctica 1 — Lonja de Santa Pola  
 
 **Modelo Conceptual (ERE) y Relacional**
 
