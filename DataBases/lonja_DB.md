@@ -113,15 +113,43 @@ flowchart LR
     end
 ```
       
-- [ ]  En la lonja es imperativo saber
-    - [ ]  qué barcos
-    - [ ]  y en qué caladeros
-    - [ ]  se han capturado las especies
-    - [ ]  (los kilos de cada especie
+- [ ]  Faena
+    - [x]  qué barcos
+    - [x]  en qué caladeros
+    - [x]  las especies
+    - [x]  los kilos de cada especie
     - [ ]  y periodo de tiempo de faena representado por
         - [ ]  una fecha de inicio
-        - [ ]  y otra de fin).
-        - [ ]  
+        - [ ]  y otra de fin.
+```mermaid
+flowchart LR   
+  classDef atributo stroke:#088,stroke-width:2px;
+  classDef atributo_der stroke:#088,stroke-width:6px;
+  classDef pk stroke:#800,stroke-width:4px;
+  classDef fk stroke:#080,stroke-width:4px;
+  classDef entidad stroke:#404,stroke-width:4px;
+
+  %% Atributos FAENAJE
+  subgraph Faenajes
+    Faena[FAENA]:::entidad
+    Faena --- kg_especie([kg_especie]):::atributo 
+    Faena --- nombre([nombre]):::fk 
+    Faena --- matricula([matricula]):::fk 
+    Faena --- cod_especie([cod_especie]):::fk
+    Faena --- periodo([periodo]):::atributo_der
+    periodo --- fecha_inicio([fecha_inicio]):::atributo 
+    periodo --- fecha_fin([fecha_fin]):::atributo
+
+    end
+  nombre ---> Caladero
+  matricula ---> Barco
+  cod_especie ---> Especie
+
+  Caladero[CALADERO]:::entidad
+  Barco[BARCO]:::entidad
+  Especie[ESPECIE]:::entidad
+```
+
 - [ ]  Una vez empezada la subasta, los distintos compradores pujan por los lotes en los que están interesados. A los compradores se les asigna un código (no repetible),
 - [ ]  su nombre,
 - [ ]  dirección,
