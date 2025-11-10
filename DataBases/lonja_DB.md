@@ -98,7 +98,7 @@ flowchart LR
 ```mermaid
 flowchart LR   
   classDef atributo stroke:#088,stroke-width:2px;
-  classDef atributo_der stroke:#088,stroke-width:6px;
+  classDef derivado stroke-width:3px, stroke-dasharray:3 3;
   classDef pk stroke:#800,stroke-width:4px;
   classDef entidad stroke:#404,stroke-width:4px;
 
@@ -106,25 +106,27 @@ flowchart LR
   subgraph Caladeros
     Caladero[CALADERO]:::entidad
     nombre([nombre]):::pk --> Caladero
-    ubicacion([ubicacion]):::atributo_der --> Caladero
+    ubicacion((ubicacion)):::atributo --> Caladero
+      ubicacion:::derivado
       latitud([latitud]):::atributo --> ubicacion
       longitud([longitud]):::atributo --> ubicacion
 
     end
 ```
       
-- [ ]  Faena
+- [x]  Faena
     - [x]  qué barcos
     - [x]  en qué caladeros
     - [x]  las especies
     - [x]  los kilos de cada especie
-    - [ ]  y periodo de tiempo de faena representado por
+    - [x]  y periodo de tiempo de faena representado por
         - [x]  una fecha de inicio
         - [x]  y otra de fin.
 ```mermaid
 flowchart LR   
   classDef atributo stroke:#088,stroke-width:2px;
-  classDef atributo_der stroke:#088,stroke-width:6px;
+  classDef derivado stroke-width:3px, stroke-dasharray:3 3;
+
   classDef pk stroke:#800,stroke-width:4px;
   classDef fk stroke:#080,stroke-width:4px;
   classDef entidad stroke:#404,stroke-width:4px;
@@ -136,7 +138,8 @@ flowchart LR
     Faena --- nombre([nombre]):::fk 
     Faena --- matricula([matricula]):::fk 
     Faena --- cod_especie([cod_especie]):::fk
-    Faena --- periodo([periodo]):::atributo_der
+    Faena --- periodo((periodo)):::atributo
+    periodo:::derivado
     periodo --- fecha_inicio([fecha_inicio]):::atributo 
     periodo --- fecha_fin([fecha_fin]):::atributo
 
