@@ -56,11 +56,11 @@ flowchart LR
 
   %% Atributos ESPECIE
   subgraph Especies
-  cod_especie([cod_especie]):::pk --> Especie
-  nombre_especie([nombre]):::atributo --> Especie
-  tipo_especie([tipo]):::atributo --> Especie
-  Especie:::entidad
-  end
+    Especie[ESPECIE]:::entidad
+    cod_especie([cod_especie]):::pk --> Especie
+    nombre_especie([nombre]):::atributo --> Especie
+    tipo_especie([tipo]):::atributo --> Especie
+    end
 
 
 ```
@@ -79,7 +79,7 @@ flowchart LR
 
   %% Atributos BARCO
   subgraph Barcos
-  Barco:::entidad
+  Barco[BARCO]:::entidad
   matricula([matricula]):::pk --> Barco
   nombre([nombre]):::atributo --> Barco
   clase([clase]):::atributo --> Barco
@@ -90,12 +90,28 @@ flowchart LR
 
     
 - [ ]  De los caladeros nos interesa conocer
-  - [ ]  el nombre (único),
-  - [ ]  su extensión
-  - [ ]  y ubicación (definida mediante las coordenadas GPS
-      - [ ]  latitud y
-      - [ ]  longitud).
-        
+  - [x]  el nombre (único),
+  - [x]  su extensión
+  - [ ]  Ubicación definida mediante las coordenadas GPS
+      - [x]  latitud 
+      - [x]  longitud.
+```mermaid
+flowchart LR   
+  classDef atributo stroke:#088,stroke-width:2px;
+  classDef pk stroke:#800,stroke-width:4px;
+  classDef entidad stroke:#404,stroke-width:4px;
+
+  %% Atributos CALADERO
+  subgraph Caladeros
+    Caladero[CALADERO]:::entidad
+    nombre([nombre]):::pk --> Caladero
+    ubicacion([ubicacion]):::atributo --> Caladero
+      latitud([latitud]):::atributo --> ubicacion
+      longitud([longitud]):::atributo --> ubicacion
+
+    end
+```
+      
 - [ ]  En la lonja es imperativo saber
     - [ ]  qué barcos
     - [ ]  y en qué caladeros
