@@ -64,7 +64,13 @@ flowchart LR
 
 
 ```
-    
+```sql
+CREATE TABLE ESPECIE (
+    cod_especie   VARCHAR(5) PRIMARY KEY,
+    nombre        VARCHAR(30),
+    tipo          VARCHAR(20)
+    );
+```
 - [x]  Se almacenará también información sobre los barcos que entregan la pesca en la lonja
   - [x]  Su matrícula,
   - [x]  nombre,
@@ -87,12 +93,20 @@ flowchart LR
   armador([armador]):::atributo --> Barco
   end
 ```
-
+```sql
+CREATE TABLE BARCO (
+    matricula     CHAR(10) PRIMARY KEY,
+    nombre        VARCHAR(30),
+    clase         VARCHAR(20),
+    capitan       VARCHAR(30),
+    armador       VARCHAR(30)
+    );
+``
     
-- [ ]  De los caladeros nos interesa conocer
+- [x]  De los caladeros nos interesa conocer
   - [x]  el nombre (único),
   - [x]  su extensión
-  - [ ]  Ubicación definida mediante las coordenadas GPS
+  - [x]  Ubicación definida mediante las coordenadas GPS
       - [x]  latitud 
       - [x]  longitud.
 ```mermaid
@@ -154,11 +168,89 @@ flowchart LR
 ```
 
 - [ ]  Compradores.
-  - [ ]  Código (no repetible),
-  - [ ]  su nombre,
-  - [ ]  dirección,
-  - [ ]  DNI o CIF,
-  - [ ]  así como la cuota anual que deben pagar a la lonja.
+  - [x]  Código (no repetible),
+  - [x]  su nombre,
+  - [x]  dirección,
+  - [x]  DNI o CIF,
+  - [x]  así como la cuota anual que deben pagar a la lonja.
+
+```mermaid
+flowchart LR
+  classDef atributo stroke:#088,stroke-width:2px;
+  classDef derivado stroke-width:3px, stroke-dasharray:3 3;
+  classDef pk stroke:#800,stroke-width:4px;
+  classDef fk stroke:#080,stroke-width:4px;
+  classDef pkfk stroke:#880,stroke-width:4px;
+  classDef entidad stroke:#404,stroke-width:4px;
+
+  %% Atributos COMPRADOR
+  subgraph Compradores
+    Comprador[COMPRADOR]:::entidad
+    cod_comprador([cod_comprador]):::pk --> Comprador
+    nombre([nombre]):::atributo --> Comprador
+    direccion([direccion]):::atributo --> Comprador
+    dni_cif([dni_cif]):::atributo --> Comprador
+    cuota_anual([cuota_anual]):::atributo --> Comprador
+    end
+
+  Comprador --> es{d} -->|1:0..1| CompradorCredito[COMPRADOR_CREDITO]:::entidad
+
+```
+```mermaid
+flowchart LR
+  classDef atributo stroke:#088,stroke-width:2px;
+  classDef derivado stroke-width:3px, stroke-dasharray:3 3;
+  classDef pk stroke:#800,stroke-width:4px;
+  classDef fk stroke:#080,stroke-width:4px;
+  classDef entidad stroke:#404,stroke-width:4px;
+  classDef pkfk stroke:#880,stroke-width:4px;
+
+  %% Atributos CREDITOR
+  subgraph Creditores
+    Creditor[CREDITOR]:::entidad
+    cod_comprador([cod_comprador]):::pkfk 
+    end
+
+  cod_comprador--> Comprador
+  Comprador:::entidad
+
+```
+Diseño:
+- Tabla COMPRADOR: todos los compradores, sin distinguir.
+- Tabla COMPRADOR_CREDITO: solo los que tienen crédito.
+  - cod_comprador = PK y FK a COMPRADOR.
+  - Si un comprador está en esta tabla ⇒ es de crédito.
+  - Si no está ⇒ es de contado.
+Eso se llama especialización por predicado.
+Sin tabla para contado. No es necesaria. Ambos grupos son excluyentes. Se está en  _creditor_, no es _contador_.
+
+```sql
+CREATE TABLE COMPRADOR (
+    cod_comprador CHAR(5) PRIMARY KEY,
+    nombre        VARCHAR(40),
+    direccion     VARCHAR(60),
+    dni_cif       VARCHAR(15) UNIQUE,
+    cuota_anual   NUMBER(8,2)
+    );
+
+CREATE TABLE CREDITOR (
+    cod_comprador     CHAR(5) PRIMARY KEY
+                      REFERENCES COMPRADOR,
+    num_cuenta        VARCHAR(34),
+    importe_acumulado NUMBER(10,2),
+    fecha_vencimiento DATE
+    );
+```
+Suponemos que todo comprador que no aparece en COMPRADOR_CREDITO opera al contado.
+Por tanto: 
+- Cada cod_comprador puede aparecer a lo sumo una vez en COMPRADOR_CREDITO (PK).
+- Si aparece: es crédito.
+- No hay forma de que también sea de otro tipo, porque no hay otra subtabla.
+- Disjunto garantizado.
+- No hay basura ni nulos forzados.
+- Contado = los que no están en COMPRADOR_CREDITO
+  -   Totalidad cubierta, sin necesidad de un atributo tipo
+
 
 Finalmente, cada lote será adquirido por el comprador que realice la mejor puja. De
 estas 
@@ -261,67 +353,9 @@ perdida.
    2. Las base de datos de Access que se construya a partir del modelo relacional.
    
 # Diagrama
-```mermaid
-flowchart LR
-  %% === Entity Styles ===
-  classDef entidad fill:#eef,stroke:#003,stroke-width:2px;
-  classDef relacion fill:#fff,stroke:#900,stroke-width:2px;
-  classDef atributo fill:#ddf,stroke:#069,stroke-width:1px;
-  classDef clave fill:#ddf,stroke:#069,stroke-width:1px,font-style:italic;
-  classDef derivado fill:#f9f9f9,stroke:#999,stroke-dasharray:3 3;
-  classDef especializacion fill:#eef,stroke:#36a,stroke-width:2px,stroke-dasharray:5 2;
-
-  %% === Example Entity: LOTE ===
-  subgraph LOTE[LOTE]
-    cod_lote((cod_lote)):::clave --> LOTE
-    num_cajas((num_cajas)):::atributo --> LOTE
-    kilos_total((kilos_total)):::atributo --> LOTE
-    fecha_llegada((fecha_llegada)):::atributo --> LOTE
-    precio_salida_kg((precio_salida_kg)):::atributo --> LOTE
-    precio_salida_total((precio_salida_total)):::derivado --> LOTE
-  end
-
-  %% === Entity: COMPRADOR ===
-  subgraph COMPRADOR[COMPRADOR]
-    cod_comprador((cod_comprador)):::clave --> COMPRADOR
-    nombre((nombre)):::atributo --> COMPRADOR
-    direccion((direccion)):::atributo --> COMPRADOR
-    dni_cif((dni_cif)):::atributo --> COMPRADOR
-    cuota_anual((cuota_anual)):::atributo --> COMPRADOR
-  end
-
-  %% === Relation: ADJUDICA ===
-  COMPRADOR --- ADJUDICA{ADJUDICA}:::relacion --- LOTE
-  precio_compra_kg((precio_compra_kg)):::atributo --> ADJUDICA
-  precio_total((precio_total)):::atributo --> ADJUDICA
-
-  %% Cardinalities
-  COMPRADOR -- "(0,N)" --> ADJUDICA
-  LOTE -- "(1,1)" --> ADJUDICA
-
-```
 
 
 
-```mermaid
-flowchart LR
-  classDef atributo stroke:#088,stroke-width:2px;
-  classDef pk stroke:#800,stroke-width:4px;
-  classDef entidad stroke:#404,stroke-width:4px;
-
-  %% Atributos COMPRADOR
-  subgraph Compradores
-  cod_comprador([cod_comprador PK]):::atributo --> Comprador
-  nombre_compr([nombre]):::atributo --> Comprador
-  direccion_compr([direccion]):::atributo --> Comprador
-  dni_cif([dni_cif]):::atributo --> Comprador
-  cuota_anual([cuota_anual]):::atributo --> Comprador
-  end
-
-  Comprador -->|es un| CompradorContado
-  Comprador -->|es un| CompradorCredito
-
-```
 ```mermaid
 flowchart LR   
   classDef atributo stroke:#088,stroke-width:2px;
@@ -392,25 +426,22 @@ erDiagram
     %%===--- ENTIDADES PRINCIPALES ---===%%
 
     COMPRADOR {
-        ID         cod_comprador PK  "ShortText(5)"
-        STRING     nombre            "ShortText(40)"
-        STRING     direccion         "ShortText(60)"
-        CIF        dni_cif       UK  "ShortText(15) Único"
-        CURRENCY   cuota_anual       ""
-        STRING     tipo              "CONTADO|CREDITO"
-        }
+        CHAR    cod_comprador PK
+        VARCHAR nombre
+        VARCHAR direccion
+        VARCHAR dni_cif
+        NUMBER  cuota_anual
+    }
 
-        %% ======== ESPECIALIZACIÓN DE COMPRADORES ======== %%
-        COMPRADOR_CONTADO {
-            ID cod_comprador PK, FK "COMPRADOR" 
-            }
+    COMPRADOR_CREDITO {
+        CHAR    cod_comprador PK  "FK a COMPRADOR"
+        VARCHAR num_cuenta
+        NUMBER  importe_acumulado
+        DATE    fecha_vencimiento
+    }
 
-        COMPRADOR_CREDITO {
-            ID         cod_comprador PK, FK "COMPRADOR" 
-            IBAN       num_cuenta           "ShortText(34)"
-            CURRENCY   importe_acumulado    ""
-            DATE       fecha_vencimiento    ""
-            }
+    COMPRADOR ||--o| COMPRADOR_CREDITO : "tiene_credito"
+
 
     ESPECIE {
         ID     cod_especie  PK      "ShortText(5)"
@@ -498,8 +529,6 @@ erDiagram
     %% ======== RELACIONES Y CARDINALIDADES ======== %%
 
     %% --- Compradores --- %%
-    COMPRADOR ||--o| COMPRADOR_CONTADO : "es"
-    COMPRADOR ||--o| COMPRADOR_CREDITO : "es"
     COMPRADOR ||--o{ LOTE : "adjudica"
     COMPRADOR ||--o{ FACTURA_COMPRADOR : "recibe"
     FACTURA_COMPRADOR ||--o{ PAGO_COMPRADOR : "pagos"
@@ -533,11 +562,7 @@ erDiagram
 
 # Implementación 
 ```sql
-CREATE TABLE ESPECIE (
-    cod_especie   VARCHAR(5) PRIMARY KEY,
-    nombre        VARCHAR(30),
-    tipo          VARCHAR(20)
-    );
+
 
 CREATE TABLE CALADERO (
     nombre        VARCHAR(40) PRIMARY KEY,
@@ -546,13 +571,7 @@ CREATE TABLE CALADERO (
     longitud      DECIMAL(8,5)
     );
 
-CREATE TABLE BARCO (
-    matricula     CHAR(10) PRIMARY KEY,
-    nombre        VARCHAR(30),
-    clase         VARCHAR(20),
-    capitan       VARCHAR(30),
-    armador       VARCHAR(30)
-    );
+
 
 CREATE TABLE COMPRADOR (
     cod_comprador CHAR(5) PRIMARY KEY,
