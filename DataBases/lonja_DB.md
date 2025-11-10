@@ -205,7 +205,7 @@ CREATE TABLE FAENA (
 ```
 
 # Compradores
-- [ ]  Compradores.
+- [x]  Compradores.
   - [x]  Código (no repetible),
   - [x]  su nombre,
   - [x]  dirección,
@@ -321,30 +321,159 @@ Un IBAN es un número de cuenta, pero contiene caracteres no numéricos (ES, FR,
 
 
 
-### Adquisiciones
+### Adjudicación
 Finalmente, cada lote será adquirido por el comprador que realice la mejor puja. 
 
-- [ ] Adquisiciones 
-  - [ ] el precio de compra por kilo
-  - [ ] el precio total de adjudicación del lote.
+- [ ] Adjudicacion 
+  - [x] el precio de compra por kilo
+  - [x] el precio total de adjudicación del lote.
+  - [x] Cada lote será adquirido por __un__ comprador.
+  - [x] Un comprador puede adquirir varios lotes
 
-Es crucial la información de los 
+```mermaid
+flowchart LR
+  classDef entidad stroke:#404,stroke-width:4px;
+  classDef relacion stroke:#840,stroke-width:2px;
+  classDef atributo stroke:#088,stroke-width:2px;
+
+  Lote[LOTE]:::entidad
+  Comprador[COMPRADOR]:::entidad
+  Adjudicacion{ADJUDICACIÓN}:::relacion
+
+  precio_kg([precio_compra_kg]):::atributo --> Adjudicacion
+  precio_total([precio_total]):::atributo --> Adjudicacion
+
+  Lote ---|"(1,1)"| Adjudicacion
+  Adjudicacion ---|"(0,N)"| Comprador
+
+```
+```sql
+CREATE TABLE ADQUISICION (
+    cod_lote           CHAR(5) PRIMARY KEY
+                       REFERENCES LOTE,
+    cod_comprador      CHAR(5) NOT NULL
+                       REFERENCES COMPRADOR,
+    precio_kg_compra   NUMBER(8,2),
+    precio_total_compra NUMBER(8,2)
+);
+```
+`cod_lote` es PK porque cada lote solo puede venderse una vez. Cada Lote tiene una Adjudicación exacta.
+
+`cod_comprador` es NOT NULL porque cada lote debe adjudicarse a alguien. Si no se adjudica, no se añade a la tabla. 
+
+
+Si se modelara la subasta completa, esta tabla sería resultado de esa relación. Dentro de la dinámica de 'minimizar a lo necesario', no creo que sea rentable a largo plazo guardar todas las pujas en una base de datos a la larga, ya que su relevancia se esfuma en el momento de la adjudicación. 
+
+Esta decisión debería ser secundada por el cliente. Si les interesa hacer este registro, con el coste asociado en memoria y trabajo, se puede implementar una tabla que tendría parametros adecuados (cod_lote, cod_comprador, puja) para seleccionar una puja ganadora. 
+
+
+
+
+
+
+
+
+
+
+## FACTURAS
+
+
+- [ ] Facturas de Pagos que efectúan los compradores por la adquisición de los lotes.
+  - [ ] Cada factura corresponde a un comprador.
+  - [ ] Una factura puede incluir uno o varios lotes.
+  - [ ] Número de factura
+  - [ ] Fecha de emisión
+  - [ ] Importe total.
+  - [ ] Estado (pendiente o pagada).
+  - [ ] Cada lote debe estar en exactamente una factura.
+  - [ ] Un comprador puede tener muchas facturas.
+```mermaid
+flowchart LR
+  classDef entidad stroke:#404,stroke-width:4px;
+  classDef relacion stroke:#840,stroke-width:2px;
+  classDef atributo stroke:#088,stroke-width:2px;
+
+  Comprador[COMPRADOR]:::entidad
+  Factura[FACTURA_COMPRADOR]:::entidad
+  Lote[LOTE]:::entidad
+  Incluye{INCLUYE}:::relacion
+
+  num_fact([num_factura]):::atributo --> Factura
+  fecha_emision([fecha_emision]):::atributo --> Factura
+  importe_total([importe_total]):::atributo --> Factura
+  estado([pagada]):::atributo --> Factura
+
+  Factura ---|"(1,N)"| Incluye
+  Incluye ---|"(1,1)"| Lote
+
+  Comprador ---|"(1,N)"| Factura
+
+```
+
+```sql
+CREATE TABLE FACTURA_COMPRADOR (
+    num_factura      	CHAR(10) PRIMARY KEY,
+    cod_comprador    	CHAR(5) NOT NULL REFERENCES COMPRADOR,
+    fecha_emision    	DATE NOT NULL,
+    importe_total    	NUMBER(10,2),
+    pagada           	NUMBER(1,0) DEFAULT 0
+			-- 0 = pendiente, 1 = pagada
+);
+
+CREATE TABLE INCLUYE (
+    num_factura   CHAR(10) REFERENCES FACTURA_COMPRADOR,
+    cod_lote      CHAR(5)  REFERENCES LOTE,
+    PRIMARY KEY (num_factura, cod_lote)
+);
+
+```
+- INCLUYE es la relación N:M.
+- PRIMARY KEY (num_factura, cod_lote) impide repetir un lote en la misma factura.
+
+Estado Pagada: 
+- 0 = pendiente
+- 1 = pagada
+- `DEFAULT 0` asegura que todas las facturas nuevas comiencen como pendientes.
+- Este campo actúa como booleano (0 = pendiente, 1 = pagada).
+  
+Cada comprador puede emitir varias facturas; cada factura agrupa varios lotes.
+
+Cada lote pertenece a una única factura (por post-adjudicación).
+
+```mermaid
+flowchart LR
+  classDef entidad stroke:#404,stroke-width:4px;
+  classDef relacion stroke:#840,stroke-width:2px;
+  classDef atributo stroke:#088,stroke-width:2px;
+
+  Factura[FACTURA_COMPRADOR]:::entidad
+  Pago[PAGO_COMPRADOR]:::entidad
+  Rel{PAGA}:::relacion
+
+  id_pago((id_pago)):::atributo --> Pago
+  fecha((fecha)):::atributo --> Pago
+  importe((importe)):::atributo --> Pago
+
+   Pago ---|"(1,1)"| Rel
+  Rel ---|"(1,N)"| Factura
+
+```
+
+```sql
+CREATE TABLE PAGO_COMPRADOR (
+    cod_pago      CHAR(5) PRIMARY KEY,
+    num_factura   CHAR(10) REFERENCES FACTURA_COMPRADOR,
+    fecha         DATE,
+    importe       NUMBER(10,2)
+);
+```
+
+Una factura pertenece a un único comprador, pero puede incluir varios lotes adquiridos.
+
+Cada lote adjudicado debe aparecer en exactamente una factura.
+
 - [ ] pagos que realiza la lonja a los barcos que entregan la
 pesca diaria
-- [ ] y de los pagos que efectúan los compradores por la adquisición de los lotes.
-
-
-
-- [ ]  La lonja genera una factura
-  - [ ]  que incluye uno o varios lotes que ha adquirido
-  - [ ]  el comprador.
-  - [ ] De estas facturas se guarda un número,
-  - [ ] una fecha de emisión
-  - [ ] y el importe total.
-  - [ ] En dichas facturas consta el comprador (que es quien deberá abonarla)
-  - [ ] así como los lotes que incluye.
-  - [ ] En las facturas emitidas a los compradores sin crédito necesitamos saber el estado de éstas (pendiente o pagada).
-
 - [ ] En las facturas emitidas por los barcos,
 - [ ] la lonja almacena además de los datos mencionados de la factura,
 - [ ] el CIF del barco
