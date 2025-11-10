@@ -15,18 +15,37 @@ La lonja de pescado de Santa Pola desea agilizar la gestión de su negocio a tal
 
 ### Lotes
 - [x] A la llegada de la captura del día, esta se distribuye en lotes, momento en el que se les asigna un código único.
-  - [ ] Tras este trabajo inicial los lotes se subastan.
-  - [x] Cada lote consta de un número de cajas
-  - [x] de una determinada especie (por ejemplo, pescadilla, boquerones, cangrejos, etc.)
-  - [x] así como el número de kilos total
-  - [x] y la fecha de llegada.
+  - [x] Cada lote consta de
+    - [x] un número de cajas
+    - [x] de una determinada especie (por ejemplo, pescadilla, boquerones, cangrejos, etc.)
+    - [x] así como el número de kilos total
+    - [x] y la fecha de llegada.
       
-  - [x] Además, es necesario conocer el precio por kilo de salida
-  - [x] y el precio total de salida del lote.
+    - [x] Además, es necesario conocer el precio por kilo de salida
+    - [x] y el precio total de salida del lote.
          
+
+```mermaid
+flowchart LR
+  classDef atributo stroke:#088,stroke-width:2px;
+  classDef pk stroke:#800,stroke-width:4px;
+  classDef entidad stroke:#404,stroke-width:4px;
+
+  %% Atributos LOTE
+  subgraph Lotes
+    cod_lote([cod_lote]):::pk --> Lote
+    num_cajas([num_cajas]):::atributo --> Lote
+    kilos_total([kilos_total]):::atributo --> Lote
+    fecha_llegada([fecha_llegada]):::atributo --> Lote
+    precio_salida_kg([precio_salida_kg]):::atributo --> Lote
+    precio_salida_total([precio_salida_total]):::atributo --> Lote
+    Lote:::entidad
+    end
+```
+
 - [x]  De cada especie guardaremos cierto código no repetible,
-- [x]  un nombre
-- [ ]  y un tipo (por ejemplo, moluscos, pescado blanco, etc.).
+  - [x]  un nombre
+  - [ ]  y un tipo (por ejemplo, moluscos, pescado blanco, etc.).
 
     
 - [x]  Se almacenará también información sobre los barcos que entregan la pesca en la lonja para saber  **qué barco capturó cada lote**,
@@ -97,6 +116,8 @@ adicional.
 - [ ] la lonja almacena además de los datos mencionados de la factura,
 - [ ] el CIF del barco
 - [ ] y los códigos de lote facturados.
+
+- [ ] Los lotes se subastan.
 
 
 ### 3.1. Modelo ERE.
@@ -197,23 +218,7 @@ flowchart LR
   LOTE -- "(1,1)" --> ADJUDICA
 
 ```
-```mermaid
-flowchart LR
-  classDef atributo stroke:#088,stroke-width:2px;
-  classDef pk stroke:#800,stroke-width:4px;
-  classDef entidad stroke:#404,stroke-width:4px;
 
-  %% Atributos LOTE
-  subgraph Lotes
-    cod_lote([cod_lote]):::pk --> Lote
-    num_cajas([num_cajas]):::atributo --> Lote
-    kilos_total([kilos_total]):::atributo --> Lote
-    fecha_llegada([fecha_llegada]):::atributo --> Lote
-    precio_salida_kg([precio_salida_kg]):::atributo --> Lote
-    precio_salida_total([precio_salida_total]):::atributo --> Lote
-    Lote:::entidad
-    end
-```
 ```mermaid
 flowchart LR   
   classDef atributo stroke:#088,stroke-width:2px;
