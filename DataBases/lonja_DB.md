@@ -1,12 +1,19 @@
-# Práctica 1 
-## Modelos Conceptual y Relacional
+# Práctica 1 — Lonja de Santa Pola  
+
+**Modelo Conceptual (ERE) y Relacional**
+
 ## $\text{Julio Toboso}$
+
 ### 1. Objetivos.
 - **Access** 2016/2019/2021/2024. 
   - Modelización ERE y su correspondiente Relacional,
   - Creación de tablas con sus campos así como la definición de los dominios de los campos y establecimiento de las relaciones.
+
+
 ### 2. Enunciado de la práctica.
 La lonja de pescado de Santa Pola desea agilizar la gestión de su negocio a tal efecto, nos solicita proveerlos de una solución de bases de datos. Cada día, los barcos llevan la pesca a la lonja, siendo que allí, se subasta la captura. Normalmente los compradores son pescaderías de la zona. Tras múltiples entrevistas con los usuarios y labores de análisis previo, hemos obtenido las siguientes especificaciones iniciales:
+
+### Lotes
 - [x] A la llegada de la captura del día, esta se distribuye en lotes, momento en el que se les asigna un código único.
   - [ ] Tras este trabajo inicial los lotes se subastan.
   - [x] Cada lote consta de un número de cajas
