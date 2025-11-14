@@ -35,12 +35,12 @@ flowchart LR
   %% Atributos LOTE
   subgraph Lotes
     Lote[LOTE]:::entidad
-    cod_lote([cod_lote]):::pk --> Lote
-    num_cajas([num_cajas]):::atributo --> Lote
-    kilos_total([kilos_total]):::atributo --> Lote
-    fecha_llegada([fecha_llegada]):::atributo --> Lote
-    precio_salida_kg([precio_salida_kg]):::atributo --> Lote
-    precio_salida_total([precio_salida_total]):::atributo --> Lote
+    cod_lote([cod_lote]):::pk ---|PK| Lote
+    num_cajas([num_cajas]):::atributo --- Lote
+    kilos_total([kilos_total]):::atributo --- Lote
+    fecha_llegada([fecha_llegada]):::atributo --- Lote
+    precio_salida_kg([precio_salida_kg]):::atributo --- Lote
+    precio_salida_total([precio_salida_total]):::atributo --- Lote
     end
 ```
 ```sql
@@ -70,9 +70,9 @@ flowchart LR
   %% Atributos ESPECIE
   subgraph Especies
     Especie[ESPECIE]:::entidad
-    cod_especie([cod_especie]):::pk --> Especie
-    nombre_especie([nombre]):::atributo --> Especie
-    tipo_especie([tipo]):::atributo --> Especie
+    cod_especie([cod_especie]):::pk ---|PK| Especie
+    nombre_especie([nombre]):::atributo --- Especie
+    tipo_especie([tipo]):::atributo --- Especie
     end
 
 
@@ -101,11 +101,11 @@ flowchart LR
   %% Atributos BARCO
   subgraph Barcos
   Barco[BARCO]:::entidad
-  matricula([matricula]):::pk --> Barco
-  nombre([nombre]):::atributo --> Barco
-  clase([clase]):::atributo --> Barco
-  capitan([capitan]):::atributo --> Barco
-  armador([armador]):::atributo --> Barco
+  matricula([matricula]):::pk ---|PK| Barco
+  nombre([nombre]):::atributo --- Barco
+  clase([clase]):::atributo --- Barco
+  capitan([capitan]):::atributo --- Barco
+  armador([armador]):::atributo --- Barco
   end
 ```
 
@@ -136,11 +136,11 @@ flowchart LR
   %% Atributos CALADERO
   subgraph Caladeros
     Caladero[CALADERO]:::entidad
-    nombre([nombre]):::pk --> Caladero
-    ubicacion((ubicacion)):::atributo --> Caladero
+    nombre([nombre]):::pk ---|PK| Caladero
+    ubicacion((ubicacion)):::atributo --- Caladero
       ubicacion:::derivado
-      latitud([latitud]):::atributo --> ubicacion
-      longitud([longitud]):::atributo --> ubicacion
+      latitud([latitud]):::atributo --- ubicacion
+      longitud([longitud]):::atributo --- ubicacion
 
     end
 ```
@@ -155,11 +155,11 @@ CREATE TABLE CALADERO (
 
 ### Faenaje
 - [x]  Faena
-    - [x]  qué barcos
-    - [x]  en qué caladeros
-    - [x]  las especies
-    - [x]  los kilos de cada especie
-    - [x]  y periodo de tiempo de faena representado por
+    - [x]  Un barco (matrícula)
+    - [x]  pescando en un caladero (nombre)
+    - [x]  una especie (código)
+    - [x]  los kilos obtenidos de cada especie
+    - [x]  en un intervalo de tiempo
         - [x]  una fecha de inicio
         - [x]  y otra de fin.
 ```mermaid
@@ -169,15 +169,16 @@ flowchart LR
 
   classDef pk stroke:#800,stroke-width:4px;
   classDef fk stroke:#080,stroke-width:4px;
+  classDef pkfk stroke:#880,stroke-width:4px;
   classDef entidad stroke:#404,stroke-width:4px;
 
   %% Atributos FAENAJE
   subgraph Faenajes
     Faena[FAENA]:::entidad
     Faena --- kg_especie([kg_especie]):::atributo 
-    Faena --- nombre([nombre]):::fk 
-    Faena --- matricula([matricula]):::fk 
-    Faena --- cod_especie([cod_especie]):::fk
+    Faena ---|FK| nombre([nombre]):::fk 
+    Faena ---|FK| matricula([matricula]):::fk 
+    Faena ---|FK| cod_especie([cod_especie]):::fk
     Faena --- periodo((periodo)):::atributo
     periodo:::derivado
     periodo --- fecha_inicio([fecha_inicio]):::atributo 
@@ -225,11 +226,11 @@ flowchart LR
   %% Atributos COMPRADOR
   subgraph Compradores
     Comprador[COMPRADOR]:::entidad
-    cod_comprador([cod_comprador]):::pk --> Comprador
-    nombre([nombre]):::atributo --> Comprador
-    direccion([direccion]):::atributo --> Comprador
-    dni_cif([dni_cif]):::atributo --> Comprador
-    cuota_anual([cuota_anual]):::atributo --> Comprador
+    cod_comprador([cod_comprador]):::pk ---|PK| Comprador
+    nombre([nombre]):::atributo --- Comprador
+    direccion([direccion]):::atributo --- Comprador
+    dni_cif([dni_cif]):::atributo --- Comprador
+    cuota_anual([cuota_anual]):::atributo --- Comprador
     end
 
   Comprador --> es{d} -->|1:0..1| CompradorCredito[CREDITOR]:::entidad
@@ -255,7 +256,7 @@ flowchart LR
   %% Atributos CREDITOR
   subgraph Creditores
     Creditor[CREDITOR]:::entidad
-    Creditor --- cod_comprador([cod_comprador]):::pkfk 
+    Creditor ---|PK FK| cod_comprador([cod_comprador]):::pkfk 
     Creditor --- iban([iban]):::atributo
     Creditor --- importe_acumulado([importe_acumulado]):::atributo
     Creditor --- fecha_vencimiento([fecha_vencimiento]):::atributo
