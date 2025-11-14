@@ -557,14 +557,15 @@ flowchart LR
   classDef entidad stroke:#404,stroke-width:4px;
   classDef relacion stroke:#840,stroke-width:2px;
   classDef atributo stroke:#088,stroke-width:2px;
+  classDef pk stroke:#800,stroke-width:4px;
 
   Factura[FACTURA_CLIENTE]:::entidad
   Pago[VENTA]:::entidad
   Rel{PAGA}:::relacion
 
-  Pago ---|PK| cod_pago((cod_pago)):::pk  
-  Pago --- fecha((fecha)):::atributo 
-  Pago --- importe((importe)):::atributo 
+  Pago ---|PK| cod_pago([cod_pago]):::pk  
+  Pago --- fecha([fecha]):::atributo 
+  Pago --- importe([importe]):::atributo 
 
    Pago ---|"(1,1)"| Rel
   Rel ---|"(1,N)"| Factura
@@ -750,7 +751,7 @@ perdida.
 
  
 ```mermaid
-flowchart LR   
+flowchart TD   
 
   classDef relacion stroke:#840,stroke-width:2px;
   classDef atributo stroke:#088,stroke-width:2px;
@@ -760,38 +761,58 @@ flowchart LR
   Lote[LOTE]:::entidad
   Especie[ESPECIE]:::entidad
   Barco[BARCO]:::entidad
+  Caladero[CALADERO]:::entidad
   Comprador[COMPRADOR]:::entidad
+  Creditor[CREDITOR]:::entidad
   FacturaC[FACTURA_CLIENTE]:::entidad
+  FacturaP[FACTURA_PROVEEDOR]:::entidad
 
   %% Relaciones
-  DeEspecie{DE_ESPECIE}:::relacion
-  CapturadoPor{CAPTURADO_POR}:::relacion
-  Adjudicacion{ADJUDICACIÓN}:::relacion
-  EmiteC{EMITIDA_A}:::relacion
-  IncluyeLC{INCLUYE_LOTES}:::relacion
+  DeEspecie{{DE_ESPECIE}}:::relacion
+  CapturadoPor{{CAPTURADO_POR}}:::relacion
+  FaenaRel{{FAENA}}:::relacion
+  Adjudicacion{{ADJUDICACIÓN}}:::relacion
+  EmiteC{{EMITIDA_A}}:::relacion
+  IncluyeC{{VENTA}}:::relacion
+  EmiteP{{EMITIDA_POR}}:::relacion
+  IncluyeP{{PROVISION}}:::relacion
+  EsCredito{{ES_CREDITOR}}:::relacion
 
-
-
-
-  %% Atributos de la RELACIÓN ADJUDICACIÓN
-  precio_compra_kg([precio_compra_kg]):::atributo --> Adjudicacion
-  precio_total([precio_total]):::atributo --> Adjudicacion
-
-  %% Conexiones y cardinalidades
+  %% Lote - Especie (cada lote es de una especie)
   Lote ---|"(1,1)"| DeEspecie
   DeEspecie ---|"(0,N)"| Especie
 
+  %% Lote - Barco (cada lote lo captura un barco)
   Lote ---|"(1,1)"| CapturadoPor
   CapturadoPor ---|"(1,N)"| Barco
 
+  %% Faena ternaria: Barco - Caladero - Especie
+  Barco ---|"(0,N)"| FaenaRel
+  FaenaRel ---|"(0,N)"| Caladero
+  Especie ---|"(0,N)"| FaenaRel
+
+  %% Adjudicación de lotes a compradores
   Lote ---|"(1,1)"| Adjudicacion
   Adjudicacion ---|"(0,N)"| Comprador
 
-  FacturaC ---|"(1,1)"| EmiteC
-  EmiteC ---|"(1,N)"| Comprador
+  %% Especialización Comprador -> Creditor (por predicado)
+  Comprador ---|"(0,1)"| EsCredito
+  EsCredito ---|"(1,1)"| Creditor
 
-  FacturaC ---|"(1,N)"| IncluyeLC
-  IncluyeLC ---|"(1,1)"| Lote
+  %% Facturas de cliente
+  Comprador ---|"(0,N)"| EmiteC
+  EmiteC ---|"(1,1)"| FacturaC
+
+  %% Facturas de proveedor (barcos)
+  Barco ---|"(0,N)"| EmiteP
+  EmiteP ---|"(1,1)"| FacturaP
+
+
+  FacturaC ---|"(1,N)"| IncluyeC
+  Lote ---|"(1,1)"| IncluyeC
+
+  FacturaP ----|"(1,N)"| IncluyeP
+  IncluyeP ----|"(1,1)"| Lote
 
 ```
 # Relacional
@@ -814,125 +835,161 @@ erDiagram
 
     CREDITOR {
         CHAR    cod_comprador PK  "FK a COMPRADOR"
-        VARCHAR num_cuenta
+        CHAR    iban
         NUMBER  importe_acumulado
         DATE    fecha_vencimiento
     }
 
-    COMPRADOR ||--o| CREDITOR : "tiene_credito"
-
-
     ESPECIE {
-        ID     cod_especie  PK      "ShortText(5)"
-        STRING nombre       UK      "ShortText(30) Único"
-        STRING tipo                 "ShortText(20)"
-        }
+        VARCHAR cod_especie PK
+        VARCHAR nombre
+        VARCHAR tipo
+    }
 
     CALADERO {
-        STRING    nombre     PK   "ShortText(40)"
-        FLOAT     extension       ""
-        GEO       latitud         "DOUBLE"
-        GEO       longitud        "DOUBLE"
-        }
+        VARCHAR nombre   PK
+        NUMBER  extension
+        NUMBER  latitud
+        NUMBER  longitud
+    }
 
     BARCO {
-        ID     matricula PK  "ShortText(10)"
-        STRING nombre    UK  "ShortText(30)"
-        STRING clase         "ShortText(20)"
-        STRING capitan       "ShortText(30)"
-        STRING armador   UK  "ShortText(30)"
-        CIF    cif_barco UK  "ShortText(15) Único"
-        }
-
-
+        CHAR    matricula PK
+        VARCHAR nombre
+        VARCHAR clase
+        VARCHAR capitan
+        VARCHAR armador
+        VARCHAR cif
+    }
 
     %% ======== LOTES Y SUBASTAS ======== %%
     LOTE {
-        ID          cod_lote      PK    ""
-        INT         num_cajas           ""
-        FLOAT       kilos_total         ""
-        DATE        fecha_llegada       ""
-        CURRENCY    precio_salida_kg    ""
-        CURRENCY    precio_salida_total "Derivado"
-        CURRENCY    precio_compra_kg    ""
-        CURRENCY    precio_total        "Derivado"
-        ID          cod_especie   FK    "ESPECIE"  
-        ID          matricula     FK    "BARCO" 
-        ID          cod_comprador FK    "COMPRADOR"  
-        ID          num_factura_c FK    "FACTURA_CLIENTE - STRING"  
-        ID          num_factura_b FK    "FACTURA_PROVEEDOR - STRING"  
-        }
+        CHAR    cod_lote      PK
+        NUMBER  num_cajas
+        NUMBER  kilos_total
+        DATE    fecha_llegada
+        NUMBER  precio_kg_salida
+        NUMBER  precio_total_salida
+        VARCHAR cod_especie   FK  "ESPECIE"
+        CHAR    matricula_barco FK "BARCO"
+    }
 
     %% ======== FAENA (RELACIÓN TERNARIA) ======== %%
     FAENA {
-        ID         id_faena            PK     "AUTONUM"
-        ID         matricula           PK, FK     "BARCO"  
-        ID         cod_especie         PK, FK     "ESPECIE"  
-        STRING     nombre_caladero     PK, FK     "CALADERO"  
-        FLOAT      kilos                      ""
-        DATE       fecha_inicio               ""
-        DATE       fecha_fin                  "fecha_fin >= fecha_inicio"
-        }
+        CHAR    matricula_barco  PK "FK a BARCO"
+        VARCHAR nombre_caladero  PK "FK a CALADERO"
+        VARCHAR cod_especie      PK "FK a ESPECIE"
+        DATE    fecha_inicio     PK
+        DATE    fecha_fin
+        NUMBER  kg_especie
+    }
 
-    %% ======== FACTURAS Y PAGOS ======== %%
+    %% ======== ADJUDICACIÓN DE LOTES ======== %%
+    ADJUDICACION {
+        CHAR    cod_lote      PK "FK a LOTE"
+        CHAR    cod_comprador FK "COMPRADOR"
+        NUMBER  precio_kg
+        NUMBER  precio_total
+    }
+
+    %% ======== FACTURAS Y PAGOS (CLIENTES) ======== %%
     FACTURA_CLIENTE {
-        STRING     num_factura     PK    "ShortText(20)"
-        DATE       fecha_emision         ""
-        MONEY      importe_total         ""
-        BOOL       estado                "Pendiente(0) o pagada(1)"
-        ID         cod_comprador   FK    "COMPRADOR" 
-        }
+        CHAR    num_factura   PK
+        CHAR    cod_comprador FK  "COMPRADOR"
+        DATE    fecha_emision
+        NUMBER  importe_total
+        NUMBER  pendiente      "1 = pendiente, 0 = pagada"
+    }
+
+    INCLUYE {
+        CHAR    num_factura   PK "FK a FACTURA_CLIENTE"
+        CHAR    cod_lote      PK "FK a LOTE"
+    }
 
     VENTA {
-        ID          id_pago     PK     "AUTONUM"
-        DATE        fecha              ""
-        CURRENCY    importe            ""
-        STRING      num_factura FK     "FACTURA_CLIENTE" 
-        }
+        CHAR    cod_pago    PK
+        CHAR    num_factura FK "FACTURA_CLIENTE"
+        DATE    fecha
+        NUMBER  importe
+    }
 
+    %% ======== FACTURAS Y PAGOS (PROVEEDORES / BARCOS) ======== %%
     FACTURA_PROVEEDOR {
-        STRING   num_factura   PK   "ShortText(20)"
-        DATE     fecha_emision      ""
-        CURRENCY importe_total      ""
-        CIF      cif_barco     FK   ""
-        ID       matricula     FK   "BARCO"  
-        }
+        CHAR    num_factura   PK
+        CHAR    matricula     FK  "BARCO"
+        DATE    fecha_emision
+        NUMBER  importe_total
+        NUMBER  pagada        "1 = pendiente, 0 = pagada"
+    }
+
+    PROVISION {
+        CHAR    num_factura   PK "FK a FACTURA_PROVEEDOR"
+        CHAR    cod_lote      PK "FK a LOTE"
+    }
 
     PAGO_BARCO {
-        INT        id_pago PK      "AUTONUM"
-        DATE       fecha           ""
-        CURRENCY   importe         ""
-        STRING     num_factura FK  "FACTURA_PROVEEDOR" 
+        CHAR    cod_pago    PK
+        CHAR    num_factura FK "FACTURA_PROVEEDOR"
+        DATE    fecha
+        NUMBER  importe
     }
 
     %% ======== RELACIONES Y CARDINALIDADES ======== %%
 
-    %% --- Compradores --- %%
-    COMPRADOR ||--o{ LOTE : "adjudica"
-    COMPRADOR ||--o{ FACTURA_CLIENTE : "recibe"
-    FACTURA_CLIENTE ||--o{ VENTA : "pagos"
+    %% --- Compradores y crédito --- %%
+    COMPRADOR ||--o| CREDITOR : "tiene_credito"
 
-    %% --- Barcos --- %%
-    BARCO   ||--o{ FAENA : "realiza"
+    %% --- Lotes & captura --- %%
+    ESPECIE ||--o{ LOTE : "aparece_en"
     BARCO   ||--o{ LOTE : "captura"
-    BARCO   ||--o{ FACTURA_PROVEEDOR : "emite"
-    FACTURA_PROVEEDOR ||--o{ PAGO_BARCO : "pagos"
 
-    %% --- Especies y Caladeros --- %%
-    ESPECIE   ||--o{ LOTE : "clasifica"
-    ESPECIE   ||--o{ FAENA : "objetivo"
-    CALADERO  ||--o{ FAENA : "en"
+    %% --- Faena ternaria --- %%
+    BARCO    ||--o{ FAENA : "realiza"
+    CALADERO ||--o{ FAENA : "en"
+    ESPECIE  ||--o{ FAENA : "especie_faenada"
 
-    %% --- Facturas y Lotes --- %%
-    FACTURA_CLIENTE ||--o{ LOTE : "incluye"
-    FACTURA_PROVEEDOR     ||--o{ LOTE : "incluye"
+    %% --- Adjudicación de lotes --- %%
+    LOTE      ||--|| ADJUDICACION : "se_adjudica"
+    COMPRADOR ||--o{ ADJUDICACION : "compra"
 
-    %% --- Estilo visual --- %%
-    style COMPRADOR_CONTADO stroke:#2962FF,stroke-width:2px
-    style CREDITOR stroke:#2962FF,stroke-width:2px
-    style COMPRADOR stroke:#2962FF,stroke-width:4px
-    style FAENA stroke:#FF9800,stroke-width:2px
+    %% --- Facturas de cliente y líneas de factura --- %%
+    COMPRADOR      ||--o{ FACTURA_CLIENTE : "recibe"
+    FACTURA_CLIENTE ||--o{ INCLUYE : "incluye"
+    LOTE            ||--o{ INCLUYE : "facturado_en"
+
+    %% --- Cobros de cliente --- %%
+    FACTURA_CLIENTE ||--o{ VENTA : "se_cobra_con"
+
+    %% --- Facturas de proveedor y líneas --- %%
+    BARCO            ||--o{ FACTURA_PROVEEDOR : "recibe"
+    FACTURA_PROVEEDOR ||--o{ PROVISION : "incluye"
+    LOTE              ||--o{ PROVISION : "liquidado_en"
+
+    %% --- Pagos a barcos --- %%
+    FACTURA_PROVEEDOR ||--o{ PAGO_BARCO : "se_paga_con"
+
+
+    %% --- Estilo visual por temas --- %%
+
+    %% Compradores / crédito (azules)
+    style COMPRADOR fill:#E3F2FD,stroke:#2962FF,stroke-width:2px
+    style CREDITOR  fill:#E3F2FD,stroke:#2962FF,stroke-width:2px
+
+    %% Oferta / recursos (barcos, especies, caladeros, lotes, faena)
+    style BARCO    fill:#E0F2F1,stroke:#00897B,stroke-width:2px
+    style CALADERO fill:#E0F2F1,stroke:#00897B,stroke-width:2px
+    style ESPECIE  fill:#FFF3E0,stroke:#FB8C00,stroke-width:2px
+    style LOTE     fill:#FFF3E0,stroke:#FB8C00,stroke-width:2px
+    style FAENA    fill:#FFF8E1,stroke:#FFB300,stroke-width:2px
+
+    %% Facturación y pagos (morado)
+    style ADJUDICACION     fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px
+    style FACTURA_CLIENTE  fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px
+    style INCLUYE          fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px
+    style VENTA            fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px
+    style FACTURA_PROVEEDOR fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px
+    style PROVISION        fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px
+    style PAGO_BARCO       fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px
 ```
 
-```
  
