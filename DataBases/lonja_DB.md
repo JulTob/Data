@@ -57,10 +57,9 @@ CREATE TABLE LOTE (
 ```
 
 ### Especies
-- [x]  De cada especie guardaremos
-  - [x]  cierto código no repetible,
-  - [x]  un nombre
-  - [x]  y un tipo (por ejemplo, moluscos, pescado blanco, etc.).
+  - [x]  🔐 Código (no repetible)
+  - [x]  Nombre
+  - [x]  Tipo (por ejemplo, moluscos, pescado blanco, etc.).
 ```mermaid
 flowchart LR   
   classDef atributo stroke:#088,stroke-width:2px;
@@ -86,12 +85,11 @@ CREATE TABLE ESPECIE (
 ```
 
 ### Barcos
-- [x]  Se almacenará también información sobre los barcos que entregan la pesca en la lonja
-  - [x]  Su matrícula,
-  - [x]  nombre,
-  - [x]  clase,
-  - [x]  nombre del capitán
-  - [x]  y así como del armador.
+  - [x]  🔐 Matrícula
+  - [x]  Nombre
+  - [x]  Clase
+  - [x]  Nombre del capitán
+  - [x]  Nombre del armador.
 ```mermaid
 flowchart LR   
   classDef atributo stroke:#088,stroke-width:2px;
@@ -120,9 +118,8 @@ CREATE TABLE BARCO (
 ```
 
 ### Caladeros
-- [x]  De los caladeros nos interesa conocer
-  - [x]  el nombre (único),
-  - [x]  su extensión
+  - [x]  🔐 Nombre (único),
+  - [x]  Extensión
   - [x]  Ubicación definida mediante las coordenadas GPS
       - [x]  latitud 
       - [x]  longitud.
@@ -155,9 +152,9 @@ CREATE TABLE CALADERO (
 
 ### Faenaje
 - [x]  Faena
-    - [x]  Un barco (matrícula)
-    - [x]  pescando en un caladero (nombre)
-    - [x]  una especie (código)
+    - [x]  🔏 Un barco (matrícula)
+    - [x]  🔏 pescando en un caladero (nombre)
+    - [x]  🔏 una especie (código)
     - [x]  los kilos obtenidos de cada especie
     - [x]  en un intervalo de tiempo
         - [x]  una fecha de inicio
@@ -207,11 +204,11 @@ CREATE TABLE FAENA (
 
 # Compradores
 - [x]  Compradores.
-  - [x]  Código (no repetible),
-  - [x]  su nombre,
-  - [x]  dirección,
+  - [x]  🔐 Código (no repetible),
+  - [x]  Nombre,
+  - [x]  Dirección,
   - [x]  DNI o CIF,
-  - [x]  así como la cuota anual que deben pagar a la lonja.
+  - [x]  Cuota anual que deben pagar a la lonja.
 
 
 ```mermaid
@@ -222,6 +219,7 @@ flowchart LR
   classDef fk stroke:#080,stroke-width:4px;
   classDef pkfk stroke:#880,stroke-width:4px;
   classDef entidad stroke:#404,stroke-width:4px;
+  classDef pseudoentidad stroke:#323,stroke-width:4px;
 
   %% Atributos COMPRADOR
   subgraph Compradores
@@ -234,14 +232,16 @@ flowchart LR
     end
 
   Comprador --> es{d} -->|1:0..1| CompradorCredito[CREDITOR]:::entidad
+				es{d} --x|pseudoentidad| contador[CONTADOR]:::pseudoentidad
 
 ```
 
 - [x] Existen compradores que tienen crédito, realizando los pagos al final de cada mes;
   - [x]  Se guarda un número de cuenta bancaria,
   - [x]  el último importe acumulado hasta el momento
-  - [x]  y la fecha de vencimiento del pago (sólo nos interesa la mensualidad en curso).
-  - [x]  Por otro lado, existen los compradores que realizan los pagos al contado sobre los que no se necesita guardar información adicional.
+  - [x]  y la fecha de vencimiento del pago.
+     
+- [x]  Existen los compradores que realizan los pagos al contado sobre los que no se necesita guardar información adicional.
   - [x]  Un comprador no puede ser de ambos tipos a la vez.
 
 ```mermaid
@@ -260,21 +260,18 @@ flowchart LR
     Creditor --- iban([iban]):::atributo
     Creditor --- importe_acumulado([importe_acumulado]):::atributo
     Creditor --- fecha_vencimiento([fecha_vencimiento]):::atributo
-    
     end
-
   cod_comprador--> Comprador
   Comprador:::entidad
-
 ```
-Diseño:
+#### 📝 Notas de Diseño:
 - Tabla COMPRADOR: todos los compradores, sin distinguir.
 - Tabla COMPRADOR_CREDITO: solo los que tienen crédito.
   - cod_comprador = PK y FK a COMPRADOR.
   - Si un comprador está en esta tabla ⇒ es de crédito.
   - Si no está ⇒ es de contado.
 
-Eso se llama especialización por predicado.
+Implementación de _especialización por predicado_.
 
 Sin tabla para contado. No es necesaria. Ambos grupos son excluyentes. Si está en  _creditor_, no es _contador_.
 
@@ -325,7 +322,7 @@ Un IBAN es un número de cuenta, pero contiene caracteres no numéricos (ES, FR,
 ### Adjudicación
 Finalmente, cada lote será adquirido por el comprador que realice la mejor puja. 
 
-- [ ] Adjudicacion 
+- [x] Adjudicacion 
   - [x] el precio de compra por kilo
   - [x] el precio total de adjudicación del lote.
   - [x] Cada lote será adquirido por __un__ comprador.
@@ -333,9 +330,12 @@ Finalmente, cada lote será adquirido por el comprador que realice la mejor puja
 
 ```mermaid
 flowchart LR
-  classDef entidad stroke:#404,stroke-width:4px;
-  classDef relacion stroke:#840,stroke-width:2px;
   classDef atributo stroke:#088,stroke-width:2px;
+  classDef derivado stroke-width:3px, stroke-dasharray:3 3;
+  classDef pk stroke:#800,stroke-width:4px;
+  classDef fk stroke:#080,stroke-width:4px;
+  classDef entidad stroke:#404,stroke-width:4px;
+  classDef pkfk stroke:#880,stroke-width:4px;
 
   Lote[LOTE]:::entidad
   Comprador[COMPRADOR]:::entidad
