@@ -47,21 +47,25 @@ flowchart LR
     Lote --- num_cajas([num_cajas]):::atributo  
     Lote --- kilos_total([kilos_total]):::atributo  
     Lote --- fecha_llegada([fecha_llegada]):::atributo  
-    Lote --- precio_salida_kg([precio_salida_kg]):::atributo  
-    Lote --- precio_salida_total([precio_salida_total]):::atributo  
-    Lote --- matricula_barco([matricula_barco]):::fk  
+    Lote --- precio_kg_salida([precio_kg_salida]):::atributo  
+    Lote --- precio_total_salida([precio_total_salida]):::atributo  
+    Lote ---|FK| matricula_barco([matricula_barco]):::fk  
+    Lote ---|FK| cod_especie([cod_especie]):::fk  
 
     end 
 
 matricula_barco ---> Barco
 Barco[BARCO]:::entidad
 
+cod_especie ---> Especie
+Especie[ESPECIE]:::entidad
+
 ```
 ```sql
 CREATE TABLE LOTE (
     cod_lote            CHAR(5) PRIMARY KEY,
     num_cajas           NUMBER(6,0),
-    kilos_total       NUMBER(8,2),
+    kilos_total       	NUMBER(8,2),
     fecha_llegada       DATE,
     precio_kg_salida    NUMBER(8,2),
     precio_total_salida NUMBER(8,2),
@@ -90,9 +94,9 @@ flowchart LR
   %% Atributos ESPECIE
   subgraph Especies
     Especie[ESPECIE]:::entidad
-    cod_especie([cod_especie]):::pk ---|PK| Especie
-    nombre_especie([nombre]):::atributo --- Especie
-    tipo_especie([tipo]):::atributo --- Especie
+    Especie ---|PK| cod_especie([cod_especie]):::pk 
+    Especie ---nombre_especie([nombre]):::atributo 
+    Especie ---tipo_especie([tipo]):::atributo 
     end
 
 
@@ -128,12 +132,12 @@ flowchart LR
   %% Atributos BARCO
   subgraph Barcos
   Barco[BARCO]:::entidad
-  matricula([matricula]):::pk ---|PK| Barco
-  nombre([nombre]):::atributo --- Barco
-  clase([clase]):::atributo --- Barco
-  capitan([capitan]):::atributo --- Barco
-  armador([armador]):::atributo --- Barco
-  cif([cif]):::atributo --- Barco
+  Barco ---|PK| matricula([matricula]):::pk  
+  Barco ---nombre([nombre]):::atributo  
+  Barco ---clase([clase]):::atributo  
+  Barco ---capitan([capitan]):::atributo 
+  Barco ---armador([armador]):::atributo 
+  Barco ---cif([cif]):::atributo 
   end
 ```
 
@@ -143,9 +147,15 @@ CREATE TABLE BARCO (
     nombre        VARCHAR(30),
     clase         VARCHAR(20),
     capitan       VARCHAR(30),
-    armador       VARCHAR(30)
+    armador       VARCHAR(30),
+    cif       	  VARCHAR(15) UNIQUE
     );
 ```
+CIF es un formato fijo... en españa. Es razonable pensar que uina lonja puede tener pesqueros faenando de otros países. En el caso de Santa Pola, podrían ser de Marruecos, Italia, Francia, Tunez... Y cualquier embarcación europea tiene permiso de trabajo en el territorio de la UE. 
+
+Por ello, es posible que la lonja pueda necesitar guardar cifs de otros formatos, aunque sea algo extraordinario. Un VARCHAR es mejor opción que CHAR por la presencia de estos casos excepcionales.
+
+Igualmente para los DNI/CIF de los compradores, que probablemente son residentes de Santa Pola. Una población que tiene gran porcentaje de residentes permanentes de origen extranjero.  
 
 
 
@@ -176,11 +186,12 @@ flowchart LR
   %% Atributos CALADERO
   subgraph Caladeros
     Caladero[CALADERO]:::entidad
-    nombre([nombre]):::pk ---|PK| Caladero
-    ubicacion((ubicacion)):::atributo --- Caladero
+    Caladero ---|PK| nombre([nombre]):::pk 
+    Caladero --- ubicacion((ubicacion)):::atributo 
+    Caladero --- extension((ubicacion)):::atributo 
       ubicacion:::derivado
-      latitud([latitud]):::atributo --- ubicacion
-      longitud([longitud]):::atributo --- ubicacion
+      ubicacion  --- latitud([latitud]):::atributo
+	  ubicacion  --- longitud([longitud]):::atributo 
 
     end
 ```
@@ -230,9 +241,9 @@ flowchart LR
   subgraph Faenajes
     Faena[FAENA]:::entidad
     Faena --- kg_especie([kg_especie]):::atributo 
-    Faena ---|FK| nombre([nombre]):::fk 
-    Faena ---|FK| matricula([matricula]):::fk 
-    Faena ---|FK| cod_especie([cod_especie]):::fk
+    Faena ---|PK FK| nombre([nombre_caladero]):::pkfk 
+    Faena ---|PK FK| matricula([matricula_barco]):::pkfk 
+    Faena ---|PK FK| cod_especie([cod_especie]):::pkfk
     Faena --- periodo((periodo)):::atributo
     periodo:::derivado
     periodo ---|PK| fecha_inicio([fecha_inicio]):::pk 
@@ -252,7 +263,7 @@ CREATE TABLE FAENA (
     matricula_barco CHAR(10)   REFERENCES BARCO,
     nombre_caladero VARCHAR(40) REFERENCES CALADERO,
     cod_especie     VARCHAR(5) REFERENCES ESPECIE,
-    kilos           NUMBER(8,2),
+    kg_especie 		NUMBER(8,2),
     fecha_inicio    DATE,
     fecha_fin       DATE,
     PRIMARY KEY (matricula_barco, nombre_caladero, cod_especie, fecha_inicio)
@@ -300,25 +311,31 @@ flowchart LR
   %% Atributos COMPRADOR
   subgraph Compradores
     Comprador[COMPRADOR]:::entidad
-    cod_comprador([cod_comprador]):::pk ---|PK| Comprador
-    nombre([nombre]):::atributo --- Comprador
-    direccion([direccion]):::atributo --- Comprador
-    dni_cif([dni_cif]):::atributo --- Comprador
-    cuota_anual([cuota_anual]):::atributo --- Comprador
+    Comprador ---|PK| cod_comprador([cod_comprador]):::pk
+    Comprador --- nombre([nombre]):::atributo 
+    Comprador --- direccion([direccion]):::atributo 
+    Comprador --- dni_cif([dni_cif]):::atributo 
+    Comprador --- cuota_anual([cuota_anual]):::atributo 
     end
 
-  Comprador --> es{d} -->|1:0..1| CompradorCredito[CREDITOR]:::entidad
+  Comprador --> es{d} -->|1:0..1| Creditor[CREDITOR]:::entidad
 				es{d} --x|pseudoentidad| contador[CONTADOR]:::pseudoentidad
 
 ```
 
-- [x] Existen compradores que tienen crédito, realizando los pagos al final de cada mes;
+
+
+
+
+## Compradores: Creditores y Contadores
+- [x] Existen compradores que tienen crédito (creditores), realizando los pagos al final de cada mes;
   - [x]  Se guarda un número de cuenta bancaria,
   - [x]  el último importe acumulado hasta el momento
   - [x]  y la fecha de vencimiento del pago.
      
-- [x]  Existen los compradores que realizan los pagos al contado sobre los que no se necesita guardar información adicional.
-  - [x]  Un comprador no puede ser de ambos tipos a la vez.
+- [x]  Existen los compradores que realizan los pagos al contado (contadores) sobre los que no se necesita guardar información adicional.
+
+- [x]  Un comprador no puede ser de ambos tipos a la vez.
 
 ```mermaid
 flowchart LR
@@ -379,7 +396,7 @@ Por tanto:
 - Contado = los que no están en CREDITOR
   -   Totalidad cubierta, sin necesidad de un atributo tipo
 
-Un IBAN es un número de cuenta, pero contiene caracteres no numéricos (ES, FR, US...). Considero mejor guardarla como un CHAR de 24 caracteres. Se requerirá verificación. 
+Un IBAN es un "número" de cuenta, pero contiene caracteres no numéricos (ES, FR, US...). Considero mejor guardarla como un CHAR de 24 caracteres. Se requerirá verificación. 
 
 
 
@@ -418,8 +435,8 @@ flowchart LR
   Comprador[COMPRADOR]:::entidad
   Adjudicacion{{ADJUDICACIÓN}}:::relacion
 
-  precio_kg([precio_compra_kg]):::atributo --> Adjudicacion
-  precio_total([precio_total]):::atributo --> Adjudicacion
+  precio_kg([precio_compra_kg]):::atributo --- Adjudicacion
+  precio_total([precio_total]):::atributo --- Adjudicacion
 
   Lote ---|"(1,1)"| Adjudicacion
   Adjudicacion ---|"(0,N)"| Comprador
@@ -441,7 +458,7 @@ CREATE TABLE ADQUISICION (
 `cod_comprador` es NOT NULL porque cada lote debe adjudicarse a alguien. Si no se adjudica, no se añade a la tabla. 
 
 
-Si se modelara la subasta completa, esta tabla sería resultado de esa relación. Dentro de la dinámica de 'minimizar a lo necesario', no creo que sea rentable a largo plazo guardar todas las pujas en una base de datos a la larga, ya que su relevancia se esfuma en el momento de la adjudicación. 
+Si se modelara la subasta completa, sería necesario realizar la tabla que sería resultado de esa relación. Dentro de la dinámica de 'minimizar a lo necesario', no creo que sea rentable a largo plazo guardar todas las pujas en una base de datos a la larga, ya que su relevancia se esfuma en el momento de la adjudicación. Además, debido a la gran cantidad de pujas por subasta, esto aumentaría las necesidades materiales (memoria y procesamiento) exponencialmente. Esto encarecería el proyecto, su construcción y mantenimiento. 
 
 Esta decisión debería ser secundada por el cliente. Si les interesa hacer este registro, con el coste asociado en memoria y trabajo, se puede implementar una tabla que tendría parametros adecuados (cod_lote, cod_comprador, puja) para seleccionar una puja ganadora. 
 
@@ -578,12 +595,13 @@ Cada lote adjudicado debe aparecer en exactamente una factura.
 
 # Factura Proveedor
 Las facturas emitidas por los barcos,
-- [ ] la lonja almacena además de los datos mencionados de la factura,
+- [x] Datos básicos
+	- [x] Número de factura
+	- [x] Fecha de emisión
+	- [x] Importe total.
 - [x] el CIF del barco (desde matricula)
 - [x] Los códigos de lote facturados
-- [x] Número de factura
-- [x] Fecha de emisión
-- [x] Importe total.
+
 
 ```mermaid
 flowchart LR
@@ -714,20 +732,7 @@ perdida.
 
 
 
-```mermaid
-flowchart LR   
-  classDef atributo stroke:#088,stroke-width:2px;
-  classDef pk stroke:#800,stroke-width:4px;
-  classDef entidad stroke:#404,stroke-width:4px;
-
-  %% Atributos FACTURA_CLIENTE
-  subgraph Facturas
-  num_fact_c([num_factura PK]):::atributo --> FacturaC
-  fecha_emision_c([fecha_emision]):::atributo --> FacturaC
-  importe_total_c([importe_total]):::atributo --> FacturaC
-  estado_c([estado]):::atributo --> FacturaC
-  end
-```
+ 
 ```mermaid
 flowchart LR   
 
