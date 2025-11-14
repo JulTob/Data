@@ -533,11 +533,11 @@ CREATE TABLE INCLUYE (
 - PRIMARY KEY (num_factura, cod_lote) impide repetir un lote en la misma factura.
 
 Estado Pagada: 
-- 0 = pendiente
-- 1 = pagada
-- `DEFAULT 0` asegura que todas las facturas nuevas comiencen como pendientes.
-- Este campo actúa como booleano (0 = pendiente, 1 = pagada).
-- Guardamos el estado para todas las facturas, aunque solo sea relevante para compradores al contado. Para el grupo que no es de interés se pueden poner como pagadas automaticamente.
+- 1 = pendiente (TRUE)
+- 0 = pagada (FALSE)
+- `DEFAULT 0` asegura que todas las facturas nuevas comiencen como pagadas, ya que es el default de las .
+- Este campo actúa como booleano.
+- Guardamos el estado para todas las facturas, aunque solo sea relevante para compradores al contado. Para el grupo que no es de interés se ponen como pagadas automaticamente.
   
 Cada comprador puede emitir varias facturas; cada factura agrupa varios lotes.
 
@@ -643,8 +643,8 @@ CREATE TABLE FACTURA_PROVEEDOR (
     matricula          	CHAR(10) NOT NULL REFERENCES BARCO,
     fecha_emision      	DATE NOT NULL,
     importe_total      	NUMBER(10,2),
-    pagada             	NUMBER(1,0) DEFAULT 0
-    -- 0 = pendiente, 1 = pagada
+    pagada             	NUMBER(1,0) DEFAULT 1
+    -- 1 = pendiente, 0 = pagada
 	);
 
 CREATE TABLE PROVISION (
