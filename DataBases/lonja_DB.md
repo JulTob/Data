@@ -823,6 +823,18 @@ title: LONJA - Julio Toboso
 erDiagram
     direction LR
 
+    %% ======== LOTES Y SUBASTAS ======== %%
+    LOTE {
+        CHAR    cod_lote      PK
+        NUMBER  num_cajas
+        NUMBER  kilos_total
+        DATE    fecha_llegada
+        NUMBER  precio_kg_salida
+        NUMBER  precio_total_salida
+        VARCHAR cod_especie   FK  "ESPECIE"
+        CHAR    matricula_barco FK "BARCO"
+    }
+
     %%===--- ENTIDADES PRINCIPALES ---===%%
 
     COMPRADOR {
@@ -862,17 +874,8 @@ erDiagram
         VARCHAR cif
     }
 
-    %% ======== LOTES Y SUBASTAS ======== %%
-    LOTE {
-        CHAR    cod_lote      PK
-        NUMBER  num_cajas
-        NUMBER  kilos_total
-        DATE    fecha_llegada
-        NUMBER  precio_kg_salida
-        NUMBER  precio_total_salida
-        VARCHAR cod_especie   FK  "ESPECIE"
-        CHAR    matricula_barco FK "BARCO"
-    }
+
+
 
     %% ======== FAENA (RELACIÓN TERNARIA) ======== %%
     FAENA {
@@ -935,27 +938,23 @@ erDiagram
     }
 
     %% ======== RELACIONES Y CARDINALIDADES ======== %%
-
+    %% --- Lotes & captura --- %%
+	 ADJUDICACION ||--|| LOTE : "se_adjudica"
+     BARCO   ||--o{ LOTE : "captura"
+     LOTE    }o--|| ESPECIE : "aparece_en"
+     LOTE    ||--o{ INCLUYE : "facturado_en"
+	 PROVISION }o--|| LOTE : "liquidado_en"
     %% --- Compradores y crédito --- %%
     COMPRADOR ||--o| CREDITOR : "tiene_credito"
 
-    %% --- Lotes & captura --- %%
-    ESPECIE ||--o{ LOTE : "aparece_en"
-    BARCO   ||--o{ LOTE : "captura"
 
-    %% --- Faena ternaria --- %%
-    BARCO    ||--o{ FAENA : "realiza"
-    CALADERO ||--o{ FAENA : "en"
-    ESPECIE  ||--o{ FAENA : "especie_faenada"
 
     %% --- Adjudicación de lotes --- %%
-    LOTE      ||--|| ADJUDICACION : "se_adjudica"
     COMPRADOR ||--o{ ADJUDICACION : "compra"
 
     %% --- Facturas de cliente y líneas de factura --- %%
     COMPRADOR      ||--o{ FACTURA_CLIENTE : "recibe"
     FACTURA_CLIENTE ||--o{ INCLUYE : "incluye"
-    LOTE            ||--o{ INCLUYE : "facturado_en"
 
     %% --- Cobros de cliente --- %%
     FACTURA_CLIENTE ||--o{ VENTA : "se_cobra_con"
@@ -963,33 +962,41 @@ erDiagram
     %% --- Facturas de proveedor y líneas --- %%
     BARCO            ||--o{ FACTURA_PROVEEDOR : "recibe"
     FACTURA_PROVEEDOR ||--o{ PROVISION : "incluye"
-    LOTE              ||--o{ PROVISION : "liquidado_en"
 
     %% --- Pagos a barcos --- %%
     FACTURA_PROVEEDOR ||--o{ PAGO_BARCO : "se_paga_con"
+
+   %% --- Faena ternaria --- %%
+    ESPECIE  ||--o{ FAENA : "especie_faenada"
+    BARCO    ||--o{ FAENA : "realiza"
+    CALADERO ||--o{ FAENA : "en"
+
+
 
 
     %% --- Estilo visual por temas --- %%
 
     %% Compradores / crédito (azules)
-    style COMPRADOR fill:#E3F2FD,stroke:#2962FF,stroke-width:2px
-    style CREDITOR  fill:#E3F2FD,stroke:#2962FF,stroke-width:2px
+    style COMPRADOR fill:#048,stroke:#2962FF,stroke-width:4px
+    style CREDITOR  fill:#048,stroke:#2962FF,stroke-width:4px
 
     %% Oferta / recursos (barcos, especies, caladeros, lotes, faena)
-    style BARCO    fill:#E0F2F1,stroke:#00897B,stroke-width:2px
-    style CALADERO fill:#E0F2F1,stroke:#00897B,stroke-width:2px
-    style ESPECIE  fill:#FFF3E0,stroke:#FB8C00,stroke-width:2px
-    style LOTE     fill:#FFF3E0,stroke:#FB8C00,stroke-width:2px
-    style FAENA    fill:#FFF8E1,stroke:#FFB300,stroke-width:2px
+    style BARCO    fill:#388,stroke:#00897B,stroke-width:4px
+    style CALADERO fill:#388,stroke:#00897B,stroke-width:4px
+
+    style ESPECIE  fill:#883,stroke:#FB8C00,stroke-width:4px
+    style LOTE     fill:#883,stroke:#FB8C00,stroke-width:4px
+    style FAENA    fill:#883,stroke:#FFB300,stroke-width:4px
 
     %% Facturación y pagos (morado)
-    style ADJUDICACION     fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px
-    style FACTURA_CLIENTE  fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px
-    style INCLUYE          fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px
-    style VENTA            fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px
-    style FACTURA_PROVEEDOR fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px
-    style PROVISION        fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px
-    style PAGO_BARCO       fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px
+    style ADJUDICACION     fill:#838,stroke:#6A1B9A,stroke-width:4px
+    style FACTURA_CLIENTE  fill:#838,stroke:#6A1B9A,stroke-width:4px
+    style INCLUYE          fill:#838,stroke:#6A1B9A,stroke-width:4px
+    style VENTA            fill:#838,stroke:#6A1B9A,stroke-width:4px
+
+    style FACTURA_PROVEEDOR fill:#833,stroke:#F11,stroke-width:4px
+    style PROVISION        fill:#833,stroke:#F11,stroke-width:4px
+    style PAGO_BARCO       fill:#833,stroke:#F11,stroke-width:4px
 ```
 
  
