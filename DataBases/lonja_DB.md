@@ -188,7 +188,7 @@ flowchart LR
     Caladero[CALADERO]:::entidad
     Caladero ---|PK| nombre([nombre]):::pk 
     Caladero --- ubicacion((ubicacion)):::atributo 
-    Caladero --- extension((ubicacion)):::atributo 
+    Caladero --- extension([extension]):::atributo 
       ubicacion:::derivado
       ubicacion  --- latitud([latitud]):::atributo
 	  ubicacion  --- longitud([longitud]):::atributo 
