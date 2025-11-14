@@ -4,25 +4,32 @@
 
 ## $\text{Julio Toboso}$
 
-### 1. Objetivos.
+# 1. Objetivos.
 - **Access** 2016/2019/2021/2024. 
   - Modelización ERE y su correspondiente Relacional,
   - Creación de tablas con sus campos así como la definición de los dominios de los campos y establecimiento de las relaciones.
 
 
-### 2. Enunciado de la práctica.
-La lonja de pescado de Santa Pola desea agilizar la gestión de su negocio a tal efecto, nos solicita proveerlos de una solución de bases de datos. Cada día, los barcos llevan la pesca a la lonja, siendo que allí, se subasta la captura. Normalmente los compradores son pescaderías de la zona. Tras múltiples entrevistas con los usuarios y labores de análisis previo, hemos obtenido las siguientes especificaciones iniciales:
+# 2. Enunciado de la práctica.
+La lonja de pescado de Santa Pola desea agilizar la gestión de su negocio a tal efecto, nos solicita proveerlos de una solución de bases de datos. 
 
-### Lotes
-- [x] A la llegada de la captura del día, esta se distribuye en lotes, momento en el que se les asigna un código único.
-  - [x] Cada lote consta de
-    - [x] un número de cajas
-    - [x] de una determinada especie (por ejemplo, pescadilla, boquerones, cangrejos, etc.)
-    - [x] así como el número de kilos total
-    - [x] y la fecha de llegada.
+Cada día, los barcos llevan la pesca a la lonja, siendo que allí, se subasta la captura. Normalmente los compradores son pescaderías de la zona. Tras múltiples entrevistas con los usuarios y labores de análisis previo, hemos obtenido las siguientes especificaciones iniciales:
+
+
+
+
+# Lotes
+La captura del día se distribuye en lotes.
+- [x] Lotes
+	- [x] Código único
+    - [x] Número de cajas
+    - [x] Una determinada especie
+    - [x] Número de kilos total
+    - [x] Fecha de llegada
       
-    - [x] Además, es necesario conocer el precio por kilo de salida
-    - [x] y el precio total de salida del lote.
+    - [x] Precio por kilo de salida
+    - [x] Precio total de salida del lote
+    - [x] **Qué barco capturó cada lote**
          
 
 ```mermaid
@@ -31,23 +38,30 @@ flowchart LR
   classDef pk stroke:#800,stroke-width:4px;
   classDef entidad stroke:#404,stroke-width:4px;
   classDef relacion stroke:#840,stroke-width:2px;
+  classDef fk stroke:#080,stroke-width:4px;
 
   %% Atributos LOTE
   subgraph Lotes
     Lote[LOTE]:::entidad
-    cod_lote([cod_lote]):::pk ---|PK| Lote
-    num_cajas([num_cajas]):::atributo --- Lote
-    kilos_total([kilos_total]):::atributo --- Lote
-    fecha_llegada([fecha_llegada]):::atributo --- Lote
-    precio_salida_kg([precio_salida_kg]):::atributo --- Lote
-    precio_salida_total([precio_salida_total]):::atributo --- Lote
-    end
+    Lote ---|PK| cod_lote([cod_lote]):::pk   
+    Lote --- num_cajas([num_cajas]):::atributo  
+    Lote --- kilos_total([kilos_total]):::atributo  
+    Lote --- fecha_llegada([fecha_llegada]):::atributo  
+    Lote --- precio_salida_kg([precio_salida_kg]):::atributo  
+    Lote --- precio_salida_total([precio_salida_total]):::atributo  
+    Lote --- matricula_barco([matricula_barco]):::fk  
+
+    end 
+
+matricula_barco ---> Barco
+Barco[BARCO]:::entidad
+
 ```
 ```sql
 CREATE TABLE LOTE (
     cod_lote            CHAR(5) PRIMARY KEY,
     num_cajas           NUMBER(6,0),
-    kilos_totales       NUMBER(8,2),
+    kilos_total       NUMBER(8,2),
     fecha_llegada       DATE,
     precio_kg_salida    NUMBER(8,2),
     precio_total_salida NUMBER(8,2),
@@ -56,7 +70,14 @@ CREATE TABLE LOTE (
     );
 ```
 
-### Especies
+
+
+
+
+
+---
+
+# Especies
   - [x]  🔐 Código (no repetible)
   - [x]  Nombre
   - [x]  Tipo (por ejemplo, moluscos, pescado blanco, etc.).
@@ -84,12 +105,20 @@ CREATE TABLE ESPECIE (
     );
 ```
 
-### Barcos
+
+
+
+
+
+----
+
+# Barcos
   - [x]  🔐 Matrícula
   - [x]  Nombre
   - [x]  Clase
   - [x]  Nombre del capitán
-  - [x]  Nombre del armador.
+  - [x]  Nombre del armador
+  - [x]  CIF
 ```mermaid
 flowchart LR   
   classDef atributo stroke:#088,stroke-width:2px;
@@ -104,6 +133,7 @@ flowchart LR
   clase([clase]):::atributo --- Barco
   capitan([capitan]):::atributo --- Barco
   armador([armador]):::atributo --- Barco
+  cif([cif]):::atributo --- Barco
   end
 ```
 
@@ -117,10 +147,23 @@ CREATE TABLE BARCO (
     );
 ```
 
-### Caladeros
+
+
+
+
+
+
+
+
+
+
+
+---
+
+# Caladeros
   - [x]  🔐 Nombre (único),
   - [x]  Extensión
-  - [x]  Ubicación definida mediante las coordenadas GPS
+  - [x]  Ubicación [GPS]
       - [x]  latitud 
       - [x]  longitud.
 ```mermaid
@@ -150,15 +193,29 @@ CREATE TABLE CALADERO (
     );
 ```
 
-### Faenaje
+
+
+
+
+
+
+
+
+
+
+
+----
+
+# Faenaje
 - [x]  Faena
     - [x]  🔏 Un barco (matrícula)
-    - [x]  🔏 pescando en un caladero (nombre)
-    - [x]  🔏 una especie (código)
+    - [x]  🔏 En un caladero (nombre)
+    - [x]  🔏 Una especie (código)
     - [x]  los kilos obtenidos de cada especie
     - [x]  en un intervalo de tiempo
         - [x]  una fecha de inicio
         - [x]  y otra de fin.
+
 ```mermaid
 flowchart LR   
   classDef atributo stroke:#088,stroke-width:2px;
@@ -178,7 +235,7 @@ flowchart LR
     Faena ---|FK| cod_especie([cod_especie]):::fk
     Faena --- periodo((periodo)):::atributo
     periodo:::derivado
-    periodo --- fecha_inicio([fecha_inicio]):::atributo 
+    periodo ---|PK| fecha_inicio([fecha_inicio]):::pk 
     periodo --- fecha_fin([fecha_fin]):::atributo
 
     end
@@ -201,6 +258,25 @@ CREATE TABLE FAENA (
     PRIMARY KEY (matricula_barco, nombre_caladero, cod_especie, fecha_inicio)
     );
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Compradores
 - [x]  Compradores.
@@ -266,7 +342,7 @@ flowchart LR
 ```
 #### 📝 Notas de Diseño:
 - Tabla COMPRADOR: todos los compradores, sin distinguir.
-- Tabla COMPRADOR_CREDITO: solo los que tienen crédito.
+- Tabla CREDITOR: solo los compradores que tienen crédito.
   - cod_comprador = PK y FK a COMPRADOR.
   - Si un comprador está en esta tabla ⇒ es de crédito.
   - Si no está ⇒ es de contado.
@@ -293,14 +369,14 @@ CREATE TABLE CREDITOR (
     );
 ```
 
-Suponemos que todo comprador que no aparece en COMPRADOR_CREDITO opera al contado.
+Suponemos que todo comprador que no aparece en CREDITOR opera al contado.
 Por tanto: 
-- Cada cod_comprador puede aparecer a lo sumo una vez en COMPRADOR_CREDITO (PK).
+- Cada cod_comprador puede aparecer a lo sumo una vez en CREDITOR (PK).
 - Si aparece: es crédito.
 - No hay forma de que también sea de otro tipo, porque no hay otra subtabla.
 - Disjunto garantizado.
 - No hay basura ni nulos forzados.
-- Contado = los que no están en COMPRADOR_CREDITO
+- Contado = los que no están en CREDITOR
   -   Totalidad cubierta, sin necesidad de un atributo tipo
 
 Un IBAN es un número de cuenta, pero contiene caracteres no numéricos (ES, FR, US...). Considero mejor guardarla como un CHAR de 24 caracteres. Se requerirá verificación. 
@@ -319,12 +395,12 @@ Un IBAN es un número de cuenta, pero contiene caracteres no numéricos (ES, FR,
 
 
 
-### Adjudicación
-Finalmente, cada lote será adquirido por el comprador que realice la mejor puja. 
+# Adjudicación
+Los lotes se subastan. Cada lote será adquirido por el comprador que realice la mejor puja. 
 
-- [x] Adjudicacion 
-  - [x] el precio de compra por kilo
-  - [x] el precio total de adjudicación del lote.
+- [x] Adjudicación 
+  - [x] Precio de compra por kilo
+  - [x] Precio total de adjudicación del lote
   - [x] Cada lote será adquirido por __un__ comprador.
   - [x] Un comprador puede adquirir varios lotes
 
@@ -336,10 +412,11 @@ flowchart LR
   classDef fk stroke:#080,stroke-width:4px;
   classDef entidad stroke:#404,stroke-width:4px;
   classDef pkfk stroke:#880,stroke-width:4px;
+  classDef relacion stroke:#840,stroke-width:4px;
 
   Lote[LOTE]:::entidad
   Comprador[COMPRADOR]:::entidad
-  Adjudicacion{ADJUDICACIÓN}:::relacion
+  Adjudicacion{{ADJUDICACIÓN}}:::relacion
 
   precio_kg([precio_compra_kg]):::atributo --> Adjudicacion
   precio_total([precio_total]):::atributo --> Adjudicacion
@@ -350,13 +427,14 @@ flowchart LR
 ```
 ```sql
 CREATE TABLE ADQUISICION (
-    cod_lote           CHAR(5) PRIMARY KEY
-                       REFERENCES LOTE,
-    cod_comprador      CHAR(5) NOT NULL
-                       REFERENCES COMPRADOR,
-    precio_kg_compra   NUMBER(8,2),
+    cod_lote            CHAR(5) PRIMARY KEY
+                        REFERENCES LOTE,
+    cod_comprador       CHAR(5) NOT NULL
+                        REFERENCES COMPRADOR,
+    precio_kg_compra    NUMBER(8,2),
     precio_total_compra NUMBER(8,2)
-);
+	);
+
 ```
 `cod_lote` es PK porque cada lote solo puede venderse una vez. Cada Lote tiene una Adjudicación exacta.
 
@@ -376,33 +454,37 @@ Esta decisión debería ser secundada por el cliente. Si les interesa hacer este
 
 
 
-## FACTURAS
+# FACTURAS
 
 
-- [ ] Facturas de Pagos que efectúan los compradores por la adquisición de los lotes.
-  - [ ] Cada factura corresponde a un comprador.
-  - [ ] Una factura puede incluir uno o varios lotes.
-  - [ ] Número de factura
-  - [ ] Fecha de emisión
-  - [ ] Importe total.
-  - [ ] Estado (pendiente o pagada).
-  - [ ] Cada lote debe estar en exactamente una factura.
-  - [ ] Un comprador puede tener muchas facturas.
+- [x] Facturas de Pagos (de los compradores por los lotes).
+  - [x] Cada factura corresponde a un comprador.
+  - [x] Una factura puede incluir uno o varios lotes.
+  - [x] Número de factura
+  - [x] Fecha de emisión
+  - [x] Importe total.
+  - [x] Estado (pendiente o pagada).
+  - [x] Cada lote en exactamente una factura.
+  - [x] Un comprador puede tener muchas facturas.
 ```mermaid
 flowchart LR
-  classDef entidad stroke:#404,stroke-width:4px;
-  classDef relacion stroke:#840,stroke-width:2px;
   classDef atributo stroke:#088,stroke-width:2px;
+  classDef derivado stroke-width:3px, stroke-dasharray:3 3;
+  classDef pk stroke:#800,stroke-width:4px;
+  classDef fk stroke:#080,stroke-width:4px;
+  classDef entidad stroke:#404,stroke-width:4px;
+  classDef multientidad stroke:#808,stroke-width:8px;
+  classDef pkfk stroke:#880,stroke-width:4px;
 
   Comprador[COMPRADOR]:::entidad
-  Factura[FACTURA_COMPRADOR]:::entidad
+  Factura[FACTURA_CLIENTE]:::entidad
   Lote[LOTE]:::entidad
   Incluye{INCLUYE}:::relacion
 
-  num_fact([num_factura]):::atributo --> Factura
-  fecha_emision([fecha_emision]):::atributo --> Factura
-  importe_total([importe_total]):::atributo --> Factura
-  estado([pagada]):::atributo --> Factura
+  Factura ---|PK| num_fact([num_factura]):::pk 
+  Factura --- fecha_emision([fecha_emision]):::atributo  
+  Factura --- importe_total([importe_total]):::atributo 
+  Factura --- estado([pagada?]):::atributo 
 
   Factura ---|"(1,N)"| Incluye
   Incluye ---|"(1,1)"| Lote
@@ -412,7 +494,7 @@ flowchart LR
 ```
 
 ```sql
-CREATE TABLE FACTURA_COMPRADOR (
+CREATE TABLE FACTURA_CLIENTE (
     num_factura      	CHAR(10) PRIMARY KEY,
     cod_comprador    	CHAR(5) NOT NULL REFERENCES COMPRADOR,
     fecha_emision    	DATE NOT NULL,
@@ -422,8 +504,8 @@ CREATE TABLE FACTURA_COMPRADOR (
 );
 
 CREATE TABLE INCLUYE (
-    num_factura   CHAR(10) REFERENCES FACTURA_COMPRADOR,
-    cod_lote      CHAR(5)  REFERENCES LOTE,
+    num_factura   CHAR(10) REFERENCES FACTURA_CLIENTE,
+    cod_lote      CHAR(5)  REFERENCES LOTE UNIQUE,
     PRIMARY KEY (num_factura, cod_lote)
 );
 
@@ -436,6 +518,7 @@ Estado Pagada:
 - 1 = pagada
 - `DEFAULT 0` asegura que todas las facturas nuevas comiencen como pendientes.
 - Este campo actúa como booleano (0 = pendiente, 1 = pagada).
+- Guardamos el estado para todas las facturas, aunque solo sea relevante para compradores al contado. Para el grupo que no es de interés se pueden poner como pagadas automaticamente.
   
 Cada comprador puede emitir varias facturas; cada factura agrupa varios lotes.
 
@@ -447,8 +530,8 @@ flowchart LR
   classDef relacion stroke:#840,stroke-width:2px;
   classDef atributo stroke:#088,stroke-width:2px;
 
-  Factura[FACTURA_COMPRADOR]:::entidad
-  Pago[PAGO_COMPRADOR]:::entidad
+  Factura[FACTURA_CLIENTE]:::entidad
+  Pago[VENTA]:::entidad
   Rel{PAGA}:::relacion
 
   id_pago((id_pago)):::atributo --> Pago
@@ -461,29 +544,115 @@ flowchart LR
 ```
 
 ```sql
-CREATE TABLE PAGO_COMPRADOR (
+CREATE TABLE VENTA (
     cod_pago      CHAR(5) PRIMARY KEY,
-    num_factura   CHAR(10) REFERENCES FACTURA_COMPRADOR,
+    num_factura   CHAR(10) REFERENCES FACTURA_CLIENTE,
     fecha         DATE,
     importe       NUMBER(10,2)
-);
+	);
 ```
 
 Una factura pertenece a un único comprador, pero puede incluir varios lotes adquiridos.
 
 Cada lote adjudicado debe aparecer en exactamente una factura.
 
-- [ ] pagos que realiza la lonja a los barcos que entregan la
-pesca diaria
-- [ ] En las facturas emitidas por los barcos,
-- [ ] la lonja almacena además de los datos mencionados de la factura,
-- [ ] el CIF del barco
-- [ ] y los códigos de lote facturados.
 
-- [ ] Los lotes se subastan.
-- [ ] Queremos saber  **qué barco capturó cada lote**,
-- [ ] Los barcos pueden capturar las especies que componen los lotes
-- [ ] Los barcos pueden faenar en diferentes caladeros.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
+# Factura Proveedor
+Las facturas emitidas por los barcos,
+- [ ] la lonja almacena además de los datos mencionados de la factura,
+- [x] el CIF del barco (desde matricula)
+- [x] Los códigos de lote facturados
+- [x] Número de factura
+- [x] Fecha de emisión
+- [x] Importe total.
+
+```mermaid
+flowchart LR
+
+classDef entidad stroke:#404,stroke-width:4px;
+classDef relacion stroke:#840,stroke-width:2px;
+classDef atributo stroke:#088,stroke-width:2px;
+
+Barco[BARCO]:::entidad
+FacturaB[FACTURA_PROVEEDOR]:::entidad
+Lote[LOTE]:::entidad
+Provision{{PROVISION}}:::relacion
+
+FacturaB --- num_fact_b([num_factura]):::atributo  
+FacturaB --- fecha_emision_b([fecha_emision]):::atributo 
+FacturaB --- importe_total_b([importe_total]):::atributo  
+FacturaB --- pagada_b([pagada]):::atributo  
+
+Barco ---|"(1,N)"| FacturaB
+FacturaB ---|"(1,N)"| Provision
+Provision ---|"(1,1)"| Lote
+
+```
+```sql
+CREATE TABLE FACTURA_PROVEEDOR (
+    num_factura  		CHAR(10) PRIMARY KEY,
+    matricula          	CHAR(10) NOT NULL REFERENCES BARCO,
+    fecha_emision      	DATE NOT NULL,
+    importe_total      	NUMBER(10,2),
+    pagada             	NUMBER(1,0) DEFAULT 0
+    -- 0 = pendiente, 1 = pagada
+	);
+
+CREATE TABLE PROVISION (
+    num_factura  			CHAR(10) REFERENCES FACTURA_PROVEEDOR,
+    cod_lote           		CHAR(5)  REFERENCES LOTE UNIQUE,
+    PRIMARY KEY (num_factura, cod_lote)
+	);
+
+CREATE TABLE PAGO_BARCO (
+    cod_pago      CHAR(5) PRIMARY KEY,
+    num_factura   CHAR(10) REFERENCES FACTURA_PROVEEDOR,
+    fecha         DATE,
+    importe       NUMBER(10,2)
+);
+```
+Aunque el enunciado dice que en la factura se almacena el CIF del barco, optamos por guardar el CIF como atributo del BARCO y referenciar el barco desde FACTURA_PROVEEDOR usando su clave actual. 
+Así evitamos redundancia; el CIF es accesible mediante una consulta.
+Otra alternativa sería cambiar la clave principal o hacer una compuesta. Al ser requisitos bastante separados, es posible que sea una confusión del cliente, ya que el campo cif no estaba requerido en la información del barco. Por tanto, técnicamente no está relacionando una entidad con otra añadir el cif a la factura. 
+Considero que esta opción es la más sencilla, y que la interfaz puede presentar está información como el cliente prefiera. Antes de implementar esta decisión de diseño consultaría con el cliente.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
 
 ### 3.1. Modelo ERE.
 A partir de la información descrita en al anterior apartado realizar el diseño del esquema conceptual (ERE) utilizando Microsoft Word o similar para documentarlo. Dicho documento, además de contar con el grafo ERE ajustado a los elementos impartidos en clase, ha de contar con un apartado que indique, razonadamente, todos los supuestos semánticos que se han realizado, y que surgen de la ausencia de información relativa en ellos en el propio enunciado.
@@ -530,8 +699,6 @@ La forma de transformar una relación ternaria del tipo Muchos, Muchos, Muchos (
 En consonancia con lo desarrollado en el anterior apartado, construid el definitivo esquema de base de datos relacional en Access.
 
 ### 4. Formato y fecha de entrega
-Esta práctica se entregará de forma individual. El plazo máximo para la entrega de esta práctica es el 05/11/2025 a las 23:55 horas a través del portal de entrega de tareas de la asignatura
-del acceso identificado de la UMH.
 
 Se entregará un fichero comprimido en formato .zip o .rar cuyo contenido ha de ser:
 
@@ -553,7 +720,7 @@ flowchart LR
   classDef pk stroke:#800,stroke-width:4px;
   classDef entidad stroke:#404,stroke-width:4px;
 
-  %% Atributos FACTURA_COMPRADOR
+  %% Atributos FACTURA_CLIENTE
   subgraph Facturas
   num_fact_c([num_factura PK]):::atributo --> FacturaC
   fecha_emision_c([fecha_emision]):::atributo --> FacturaC
@@ -573,7 +740,7 @@ flowchart LR
   Especie[ESPECIE]:::entidad
   Barco[BARCO]:::entidad
   Comprador[COMPRADOR]:::entidad
-  FacturaC[FACTURA_COMPRADOR]:::entidad
+  FacturaC[FACTURA_CLIENTE]:::entidad
 
   %% Relaciones
   DeEspecie{DE_ESPECIE}:::relacion
@@ -624,14 +791,14 @@ erDiagram
         NUMBER  cuota_anual
     }
 
-    COMPRADOR_CREDITO {
+    CREDITOR {
         CHAR    cod_comprador PK  "FK a COMPRADOR"
         VARCHAR num_cuenta
         NUMBER  importe_acumulado
         DATE    fecha_vencimiento
     }
 
-    COMPRADOR ||--o| COMPRADOR_CREDITO : "tiene_credito"
+    COMPRADOR ||--o| CREDITOR : "tiene_credito"
 
 
     ESPECIE {
@@ -671,8 +838,8 @@ erDiagram
         ID          cod_especie   FK    "ESPECIE"  
         ID          matricula     FK    "BARCO" 
         ID          cod_comprador FK    "COMPRADOR"  
-        ID          num_factura_c FK    "FACTURA_COMPRADOR - STRING"  
-        ID          num_factura_b FK    "FACTURA_BARCO - STRING"  
+        ID          num_factura_c FK    "FACTURA_CLIENTE - STRING"  
+        ID          num_factura_b FK    "FACTURA_PROVEEDOR - STRING"  
         }
 
     %% ======== FAENA (RELACIÓN TERNARIA) ======== %%
@@ -687,7 +854,7 @@ erDiagram
         }
 
     %% ======== FACTURAS Y PAGOS ======== %%
-    FACTURA_COMPRADOR {
+    FACTURA_CLIENTE {
         STRING     num_factura     PK    "ShortText(20)"
         DATE       fecha_emision         ""
         MONEY      importe_total         ""
@@ -695,14 +862,14 @@ erDiagram
         ID         cod_comprador   FK    "COMPRADOR" 
         }
 
-    PAGO_COMPRADOR {
+    VENTA {
         ID          id_pago     PK     "AUTONUM"
         DATE        fecha              ""
         CURRENCY    importe            ""
-        STRING      num_factura FK     "FACTURA_COMPRADOR" 
+        STRING      num_factura FK     "FACTURA_CLIENTE" 
         }
 
-    FACTURA_BARCO {
+    FACTURA_PROVEEDOR {
         STRING   num_factura   PK   "ShortText(20)"
         DATE     fecha_emision      ""
         CURRENCY importe_total      ""
@@ -714,21 +881,21 @@ erDiagram
         INT        id_pago PK      "AUTONUM"
         DATE       fecha           ""
         CURRENCY   importe         ""
-        STRING     num_factura FK  "FACTURA_BARCO" 
+        STRING     num_factura FK  "FACTURA_PROVEEDOR" 
     }
 
     %% ======== RELACIONES Y CARDINALIDADES ======== %%
 
     %% --- Compradores --- %%
     COMPRADOR ||--o{ LOTE : "adjudica"
-    COMPRADOR ||--o{ FACTURA_COMPRADOR : "recibe"
-    FACTURA_COMPRADOR ||--o{ PAGO_COMPRADOR : "pagos"
+    COMPRADOR ||--o{ FACTURA_CLIENTE : "recibe"
+    FACTURA_CLIENTE ||--o{ VENTA : "pagos"
 
     %% --- Barcos --- %%
     BARCO   ||--o{ FAENA : "realiza"
     BARCO   ||--o{ LOTE : "captura"
-    BARCO   ||--o{ FACTURA_BARCO : "emite"
-    FACTURA_BARCO ||--o{ PAGO_BARCO : "pagos"
+    BARCO   ||--o{ FACTURA_PROVEEDOR : "emite"
+    FACTURA_PROVEEDOR ||--o{ PAGO_BARCO : "pagos"
 
     %% --- Especies y Caladeros --- %%
     ESPECIE   ||--o{ LOTE : "clasifica"
@@ -736,44 +903,15 @@ erDiagram
     CALADERO  ||--o{ FAENA : "en"
 
     %% --- Facturas y Lotes --- %%
-    FACTURA_COMPRADOR ||--o{ LOTE : "incluye"
-    FACTURA_BARCO     ||--o{ LOTE : "incluye"
+    FACTURA_CLIENTE ||--o{ LOTE : "incluye"
+    FACTURA_PROVEEDOR     ||--o{ LOTE : "incluye"
 
     %% --- Estilo visual --- %%
     style COMPRADOR_CONTADO stroke:#2962FF,stroke-width:2px
-    style COMPRADOR_CREDITO stroke:#2962FF,stroke-width:2px
+    style CREDITOR stroke:#2962FF,stroke-width:2px
     style COMPRADOR stroke:#2962FF,stroke-width:4px
     style FAENA stroke:#FF9800,stroke-width:2px
-
+```
 
 ```
-# Notas:
-- Los tipos ID son aliases para lo que seguramente debería ser un STRING, pero que representa un código único que bien podría ser un INT o POSITIVE.
-- GEO es un alias para el tipo que se utilice para coordenadas.
-
-# Implementación 
-```sql
-CREATE TABLE ADQUISICION (
-    cod_lote           CHAR(5) REFERENCES LOTE,
-    cod_comprador      CHAR(5) REFERENCES COMPRADOR,
-    precio_kg_compra   NUMBER(8,2),
-    precio_total_compra NUMBER(8,2),
-    PRIMARY KEY (cod_lote, cod_comprador)
-);
-
-CREATE TABLE PAGO_BARCO (
-    cod_pago        CHAR(5) PRIMARY KEY,
-    matricula_barco CHAR(10) REFERENCES BARCO,
-    importe         NUMBER(8,2),
-    fecha           DATE
-);
-
-CREATE TABLE PAGO_COMPRADOR (
-    cod_pago      CHAR(5) PRIMARY KEY,
-    cod_comprador CHAR(5) REFERENCES COMPRADOR,
-    importe       NUMBER(8,2),
-    fecha         DATE
-);
-
-
-```
+ 
