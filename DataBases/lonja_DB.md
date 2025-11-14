@@ -355,7 +355,7 @@ flowchart LR
     Creditor --- fecha_vencimiento([fecha_vencimiento]):::atributo
     end
   cod_comprador--> Comprador
-  Comprador:::entidad
+  Comprador[COMPRADOR]:::entidad
 ```
 #### 📝 Notas de Diseño:
 - Tabla COMPRADOR: todos los compradores, sin distinguir.
@@ -422,7 +422,7 @@ Los lotes se subastan. Cada lote será adquirido por el comprador que realice la
   - [x] Un comprador puede adquirir varios lotes
 
 ```mermaid
-flowchart LR
+flowchart TD
   classDef atributo stroke:#088,stroke-width:2px;
   classDef derivado stroke-width:3px, stroke-dasharray:3 3;
   classDef pk stroke:#800,stroke-width:4px;
@@ -435,21 +435,21 @@ flowchart LR
   Comprador[COMPRADOR]:::entidad
   Adjudicacion{{ADJUDICACIÓN}}:::relacion
 
-  precio_kg([precio_compra_kg]):::atributo --- Adjudicacion
-  precio_total([precio_total]):::atributo --- Adjudicacion
+  Adjudicacion --- precio_kg([precio_compra_kg]):::atributo  
+  Adjudicacion --- precio_total([precio_total]):::atributo 
 
   Lote ---|"(1,1)"| Adjudicacion
-  Adjudicacion ---|"(0,N)"| Comprador
+  Comprador ---|"(0,N)"| Adjudicacion
 
 ```
 ```sql
-CREATE TABLE ADQUISICION (
+CREATE TABLE ADJUDICACION (
     cod_lote            CHAR(5) PRIMARY KEY
                         REFERENCES LOTE,
     cod_comprador       CHAR(5) NOT NULL
                         REFERENCES COMPRADOR,
-    precio_kg_compra    NUMBER(8,2),
-    precio_total_compra NUMBER(8,2)
+    precio_kg		    NUMBER(8,2),
+    precio_total		NUMBER(8,2)
 	);
 
 ```
@@ -462,7 +462,7 @@ Si se modelara la subasta completa, sería necesario realizar la tabla que serí
 
 Esta decisión debería ser secundada por el cliente. Si les interesa hacer este registro, con el coste asociado en memoria y trabajo, se puede implementar una tabla que tendría parametros adecuados (cod_lote, cod_comprador, puja) para seleccionar una puja ganadora. 
 
-
+> Nota: A falta del simbolo en el software para tabla-relación, se ha usado un tag hexagonal largo, ya que su forma recuerda a la conjunción del rectángulo y el rombo.
 
 
 
@@ -496,12 +496,12 @@ flowchart LR
   Comprador[COMPRADOR]:::entidad
   Factura[FACTURA_CLIENTE]:::entidad
   Lote[LOTE]:::entidad
-  Incluye{INCLUYE}:::relacion
+  Incluye{{INCLUYE}}:::relacion
 
   Factura ---|PK| num_fact([num_factura]):::pk 
   Factura --- fecha_emision([fecha_emision]):::atributo  
   Factura --- importe_total([importe_total]):::atributo 
-  Factura --- estado([pagada?]):::atributo 
+  Factura --- pendiente([pendiente]):::atributo 
 
   Factura ---|"(1,N)"| Incluye
   Incluye ---|"(1,1)"| Lote
@@ -516,8 +516,8 @@ CREATE TABLE FACTURA_CLIENTE (
     cod_comprador    	CHAR(5) NOT NULL REFERENCES COMPRADOR,
     fecha_emision    	DATE NOT NULL,
     importe_total    	NUMBER(10,2),
-    pagada           	NUMBER(1,0) DEFAULT 0
-			-- 0 = pendiente, 1 = pagada
+    pendiente           NUMBER(1,0) DEFAULT 0
+			-- 1 = pendiente, 0 = pagada
 );
 
 CREATE TABLE INCLUYE (
@@ -541,6 +541,15 @@ Cada comprador puede emitir varias facturas; cada factura agrupa varios lotes.
 
 Cada lote pertenece a una única factura (por post-adjudicación).
 
+
+
+
+
+
+
+
+
+### Venta
 ```mermaid
 flowchart LR
   classDef entidad stroke:#404,stroke-width:4px;
@@ -551,9 +560,9 @@ flowchart LR
   Pago[VENTA]:::entidad
   Rel{PAGA}:::relacion
 
-  id_pago((id_pago)):::atributo --> Pago
-  fecha((fecha)):::atributo --> Pago
-  importe((importe)):::atributo --> Pago
+  Pago ---|PK| cod_pago((cod_pago)):::pk  
+  Pago --- fecha((fecha)):::atributo 
+  Pago --- importe((importe)):::atributo 
 
    Pago ---|"(1,1)"| Rel
   Rel ---|"(1,N)"| Factura
@@ -649,8 +658,10 @@ CREATE TABLE PAGO_BARCO (
 );
 ```
 Aunque el enunciado dice que en la factura se almacena el CIF del barco, optamos por guardar el CIF como atributo del BARCO y referenciar el barco desde FACTURA_PROVEEDOR usando su clave actual. 
+
 Así evitamos redundancia; el CIF es accesible mediante una consulta.
 Otra alternativa sería cambiar la clave principal o hacer una compuesta. Al ser requisitos bastante separados, es posible que sea una confusión del cliente, ya que el campo cif no estaba requerido en la información del barco. Por tanto, técnicamente no está relacionando una entidad con otra añadir el cif a la factura. 
+
 Considero que esta opción es la más sencilla, y que la interfaz puede presentar está información como el cliente prefiera. Antes de implementar esta decisión de diseño consultaría con el cliente.
 
 
@@ -673,7 +684,9 @@ Considero que esta opción es la más sencilla, y que la interfaz puede presenta
 
 
 ### 3.1. Modelo ERE.
-A partir de la información descrita en al anterior apartado realizar el diseño del esquema conceptual (ERE) utilizando Microsoft Word o similar para documentarlo. Dicho documento, además de contar con el grafo ERE ajustado a los elementos impartidos en clase, ha de contar con un apartado que indique, razonadamente, todos los supuestos semánticos que se han realizado, y que surgen de la ausencia de información relativa en ellos en el propio enunciado.
+A partir de la información descrita en al anterior apartado realizar el diseño del esquema conceptual (ERE).
+
+Dicho documento, además de contar con el grafo ERE ajustado a los elementos impartidos en clase, ha de contar con un apartado que indique, razonadamente, todos los supuestos semánticos que se han realizado, y que surgen de la ausencia de información relativa en ellos en el propio enunciado.
 En definitiva, se trata de incluir, además de los supuestos semánticos que se consideren oportunos para justificar todas las decisiones de diseño y la semántica perdida si la hubiese, los siguientes elementos:
 - Entidades.
 - Interrelaciones (Relaciones).
@@ -687,6 +700,7 @@ participaciones máximas y mínimas.
 - Generalización – Especialización.
 - … en definitiva todos los elementos explicados para los esquemas ERE necesarios para
 reflejar el enunciado los más fielmente posible.
+
 
 ### 3.2. Modelo Relacional.
 Basándose en el esquema conceptual (Modelo ERE) desarrollado en el anterior apartado
@@ -728,7 +742,7 @@ perdida.
    1. El fichero Microsoft Visio con el diseño del modelo relacional.
    2. Las base de datos de Access que se construya a partir del modelo relacional.
    
-# Diagrama
+# Diagrama Global
 
 
 
