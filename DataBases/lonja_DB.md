@@ -492,6 +492,8 @@ flowchart LR
   classDef entidad stroke:#404,stroke-width:4px;
   classDef multientidad stroke:#808,stroke-width:8px;
   classDef pkfk stroke:#880,stroke-width:4px;
+  classDef relacion stroke:#840,stroke-width:4px;
+
 
   Comprador[COMPRADOR]:::entidad
   Factura[FACTURA_CLIENTE]:::entidad
