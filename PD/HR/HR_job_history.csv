@@ -1,0 +1,11 @@
+employee_id,start_date,end_date,job_id,department_id
+102,Wed Jan 13 1993 01:00:00 GMT+0100 (Central European Standard Time),Fri Jul 24 1998 02:00:00 GMT+0200 (Central European Summer Time),IT_PROG,60
+101,Thu Sep 21 1989 02:00:00 GMT+0200 (Central European Summer Time),Wed Oct 27 1993 01:00:00 GMT+0100 (Central European Standard Time),AC_ACCOUNT,110
+101,Thu Oct 28 1993 01:00:00 GMT+0100 (Central European Standard Time),Sat Mar 15 1997 01:00:00 GMT+0100 (Central European Standard Time),AC_MGR,110
+201,Sat Feb 17 1996 01:00:00 GMT+0100 (Central European Standard Time),Sun Dec 19 1999 01:00:00 GMT+0100 (Central European Standard Time),MK_REP,20
+114,Tue Mar 24 1998 01:00:00 GMT+0100 (Central European Standard Time),Fri Dec 31 1999 01:00:00 GMT+0100 (Central European Standard Time),ST_CLERK,50
+122,Fri Jan 01 1999 01:00:00 GMT+0100 (Central European Standard Time),Fri Dec 31 1999 01:00:00 GMT+0100 (Central European Standard Time),ST_CLERK,50
+200,Thu Sep 17 1987 02:00:00 GMT+0200 (Central European Summer Time),Thu Jun 17 1993 02:00:00 GMT+0200 (Central European Summer Time),AD_ASST,90
+176,Tue Mar 24 1998 01:00:00 GMT+0100 (Central European Standard Time),Thu Dec 31 1998 01:00:00 GMT+0100 (Central European Standard Time),SA_REP,80
+176,Fri Jan 01 1999 01:00:00 GMT+0100 (Central European Standard Time),Fri Dec 31 1999 01:00:00 GMT+0100 (Central European Standard Time),SA_MAN,80
+200,Fri Jul 01 1994 02:00:00 GMT+0200 (Central European Summer Time),Thu Dec 31 1998 01:00:00 GMT+0100 (Central European Standard Time),AC_ACCOUNT,90
