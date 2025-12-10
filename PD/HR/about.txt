@@ -1,0 +1,1 @@
+This folder contains csv files of the HR database of the Practica 2 excercise of UMH's 2025 Fund. de Bases de Datos class.
