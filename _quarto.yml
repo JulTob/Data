@@ -7,10 +7,14 @@ book:
   author: "Julio Toboso"
   chapters:
     - index.qmd
-    - part: "Start Here!"
+    - part: "Sample Space"
       chapters:
-        - README.md
-     
+        - sample-space/index.qmd
+        - sample-space/maps-and-reality.qmd
+        - sample-space/randomness-and-pattern.qmd
+        - sample-space/outcomes-and-events.qmd
+        - sample-space/finite-and-infinite.qmd
+        - sample-space/kolmogorov.qmd     
     
 format:
   html:
