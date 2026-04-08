@@ -1,8 +1,9 @@
 project:
   type: book
+  output-dir: _book
 
 book:
-  title: "Data Science"
+  title: "Data"
   author: "Julio Toboso"
   chapters:
     - index.qmd
@@ -13,7 +14,7 @@ book:
     
 format:
   html:
-    theme: simplex
+    theme: lux
     code-copy: true
     code-fold: show
 
