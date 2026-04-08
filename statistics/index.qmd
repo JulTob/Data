@@ -1,0 +1,66 @@
+---
+title: "Statistics"
+---
+
+Statistics begins where certainty ends, but not where thought fails.
+
+Probability studies what may happen.  
+Statistics studies what can be learned from what has happened.
+
+That difference is small in wording and enormous in meaning.
+
+A probability model begins with a space of possibilities.  
+A statistical inquiry begins with traces: measurements, observations, counts, records, errors, signals, fragments of a process already gone.
+
+The world acts once.  
+We arrive later, with data.
+
+🏵 This is the central tension of statistics:
+
+- reality is rich
+- observation is limited
+- variation is everywhere
+- knowledge is still possible
+
+Statistics is the disciplined attempt to read structure from incomplete contact.
+
+Not to replace the world with formulas.  
+Not to worship data as if every spreadsheet were truth.  
+But to build careful bridges from observation to understanding.
+
+A list of numbers is not yet statistics.  
+A graph is not yet statistics.  
+A mean is not yet statistics.
+
+Statistics begins when we ask:
+
+- What process could have produced this?
+- What kind of variation is present?
+- What is signal, and what is noise?
+- What can be concluded, and what must remain uncertain?
+
+🔰 A world without variation would need no statistics.  
+A world without pattern would permit none.
+
+Statistics exists because both are true at once:
+
+- things differ
+- and those differences are not pure chaos
+
+This Part is about that middle territory.
+
+About variation, uncertainty, distributions, models, and methods.  
+About the forms in which data spreads, clusters, fluctuates, and surprises.  
+About how we move from raw observation to structured reasoning.
+
+Statistics is often taught as a toolbox.  
+It is better understood as a way of seeing.
+
+A statistical mind does not merely calculate.  
+It asks what generated the data, what assumptions are being made, what distinctions matter, and what kind of error one is willing to tolerate.
+
+⚜️ The aim is not to remove uncertainty.
+
+It is to give uncertainty shape.
+
+And that is one of the deepest things mathematics can do.
