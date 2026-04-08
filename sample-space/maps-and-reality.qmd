@@ -1,0 +1,92 @@
+---
+title: "Maps and Reality"
+---
+
+## 🏵 The map is not the thing, but neither is the thing silent
+
+Probability begins with a tension:
+
+- reality overflows
+- models simplify
+
+A map leaves things out.  
+A coordinate system leaves things out.  
+A dataset leaves things out.  
+A sample space leaves things out.
+
+And yet this is not failure. It is the condition of thought.
+
+A model is not reality itself.  
+But it is not arbitrary either.  
+It is an organized response to interaction.
+
+☯ A common temptation is to imagine that reality is a hidden core behind all appearances, 
+and that models are pale shadows floating above it. 
+But this picture is not the one we will take here.
+
+The view of this book is more relational:
+
+> reality is not a mute essence sitting behind the world.  
+> reality is interaction, change, signal, effect.
+
+Fields are not little solid objects.  
+Energy is not a substance sitting still.  
+Matter itself dissolves under analysis into structures of relation, excitation, transformation, and constraint.
+
+⚜️ So the important thing is not to hunt for a final tiny object that is “really real,” but to understand that:
+
+- what interacts leaves traces
+- what leaves traces can be distinguished
+- what can be distinguished can enter a model
+- what enters a model becomes data
+
+In that sense, data is not fiction.  
+It is the residue of contact.
+
+## 🔰 A sample space as a map of distinctions
+
+A sample space is not reality in full.  
+It is a **map of possible distinctions** within a chosen frame.
+
+If we toss a coin and record only:
+
+- Head
+- Tail
+
+then our model does not deny air resistance, angular momentum, sound, or force.
+
+It simply says:
+
+> these are not the distinctions that matter here.
+
+This is why sample spaces are never absolute.  
+They are always made **for a purpose**.
+
+⚙️ The same physical phenomenon can generate many valid sample spaces:
+
+- a die as `{1,2,3,4,5,6}`
+- a die as `{even, odd}`
+- a die as the real-valued stopping angle
+- a die as the vector of forces during impact
+
+The world is richer than any one model.  
+But the model is not false merely because it is partial.
+
+It becomes false only when the distinctions it ignores are precisely the ones that matter.
+
+## 💡 The first discipline of probability
+
+Before asking:
+
+> what is the probability?
+
+one must ask:
+
+> of what space?  
+> under what distinctions?  
+> relative to what resolution of the world?
+
+This is rigor.
+
+Probability theory does not float above reality.  
+It starts with the disciplined construction of a world small enough to think about and rich enough to matter.
