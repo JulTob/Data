@@ -1,0 +1,111 @@
+---
+title: "Outcomes and Events"
+---
+
+## 🏵 Outcome and event are not the same thing
+
+This distinction is one of the most important in probability.
+
+An **outcome** is one fully specified result.  
+An **event** is a collection of outcomes sharing some property.
+
+If a die is rolled, then:
+
+- `4` is an outcome
+- “an even number appears” is an event
+- “the result is greater than 2” is an event
+
+So an event is not a single thing that happened.  
+It is a set of ways something could happen.
+
+⚙️ Formally, if the sample space is `Ω`, then an outcome is an element `ω ∈ Ω`, while an event is a subset `Event ⊆ Ω`.
+
+## 🔰 Why this matters
+
+Outcomes are often random.  
+Events can be structurally sharp.
+
+For a die roll:
+
+- the outcome is uncertain
+- the event “the result is even” is perfectly well defined
+
+This leads to a beautiful tension:
+
+> the final result may be random, while the property we ask about is exact.
+
+In that sense, randomness in outcomes can produce deterministic questions.
+
+The uncertainty lies in **which outcome occurs**.  
+The event itself is a crisp logical filter.
+
+## ☯ Event as predicate
+
+An event can be understood in two equivalent ways:
+
+- as a **set** of outcomes
+- as a **property** that an outcome may satisfy
+
+For example:
+
+> “the measured temperature exceeds 30°C”
+
+is a property, but it also defines a set of all outcomes for which that statement is true.
+
+This is where logic enters probability.
+
+An event is a yes/no question asked of the world after the world resolves into an outcome.
+
+## 💡 Examples
+
+If:
+
+$$
+\Omega = \{1,2,3,4,5,6\}
+$$
+
+then the event
+
+$$
+A = \{2,4,6\}
+$$
+
+means:
+
+> the die shows an even number
+
+and the event
+
+$$
+B = \{4,5,6\}
+$$
+
+means:
+
+> the die shows a value greater than 3
+
+The outcome is the final face.  
+The event is the structural statement.
+
+## ⚜️ A deeper point
+
+This distinction explains why probability is not about isolated facts, but about organized families of questions.
+
+We do not only want to know what may happen.  
+We want to know what collections of outcomes are meaningful enough to discuss.
+
+That is why probability does not stop at `Ω`.  
+It must also specify which subsets of `Ω` count as valid events.
+
+That second structure will later become `𝒜`.
+
+## ⚠️ Philosophical caution
+
+An outcome is not reality in full.  
+It is reality as resolved inside a model.
+
+An event is not a vague narrative.  
+It is a precise partition of possibilities.
+
+Once this is understood, sample space becomes more than a list.  
+It becomes a grammar of what may happen and what may be asked.
