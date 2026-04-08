@@ -14,8 +14,21 @@ book:
         - sample-space/randomness-and-pattern.qmd
         - sample-space/outcomes-and-events.qmd
         - sample-space/finite-and-infinite.qmd
-        - sample-space/kolmogorov.qmd     
-        
+        - sample-space/kolmogorov.qmd   
+    - part: "Statistics"
+      chapters:
+        - statistics/index.qmd
+        - statistics/statistical-thinking.qmd
+        - statistics/variation.qmd
+        - statistics/uncertainty.qmd
+        - statistics/distributions/index.qmd
+        - statistics/distributions/normal.qmd
+        - statistics/distributions/student.qmd
+        - statistics/distributions/lognormal.qmd
+        - statistics/distributions/pareto.qmd
+        - statistics/distributions/binomial.qmd
+        - statistics/statistical-modeling.qmd
+        - statistics/statistical-methods.qmd        
     
 format:
   html:
