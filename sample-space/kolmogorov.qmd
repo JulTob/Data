@@ -10,8 +10,7 @@ $$
 (\Omega, \mathcal{A}, \mathbb{P})
 $$
 
-These are not mere symbols.  
-They are the skeleton of the theory.
+These symbols are the skeleton of the theory.
 
 - `Ω` is the **sample space**
 - `𝒜` is the **collection of events**
