@@ -1,0 +1,20 @@
+project:
+  type: book
+
+book:
+  title: "Data Science"
+  author: "Julio Toboso"
+  chapters:
+    - index.qmd
+    - part: "Start Here!"
+      chapters:
+        - README.md
+     
+    
+format:
+  html:
+    theme: simplex
+    toc: true
+
+execute:
+  execute-notebooks: freeze
