@@ -1,0 +1,299 @@
+---
+title: "Statistical Methods"
+---
+
+Statistics is often introduced through methods:
+
+- collect data
+- compute summaries
+- run a test
+- fit a model
+- report a result
+
+But this order, while practical, can be misleading.
+
+It makes methods look like recipes.  
+And statistics is not a cookbook.
+
+A method is not just a sequence of operations.  
+It is a disciplined response to a kind of problem.
+
+🏵 Statistical methods are best understood as structured paths from question to judgement.
+
+That path matters more than any isolated formula.
+
+---
+
+## 🔰 Problem before technique
+
+A method has meaning only relative to a problem.
+
+Before asking:
+
+- what test?
+- what estimator?
+- what model?
+
+one must ask:
+
+- what is the question?
+- what is the process?
+- what is being measured?
+- what level of uncertainty matters?
+- what kind of answer is actually needed?
+
+This sounds obvious, but it is one of the most neglected truths in practice.
+
+A powerful technique applied to the wrong question is not sophistication.  
+It is misalignment.
+
+---
+
+## ☯ The statistical path
+
+A statistical inquiry often moves through stages like these:
+
+1. **Identification**  
+   What phenomenon is being studied?
+
+2. **Measurement**  
+   How will it be observed or recorded?
+
+3. **Compilation**  
+   How will observations be gathered and organized?
+
+4. **Summarization**  
+   What compressed views reveal structure?
+
+5. **Analysis**  
+   What relations, patterns, or deviations are present?
+
+6. **Modeling**  
+   What formal structure could generate such data?
+
+7. **Inference**  
+   What can be said beyond the observed sample?
+
+8. **Interpretation**  
+   What does the result mean in the world?
+
+9. **Decision**  
+   What should be done, believed, revised, or tested next?
+
+This is not always linear.  
+Often the process loops back on itself.
+
+A failed model changes the summary.  
+A poor measurement changes the entire question.  
+A surprising residual plot reopens the structure of the process.
+
+⚜️ Statistics is not a straight corridor.  
+It is a feedback system.
+
+---
+
+## ⚙️ Scientific method and statistics
+
+Statistics lives naturally inside the broader scientific method.
+
+Science asks:
+
+- what is happening?
+- why?
+- under what conditions?
+- what explanation survives confrontation with evidence?
+
+Statistics provides the disciplined language through which evidence is organized.
+
+In that sense, it is close to the Popperian spirit, though not reducible to it.
+
+A good model is not “proven true.”  
+It is tested for adequacy, challenged by data, compared to alternatives, and judged by how well it survives criticism.
+
+This makes statistics one of the great instruments of intellectual restraint.
+
+It does not let explanation drift free from evidence.  
+It forces ideas to pass through contact with variation.
+
+---
+
+## 💡 Statistical thinking as process-thinking
+
+The deepest statistical habit is not calculation.
+
+It is process-thinking.
+
+Data is not an isolated object.  
+It is the trace of something that happened.
+
+So statistical reasoning asks:
+
+- what produced these values?
+- what changed through time?
+- what constraints shaped the observations?
+- what feedbacks are hidden inside the variation?
+- what would repetition look like?
+
+This is why good statistical work is always more than numerical.
+
+It is causal in curiosity, structural in attention, and modest in conclusion.
+
+---
+
+## 🪄 Interconnection
+
+Statistical ideas are not separate islands.
+
+Measurement affects variation.  
+Variation shapes uncertainty.  
+Uncertainty constrains inference.  
+Inference depends on models.  
+Models depend on assumptions.  
+Assumptions depend on how the process is understood.
+
+Everything touches everything.
+
+This is one of the reasons statistics can feel difficult at first.  
+Its parts only fully make sense together.
+
+But this is also what makes it powerful.
+
+Statistics is not a bag of tools.  
+It is an interconnected way of seeing processes through data.
+
+---
+
+## ⚠️ The violinist lesson
+
+Sometimes the failure of a method is not lack of precision, but wrong alignment.
+
+Imagine an orchestra that has accelerated slightly.
+
+A violinist who follows the original rhythm with perfect exactness is now making a mistake.
+
+Why?
+
+Because correctness in isolation is no longer correctness in context.
+
+This is one of the best metaphors for bad statistical practice.
+
+A method may be internally exact and externally wrong.
+
+A model can fit a local target and miss the process.  
+A measurement can be precise and irrelevant.  
+A summary can be mathematically correct and conceptually unfaithful.
+
+⚜️ Statistical method is not the worship of exactness.
+
+It is the discipline of relevant exactness.
+
+That is much harder, and much wiser.
+
+---
+
+## 🔰 Methods are choices under loss
+
+Every method chooses what to preserve and what to sacrifice.
+
+A mean preserves center and loses shape.  
+A variance preserves spread and loses direction.  
+A model preserves selected structure and discards the rest.  
+A hypothesis test preserves a decision rule while compressing richer uncertainty into a statistic.
+
+So no method is neutral.
+
+Every method is an act of reduction guided by purpose.
+
+This is why statistical education should never ask only:
+
+> how do we compute this?
+
+It should also ask:
+
+> what does this method see?  
+> what does it ignore?  
+> what kind of mistake is it willing to make?
+
+---
+
+## ☯ Description, explanation, inference
+
+Statistical methods operate across at least three modes:
+
+### Description
+What does the data look like?
+
+### Explanation
+What structure might account for that shape?
+
+### Inference
+What can be said beyond the observed data?
+
+These are related, but not identical.
+
+A histogram describes.  
+A regression model may explain.  
+A confidence interval supports inference.
+
+Confusion begins when one mode is mistaken for another.
+
+A description is not automatically an explanation.  
+An explanation is not automatically a justified inference.  
+A formal inference is not automatically meaningful in the real process.
+
+Good method keeps these layers visible.
+
+---
+
+## ⚙️ The method must fit the question
+
+Different questions need different methods.
+
+- If the question is about **center**, use methods that stabilize center.
+- If it is about **spread**, emphasize variation.
+- If it is about **shape**, distributions matter.
+- If it is about **relationship**, modeling matters.
+- If it is about **decision under evidence**, testing or interval methods may matter.
+- If it is about **process change**, dynamic methods matter.
+
+This sounds simple, but it is the heart of applied statistics.
+
+There is no universal best method.  
+There is only a better or worse fit between method and problem.
+
+---
+
+## 💡 What makes a method good?
+
+A good statistical method is not merely one that is mathematically elegant.
+
+It should also be:
+
+- appropriate to the process
+- transparent in its assumptions
+- sensitive to relevant uncertainty
+- robust enough for the scale of the problem
+- interpretable in context
+
+Sometimes the simplest method is the best because it preserves meaning.  
+Sometimes a more sophisticated method is necessary because the structure demands it.
+
+The answer is not given in advance.  
+It emerges from the interplay of question, data, and world.
+
+---
+
+## 🏵 Final thought
+
+Statistical methods are not rituals for producing respectable-looking numbers.
+
+They are disciplined routes by which questions encounter evidence.
+
+At their best, they do not merely calculate.  
+They orient thought.
+
+They teach us to move carefully from observation to structure, from structure to uncertainty, and from uncertainty to judgement.
+
+And that is why statistics, properly understood, is not only technical.
+
+It is a method of intellectual responsibility.
