@@ -14,7 +14,8 @@ book:
 format:
   html:
     theme: simplex
-    toc: true
+    code-copy: true
+    code-fold: show
 
 execute:
-  execute-notebooks: freeze
+  execute-notebooks: auto
