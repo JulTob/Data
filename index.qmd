@@ -1,0 +1,34 @@
+# Data
+
+Data is the faint imprint the world leaves when it touches measurement.
+
+A star flickers. A market stirs. A patient breathes. A machine warms. A student answers. A planet bends light by a fraction too small for the eye to see. And yet, each event leaves a trace: a number, a category, a timestamp, a signal, a difference. Data is that trace.
+
+It is tempting to think of data as cold: rows, columns, files, records. But data is not born in spreadsheets. It begins in reality, in variation, in uncertainty, in repetition, in surprise. Before it is stored, cleaned, modeled, or explained, it is simply this: **the world becoming legible**.
+
+This book begins there.
+
+Not with tools first, nor with software, nor with the rituals of technique, but with the thing itself. What data is. Why it exists. What it preserves, what it loses, and why so much of understanding depends on learning to read it well.
+
+To study data is to study the boundary between chaos and pattern.
+Between noise and structure.
+Between what happened, and what can be known.
+
+A good dataset is never the world itself. It is a translation.
+And every translation has grammar, distortion, omission, and power.
+
+So this is a book about marks that stand for things. About measurements that pretend to capture motion, populations, choices, errors, lives. About the subtle miracle by which scattered observations can become knowledge.
+
+Data is humble. A list of values can look trivial.
+And yet from such lists we infer storms, epidemics, galaxies, inequalities, habits, failures, and laws.
+
+This is why data matters.
+
+Because somewhere between a raw observation and an idea, there is a transformation:
+from fact to form,
+from form to pattern,
+from pattern to meaning.
+
+And that transformation is one of the great intellectual adventures.
+
+Welcome to **Data**.
