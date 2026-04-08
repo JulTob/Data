@@ -6,7 +6,6 @@ book:
   title: "Data"
   author: "Julio Toboso"
   chapters:
-    - index.qmd
     - part: "Start Here!"
       chapters:
         - README.md
