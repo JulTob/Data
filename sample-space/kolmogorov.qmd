@@ -1,0 +1,188 @@
+---
+title: "Kolmogorov: Ω, 𝒜, ℙ"
+---
+
+## 🏵 The formal frame
+
+Probability becomes rigorous when three objects are specified:
+
+$$
+(\Omega, \mathcal{A}, \mathbb{P})
+$$
+
+These are not mere symbols.  
+They are the skeleton of the theory.
+
+- `Ω` is the **sample space**
+- `𝒜` is the **collection of events**
+- `ℙ` is the **probability measure**
+
+Together, they say:
+
+- what may happen
+- what may meaningfully be asked
+- how likelihood is assigned
+
+## 🔰 Ω — the space of possible outcomes
+
+`Ω` is the universe of outcomes under the chosen model.
+
+Examples:
+
+- coin toss: `Ω = {Head, Tail}`
+- die roll: `Ω = {1,2,3,4,5,6}`
+- waiting time: `Ω = [0,\infty)`
+- measurement: `Ω = \mathbb{R}`
+
+This is the first act of modeling: define the space of possible resolution.
+
+## ⚙️ 𝒜 — the events we are allowed to talk about
+
+Not every subset is always manageable, especially in continuous spaces.
+
+So Kolmogorov introduces a selected family of subsets:
+
+$$
+\mathcal{A} \subseteq \mathcal{P}(\Omega)
+$$
+
+called a **σ-algebra**.
+
+A σ-algebra is a collection of events such that:
+
+1. `Ω ∈ 𝒜`
+2. if `Event ∈ 𝒜`, then `Event^c ∈ 𝒜`
+3. if `Event_1, Event_2, Event_3, \dots ∈ 𝒜`, then
+
+$$
+\bigcup_{n=1}^{\infty} Event_n \in \mathcal{A}
+$$
+
+From these rules, intersections and differences also become allowed.
+
+⚜️ This may seem technical, but the idea is simple:
+
+> `𝒜` is the family of questions stable under logic and limits.
+
+Probability needs not only possibilities, but a disciplined language of events.
+
+## ☯ ℙ — probability as measure
+
+Now comes `ℙ`.
+
+$$
+\mathbb{P}: \mathcal{A} \to [0,1]
+$$
+
+This means:
+
+- each allowed event receives a number between `0` and `1`
+
+and that assignment must satisfy the Kolmogorov axioms:
+
+### 1. Non-negativity
+For every `Event ∈ 𝒜`,
+
+$$
+\mathbb{P}(Event) \ge 0
+$$
+
+### 2. Normalization
+The whole sample space has probability `1`:
+
+$$
+\mathbb{P}(\Omega) = 1
+$$
+
+### 3. Countable additivity
+If `Event_1, Event_2, Event_3, \dots` are pairwise disjoint, then
+
+$$
+\mathbb{P}\left(
+\bigcup_{n=1}^{\infty} Event_n
+\right)
+=
+\sum_{n=1}^{\infty}
+\mathbb{P}(Event_n)
+$$
+
+This is the heart of the theory.
+
+Probability respects decomposition.
+
+## 💡 Why this structure is beautiful
+
+Kolmogorov does not tell us what reality “really is.”  
+He does something subtler and more powerful.
+
+He tells us what a coherent theory of uncertainty must look like.
+
+A probability space is not a final metaphysics.  
+It is a formal contract between:
+
+- possibility
+- logic
+- measure
+
+That is why the structure feels inevitable.
+
+Once one has:
+
+- outcomes
+- events
+- stable composition of events
+- numerical assignment
+
+the axioms almost force themselves.
+
+## 🪄 Example: a fair die
+
+Let
+
+$$
+\Omega = \{1,2,3,4,5,6\}
+$$
+
+Let `𝒜` be all subsets of `Ω`.
+
+Then define `ℙ` by:
+
+$$
+\mathbb{P}(Event) = \frac{|Event|}{6}
+$$
+
+for every event `Event ⊆ Ω`.
+
+Then:
+
+- `ℙ({2,4,6}) = 3/6 = 1/2`
+- `ℙ({1}) = 1/6`
+- `ℙ(\Omega) = 1`
+
+This is the finite case.
+
+In continuous spaces the idea remains, but counting is replaced by measure.
+
+## ⚠️ Final lesson
+
+The move from everyday chance to formal probability is the move from:
+
+- vague possibility  
+to
+- structured possibility
+
+The Kolmogorov framework gives probability its modern form because it joins:
+
+- the ontology of outcomes: `Ω`
+- the logic of events: `𝒜`
+- the arithmetic of uncertainty: `ℙ`
+
+And with that, probability becomes ready for everything that follows:
+
+- random variables
+- distributions
+- expectation
+- convergence
+- stochastic processes
+
+All of them begin here.
