@@ -32,7 +32,8 @@ jobs:
             ipywidgets \
             jupyter \
             nbformat \
-            pandas
+            pandas \
+            plotly
             
       - name: Check out repository
         uses: actions/checkout@v4
