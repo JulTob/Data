@@ -2,7 +2,7 @@
 
 Data is the faint imprint the world leaves when it touches measurement.
 
-A star flickers. A market stirs. A patient breathes. A machine warms. A student answers. A planet bends light by a fraction too small for the eye to see. And yet, each event leaves a trace: a number, a category, a timestamp, a signal, a difference. Data is that trace.
+A star flickers. A market stirs. A patient breathes. A machine turns its gears. A student answers. A planet bends light by a fraction too small for the eye to see. And yet, each event leaves a trace: a number, a category, a timestamp, a signal, a change, a difference. Data is that trace.
 
 It is tempting to think of data as cold: rows, columns, files, records. But data is not born in spreadsheets. It begins in reality, in variation, in uncertainty, in repetition, in surprise. Before it is stored, cleaned, modeled, or explained, it is simply this: **the world becoming legible**.
 
