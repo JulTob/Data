@@ -2,103 +2,125 @@
 title: "Types and Sample Spaces"
 ---
 
-A set can hold anything.
-It can hold symbols, numbers, stories, or worlds.
+A set can hold anything:
+Symbols, numbers, stories, or worlds.
 
-So before we talk about outcomes,
-we must answer a deeper question:
+And formally, probability begins with sets.
 
-What *kind* of things* are our outcomes?
+But a quieter, usually silenced, question comes first:
 
-This is the question of **type**.
+Why do we need sets?
+
+This is the question of **Types**.
 
 ---
 
-### 🔰 Type is structure
+### 🔰 What is a Type?
 
-A type is not decoration.
-It is meaning.
+Well, a type defines a structure. 
 
-A Boolean type has equality, but not magnitude.
+It tells us what counts as a possible value, what kinds of comparisons make sense, and what operations are allowed. It Builds an Algebra. It Produces a System. 
 
-A category type has labels, but not a ruler.
+In that sense, Type is meaning.
 
-An ordinal type has an order, but no consistent notion of distance.
+⚜️ To choose a type is to choose what can be known, compared, and transformed.
 
-A number type lives inside an algebraic world:
-we can add, scale, invert, compare.
+Different types describe different kinds of data, and not all data behaves the same.
 
-Change the type, and you change what is lawful.
-You change what statements even make sense.
+When you ask a yes-or-no question, you are working with a **Boolean type**:
+- `true` or `false`
+- Equality makes sense
+- but magnitude usually does not
 
-And you change what models are allowed.
+When you classify without ranking, you are working with a **nominal** or **categorical type**: Species of Fish, Country of Origin, or Favourite Color.
+
+These are labels, not measurements. Is Trout better than Salmon? Green less than Red? There is no natural answer. 
+
+In a Nominal or Category Type:
+- labels matter
+- equality matters
+- but there is no natural notion of greater or less
+
+When categories come with order, you have an **Ordinal Type**:
+small, medium, large;
+low, medium, high;
+expensive, neutral, cheap;
+first, second, third...
+
+We may disagree on thresholds, but we can still compare.
+
+- order matters
+- but distance is not yet stable or measurable
+
+
+
+When values support arithmetic, you enter a **Numerical type**.
+
+Not all Numbers are fit for all data. Here it helps to distinguish two common cases:
+
+- An **interval scale** supports meaningful differences  
+  (for example, temperature in Celsius: the difference between 10° and 20° is meaningful, but 20° is not “twice as hot” as 10°).
+
+- A **ratio scale** has a meaningful zero, so multiplication and division also make sense  
+  (for example, mass, length, duration).
+
+⚜️ Change the type, and you change what is possible.
+
+Not only what is true, but what can even be asked.
 
 ---
 
 ### 💡 Types are alphabets
 
-If reality is a signal, a type is the alphabet.
+When reality speaks to us, what we percieve is a **signal**. 
+A type is the alphabet in which that signal is written.
 
-A dice roll has an alphabet of six symbols.
+A dice roll speaks in six symbols.
 
-A day of the week has an alphabet of seven symbols.
+$$
+\{⚀ ⚁ ⚂ ⚃ ⚄ ⚅\}
+$$
 
-A real measurement has an alphabet so dense we treat it as continuous.
+A weekday has an alphabet of seven symbols: Monday to Sunday.
 
-We are not just counting possibilities.
-We are choosing an alphabet with rules.
+A measured length may speak in decimals. Sometimes, a real measurement has an alphabet so masive, so dense, we treat it as an unbroken continuous.
 
-Those rules are where probability learns to live.
+So when we define a measurement, we are also choosing a language. And every language comes with rules.
 
----
-
-### ⚙️ Type precedes probability
-
-A probability measure does not fall out of the sky.
-It is defined on **events**.
-
-Events are subsets of the sample space.
-
-But “subset” is only meaningful once the members of Ω are typed,
-so we can sensibly compare, group, and reason about them.
-
-So the order is:
-
-type first,
-then outcomes and events,
-then probability.
+Those rules are where probability begins to take form.
 
 ---
 
-### 🪄 Parameters become possible later
+### ⚙️ From type to sample space
 
-We will later talk about **parameters**.
+Once a type is chosen, we can describe the **sample space**.
 
-Parameters are not outcomes.
-They are coordinates inside a family of distributions.
+A **sample space** is the set of all possible outcomes of an experiment. 
 
-But you can’t even define such a family
-until the outcomes are typed.
+The important point is that the sample space is not chosen in a vacuum.
+It depends on the type of outcome we are describing.
 
-Type chooses what shapes are possible.
-Type chooses what geometry “shape” even has.
-
-Parameters are the knobs on a machine,
-but the type is the blueprint that tells you what machine you built.
+This matters because probability is assigned to **events**, not directly to “types.”
+But type tells us what outcomes are available and what kinds of events or measurements make sense.
 
 ---
 
 ### ☯ A closing thought
 
-We often think data is numbers.
+We often think data is the same as numbers. That is not always true. 
 
-But data is not a number.
-Data is an agreement about *what counts as* a number,
-and what counts as a category,
-and what counts as a signal.
+Data can be logical, categorical, ordinal, symbolic, numerical, or something richer still.
+
+Data is the basis of decisions, of information, of knowledge, of **meaning**. Without structure, numbers don't _mean_ anything.
+
+A type is an agreement about what counts as a value,
+what counts as a comparison,
+what counts as a measurement,
+what counts as a signal.
+
+It is an agreement on the maps of meaning. 
+
+From that agreement, outcomes can be named, events can be formed, decisions can be made, and randomness can be understood.
 
 That agreement is type.
 
-Only then do outcomes become outcomes,
-and events become events,
-and randomness can be discussed with clarity.
