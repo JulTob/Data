@@ -12,6 +12,7 @@ book:
         - sample-space/index.qmd
         - sample-space/maps-and-reality.qmd
         - sample-space/randomness-and-pattern.qmd
+        - sample-space/types.qmd
         - sample-space/outcomes-and-events.qmd
         - sample-space/finite-and-infinite.qmd
         - sample-space/kolmogorov.qmd   
