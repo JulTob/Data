@@ -23,7 +23,16 @@ jobs:
         run: |
           python3 -m pip install --upgrade pip
           python3 -m pip install jupyter nbformat
-    
+
+      - name: Install Python dependencies
+        run: |
+          pip install \
+            numpy \
+            matplotlib \
+            ipywidgets \
+            jupyter \
+            nbformat
+            
       - name: Check out repository
         uses: actions/checkout@v4
 
@@ -37,14 +46,7 @@ jobs:
         uses: actions/upload-pages-artifact@v4
         with:
           path: _book
-      - name: Install Python dependencies
-        run: |
-          pip install \
-            numpy \
-            matplotlib \
-            ipywidgets \
-            jupyter \
-            nbformat
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
