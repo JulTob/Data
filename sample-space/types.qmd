@@ -1,0 +1,104 @@
+---
+title: "Types and Sample Spaces"
+---
+
+A set can hold anything.
+It can hold symbols, numbers, stories, or worlds.
+
+So before we talk about outcomes,
+we must answer a deeper question:
+
+What *kind* of things* are our outcomes?
+
+This is the question of **type**.
+
+---
+
+### 🔰 Type is structure
+
+A type is not decoration.
+It is meaning.
+
+A Boolean type has equality, but not magnitude.
+
+A category type has labels, but not a ruler.
+
+An ordinal type has an order, but no consistent notion of distance.
+
+A number type lives inside an algebraic world:
+we can add, scale, invert, compare.
+
+Change the type, and you change what is lawful.
+You change what statements even make sense.
+
+And you change what models are allowed.
+
+---
+
+### 💡 Types are alphabets
+
+If reality is a signal, a type is the alphabet.
+
+A dice roll has an alphabet of six symbols.
+
+A day of the week has an alphabet of seven symbols.
+
+A real measurement has an alphabet so dense we treat it as continuous.
+
+We are not just counting possibilities.
+We are choosing an alphabet with rules.
+
+Those rules are where probability learns to live.
+
+---
+
+### ⚙️ Type precedes probability
+
+A probability measure does not fall out of the sky.
+It is defined on **events**.
+
+Events are subsets of the sample space.
+
+But “subset” is only meaningful once the members of Ω are typed,
+so we can sensibly compare, group, and reason about them.
+
+So the order is:
+
+type first,
+then outcomes and events,
+then probability.
+
+---
+
+### 🪄 Parameters become possible later
+
+We will later talk about **parameters**.
+
+Parameters are not outcomes.
+They are coordinates inside a family of distributions.
+
+But you can’t even define such a family
+until the outcomes are typed.
+
+Type chooses what shapes are possible.
+Type chooses what geometry “shape” even has.
+
+Parameters are the knobs on a machine,
+but the type is the blueprint that tells you what machine you built.
+
+---
+
+### ☯ A closing thought
+
+We often think data is numbers.
+
+But data is not a number.
+Data is an agreement about *what counts as* a number,
+and what counts as a category,
+and what counts as a signal.
+
+That agreement is type.
+
+Only then do outcomes become outcomes,
+and events become events,
+and randomness can be discussed with clarity.
