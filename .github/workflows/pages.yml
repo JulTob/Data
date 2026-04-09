@@ -31,7 +31,8 @@ jobs:
             matplotlib \
             ipywidgets \
             jupyter \
-            nbformat
+            nbformat \
+            pandas
             
       - name: Check out repository
         uses: actions/checkout@v4
