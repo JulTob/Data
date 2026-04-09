@@ -226,13 +226,26 @@ for n in range(1,10):
     seed = 42
     rng = np.random.default_rng(seed)
     x = rng.normal(0, 1, 2**n)
-    samples.append(pd.DataFrame({"x": x, "n": f"n={n**2}"}))
+    samples.append(
+        pd.DataFrame({
+            "x": x, 
+            "n": f"n={n**2}"
+            })
+        )
 
 data = pd.concat(samples, ignore_index=True)
 
-fig = px.histogram(data, x="x", nbins=30, color="tomato", animation_frame="n", barmode="overlay",
-                   histnorm="probability density")
-fig.update_layout(title="Histogram → density (by increasing n)")
+fig = px.histogram(
+    data,
+    x="x",
+    nbins=30,
+    animation_frame="n",
+    barmode="overlay",
+    histnorm="probability density"
+    )
+
+fig.update_traces(marker_color="tomato")
+fig.update_layout(title="Histogram → ℙ")
 fig.show()
 ```
 ---
