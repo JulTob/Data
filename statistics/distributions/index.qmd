@@ -144,6 +144,102 @@ This is why distributions are so central to statistical modeling.
 They connect data to mechanism.
 
 ---
+## 🧪 From data to model
+
+A distribution is a model.
+
+But models do not appear from nowhere.
+
+They are extracted from data.
+
+The question is:
+
+> How does a collection of observations become a smooth curve?
+
+---
+
+### 🔰 Counting before understanding
+
+At first, we just see observations.
+
+We count them.
+
+We group them.
+
+We build a histogram.
+
+Each bar answers a simple question:
+
+how often did values fall here?
+
+A summary showing where our data can be found.
+
+---
+
+### ⚙️ Stability through repetition
+
+As more data arrives, something changes.
+
+The histogram stops jumping wildly.
+
+Patterns begin to stabilize, like magic. But this is not magic.
+
+It is a consequence of a deep principle:
+
+The Law of Large Numbers.
+
+As the number of observations increases, relative frequencies settle.
+
+Not exactly, but enough to reveal structure.
+
+---
+
+### ☯️ From bars to curves
+
+Now something subtle happens.
+
+If we refine the bins,
+and collect more data,
+the histogram begins to resemble a curve.
+
+The bars dissolve into a shape.
+
+---
+
+### 💡 Interactive exploration
+
+Try changing the number of observations and the number of bins.
+
+Watch what happens.
+
+```{python}
+#| label: fig-hist-convergence
+#| fig-cap: "Histogram approaching a smooth distribution"
+
+import numpy as np
+import matplotlib.pyplot as plt
+from ipywidgets import interact
+
+def histogram_demo(sample_size=100, bins=10):
+    data = np.random.normal(0, 1, sample_size)
+
+    plt.figure(figsize=(6,4))
+    plt.hist(data, bins=bins, density=True, alpha=0.6)
+
+    x = np.linspace(-4, 4, 200)
+    y = (1/np.sqrt(2*np.pi)) * np.exp(-x**2 / 2)
+    plt.plot(x, y)
+
+    plt.title(f"n={sample_size}, bins={bins}")
+    plt.show()
+
+interact(
+    histogram_demo,
+    sample_size=(10, 5000, 10),
+    bins=(5, 100, 1)
+)
+```
+---
 
 ## ⚠️ The danger of decorative fitting
 
