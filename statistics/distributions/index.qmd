@@ -217,27 +217,23 @@ Watch what happens.
 #| fig-cap: "Histogram approaching a smooth distribution"
 
 import numpy as np
-import matplotlib.pyplot as plt
-from ipywidgets import interact
+import pandas as pd
+import plotly.express as px
 
-def histogram_demo(sample_size=100, bins=10):
-    data = np.random.normal(0, 1, sample_size)
+seed = 42
+rng = np.random.default_rng(seed)
 
-    plt.figure(figsize=(6,4))
-    plt.hist(data, bins=bins, density=True, alpha=0.6)
+samples = []
+for n in [10, 50, 100, 500, 1000]:
+    x = rng.normal(0, 1, n)
+    samples.append(pd.DataFrame({"x": x, "n": f"n={n}"}))
 
-    x = np.linspace(-4, 4, 200)
-    y = (1/np.sqrt(2*np.pi)) * np.exp(-x**2 / 2)
-    plt.plot(x, y)
+data = pd.concat(samples, ignore_index=True)
 
-    plt.title(f"n={sample_size}, bins={bins}")
-    plt.show()
-
-interact(
-    histogram_demo,
-    sample_size=(10, 5000, 10),
-    bins=(5, 100, 1)
-)
+fig = px.histogram(data, x="x", nbins=30, color="n", animation_frame="n", barmode="overlay",
+                   histnorm="probability density")
+fig.update_layout(title="Histogram → density (by increasing n)")
+fig.show()
 ```
 ---
 
