@@ -229,7 +229,7 @@ for n in range(1,10):
     samples.append(
         pd.DataFrame({
             "x": x, 
-            "n": f"n={n**2}"
+            "n": f"N={n**2}"
             })
         )
 
