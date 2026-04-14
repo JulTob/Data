@@ -1,0 +1,548 @@
+---
+title: "Poisson Distribution"
+---
+
+# Poisson Distribution
+
+A machine turns its gears.
+
+Not rhythmically.
+Not predictably.
+But events happen.
+
+A click.
+Another.
+Silence.
+Then three in a row.
+
+This is not pure chaos.
+
+It is **randomness with structure**.
+
+And this is where the **Poisson distribution** begins.
+
+---
+
+## What does Poisson measure?
+
+The Poisson distribution answers a very particular kind of question:
+
+> **How many times does something happen in a fixed interval?**
+
+That interval may be:
+
+* a stretch of **time**
+* a region of **space**
+* a segment of **material**
+* or any bounded domain in which events may occur
+
+Examples:
+
+* How many emails arrive in one hour?
+* How many cars pass a checkpoint in ten minutes?
+* How many typos appear in one page?
+* How many mutations occur in a strand of DNA?
+* How many stars are found in a small patch of sky?
+
+This is already a clue:
+
+Poisson is not about measuring *how much*.
+It is about counting **how many events** occur.
+
+---
+
+## A different kind of randomness
+
+Some random variables measure values:
+
+* height
+* weight
+* temperature
+* speed
+
+Poisson does not.
+
+Poisson counts **occurrences**.
+
+The random variable is something like:
+
+> “number of arrivals”
+> “number of failures”
+> “number of calls”
+> “number of impacts”
+
+So the possible values are:
+
+[
+0,;1,;2,;3,;\dots
+]
+
+This makes Poisson a **discrete distribution**.
+
+---
+
+## The central idea
+
+The Poisson distribution appears when events:
+
+1. occur **independently**
+2. happen with a **stable average rate**
+3. are counted over a **fixed interval**
+4. are individually **rare**, even if many opportunities exist
+
+This combination matters.
+
+It means the world is not following a clock, but neither is it arbitrary in the wildest sense.
+There is a stable background tendency, and on top of that tendency, individual events appear unpredictably.
+
+That is the Poisson world.
+
+---
+
+## The parameter: $\lambda$
+
+Poisson is governed by a single parameter:
+
+[
+\lambda
+]
+
+This lambda represents the **expected number of events in the interval**.
+
+If on average 3 customers arrive every 10 minutes, then:
+
+[
+\lambda = 3
+]
+
+If on average 12 radioactive emissions are detected per second, then:
+
+[
+\lambda = 12
+]
+
+If on average 0.4 printing errors appear per page, then:
+
+[
+\lambda = 0.4
+]
+
+So $\lambda$ is not the number that *must* happen.
+It is the number the process tends to orbit around.
+
+---
+
+## The formula
+
+If a random variable $X$ follows a Poisson distribution with parameter $\lambda$, then the probability of observing exactly $k$ events is:
+
+[
+P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}
+]
+
+where:
+
+* $k = 0, 1, 2, 3, \dots$
+* $\lambda > 0$
+
+This formula gives the probability of seeing **exactly** $k$ events in the chosen interval.
+
+---
+
+## Reading the formula like a human
+
+A formula should not be treated as sacred decoration.
+It should be read.
+
+Let us slow it down:
+
+[
+P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}
+]
+
+### $\lambda^k$
+
+This reflects the pressure toward producing $k$ events.
+Larger $\lambda$ makes larger counts more plausible.
+
+### $k!$
+
+This compensates for overcounting arrangements.
+When several events happen, their ordering inside the count does not matter.
+
+### $e^{-\lambda}$
+
+This is the damping factor.
+It prevents the probabilities from exploding and ensures the whole distribution sums to 1.
+
+So the formula is not a random artifact.
+It balances:
+
+* the tendency for events to occur
+* the combinatorial correction
+* the normalization that keeps probability coherent
+
+---
+
+## The deep origin: rare events
+
+This is the part that turns memorization into understanding.
+
+Poisson is what emerges when you have:
+
+* **many opportunities**
+* each with **tiny probability**
+* but with a **stable expected total**
+
+That should sound familiar.
+
+It is the logic of the **binomial distribution** pushed into a special limit.
+
+If:
+
+[
+X \sim \text{Binomial}(n, p)
+]
+
+then the expected number of successes is:
+
+[
+n p
+]
+
+Now imagine:
+
+* $n$ becomes very large
+* $p$ becomes very small
+* but the product stays constant
+
+[
+n p \to \lambda
+]
+
+Then the binomial model approaches the Poisson model:
+
+[
+\text{Binomial}(n,p);\longrightarrow;\text{Poisson}(\lambda)
+]
+
+This is one of the most important conceptual facts about Poisson.
+
+It is not just “a counting formula.”
+It is the natural shape of **rare events aggregated over many chances**.
+
+---
+
+## Visual intuition
+
+You can imagine time split into many tiny slices.
+
+In each tiny slice:
+
+* either nothing happens
+* or one event happens
+
+If the slices are tiny enough, multiple events in the same slice become negligible.
+
+Most slices contain nothing.
+A few contain one event.
+Across the full interval, those tiny possibilities accumulate.
+
+That accumulation is Poisson.
+
+```{mermaid}
+flowchart LR
+    A[Many tiny opportunities] --> B[Each event is rare]
+    B --> C[Average rate stays stable]
+    C --> D[Count total events]
+    D --> E[Poisson distribution]
+```
+
+---
+
+## A timeline picture
+
+Here is the feeling of a Poisson process in time:
+
+```{mermaid}
+timeline
+    title Random arrivals in one interval
+    00:00 : no event
+    00:08 : event
+    00:21 : no event
+    00:37 : event
+    00:41 : event
+    00:58 : no event
+```
+
+Notice what matters:
+
+* not regular spacing
+* not a deterministic rhythm
+* but a count over the interval
+
+Poisson does not care *exactly when* each event occurs inside the interval.
+It cares about **how many** occurred.
+
+---
+
+## Example
+
+Suppose a help desk receives, on average, 4 requests per hour.
+
+Then:
+
+[
+\lambda = 4
+]
+
+What is the probability of receiving exactly 2 requests in one hour?
+
+Using the formula:
+
+[
+P(X=2)=\frac{4^2 e^{-4}}{2!}
+]
+
+[
+P(X=2)=\frac{16e^{-4}}{2}=8e^{-4}
+]
+
+Numerically,
+
+[
+P(X=2)\approx 0.1465
+]
+
+So there is about a **14.65%** chance of receiving exactly two requests in that hour.
+
+---
+
+## Shape of the distribution
+
+When $\lambda$ is small, the distribution is heavily concentrated near 0.
+
+When $\lambda$ grows, the center moves rightward and the distribution becomes more spread out.
+
+```{mermaid}
+flowchart TD
+    A[Small λ] --> B[Most mass near 0]
+    C[Moderate λ] --> D[Mass spreads over several counts]
+    E[Large λ] --> F[Distribution becomes more bell-like]
+```
+
+This gives a useful intuition:
+
+* small rate → events are scarce
+* large rate → events are more common
+* larger $\lambda$ also means larger variability in absolute terms
+
+---
+
+## Mean and variance
+
+A remarkable property of the Poisson distribution is this:
+
+[
+\mathbb{E}[X] = \lambda
+]
+
+and also
+
+[
+\mathrm{Var}(X) = \lambda
+]
+
+So in a Poisson model:
+
+* the **mean** equals $\lambda$
+* the **variance** also equals $\lambda$
+
+This is elegant, and also diagnostically useful.
+
+If observed count data has variance much larger than the mean, a plain Poisson model may be too simple.
+
+---
+
+## Why this matters
+
+Poisson is one of the first places where probability feels like a real language of the world.
+
+It tells us that even when individual events are unpredictable, aggregate behavior may still be mathematically intelligible.
+
+That is a deep idea.
+
+A single arrival is uncertain.
+But the *pattern of arrivals* is not beyond thought.
+
+Poisson is one answer to a larger question:
+
+> How can disorder still produce a stable form?
+
+---
+
+## When Poisson is a good model
+
+Poisson tends to be appropriate when:
+
+* you count events in a fixed interval
+* events are approximately independent
+* the average rate is roughly constant
+* simultaneous events are negligible
+* the count is not naturally capped by a small fixed number of trials
+
+Examples include:
+
+* arrivals
+* accidents
+* defects
+* emissions
+* failures
+* calls
+* mutations
+
+---
+
+## When Poisson is *not* a good model
+
+Poisson can fail when:
+
+* events affect one another
+* the rate changes over time
+* counts cluster in bursts
+* data contains too many zeros
+* variance is much larger than the mean
+
+In those cases, we may need richer models.
+
+This matters because technical correctness is not just about applying a formula.
+It is about recognizing whether reality actually matches the assumptions.
+
+---
+
+## Poisson vs Binomial
+
+These two distributions are close cousins, but they are not the same thing.
+
+### Binomial
+
+Ask:
+
+> How many successes occur in a fixed number of trials?
+
+* fixed number of attempts
+* each trial has success/failure
+* parameterized by $n$ and $p$
+
+### Poisson
+
+Ask:
+
+> How many events occur in a fixed interval?
+
+* no explicit fixed number of trials
+* events arise over time or space
+* parameterized by $\lambda$
+
+A useful way to think about it:
+
+* **Binomial** counts success across a known set of chances
+* **Poisson** counts events when the chances are too many or too small to track individually
+
+```{mermaid}
+flowchart LR
+    A[Binomial] --> B[Fixed number of trials]
+    B --> C[Success / failure]
+    C --> D[np = expected count]
+
+    D --> E[If n is large and p is small]
+    E --> F[Poisson approximation]
+
+    G[Poisson] --> H[Fixed interval]
+    H --> I[Count of events]
+```
+
+---
+
+## A more intuitive summary
+
+Poisson is the mathematics of scattered happenings.
+
+Not one large event.
+Not a measured magnitude.
+But many small possible occurrences, each uncertain, together producing a stable statistical shape.
+
+It is the distribution of:
+
+* arrivals without schedule
+* defects without intention
+* emissions without rhythm
+* coincidences under a constant background tendency
+
+In this sense, Poisson is one of probability’s most revealing ideas:
+
+> **randomness can have architecture**
+
+---
+
+## Final compression
+
+A Poisson random variable counts how many times an event occurs in a fixed interval when:
+
+* events are independent
+* the average rate is constant
+* individual events are rare
+* we care about the total count
+
+Its formula is:
+
+[
+P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}
+]
+
+Its mean and variance are both:
+
+[
+\lambda
+]
+
+And its conceptual origin is the limit of many tiny chances accumulating into a finite expected count.
+
+That is not just a formula.
+
+That is a worldview.
+
+---
+
+## Optional: quick Python check
+
+```{python}
+import math
+
+λ = 4
+k = 2
+
+probability = (λ**k) * math.exp(-λ) / math.factorial(k)
+probability
+```
+
+You should obtain approximately:
+
+```text
+0.1465
+```
+
+---
+
+## Exercise prompts
+
+1. A website receives on average 6 visits per minute.
+   What is the probability of receiving exactly 8 visits in one minute?
+
+2. A book has on average 0.3 typos per page.
+   What is the probability that a page has no typos?
+
+3. Explain, in words, why Poisson can be understood as a limit of the binomial distribution.
+
+4. Give one real process that is plausibly Poisson and one that is not.
+   Justify both.
