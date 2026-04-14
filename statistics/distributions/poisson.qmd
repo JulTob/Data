@@ -73,9 +73,9 @@ The random variable is something like:
 
 So the possible values are:
 
-[
+$$
 0,;1,;2,;3,;\dots
-]
+$$
 
 This makes Poisson a **discrete distribution**.
 
@@ -103,29 +103,29 @@ That is the Poisson world.
 
 Poisson is governed by a single parameter:
 
-[
+$$
 \lambda
-]
+$$
 
 This lambda represents the **expected number of events in the interval**.
 
 If on average 3 customers arrive every 10 minutes, then:
 
-[
+$$
 \lambda = 3
-]
+$$
 
 If on average 12 radioactive emissions are detected per second, then:
 
-[
+$$
 \lambda = 12
-]
+$$
 
 If on average 0.4 printing errors appear per page, then:
 
-[
+$$
 \lambda = 0.4
-]
+$$
 
 So $\lambda$ is not the number that *must* happen.
 It is the number the process tends to orbit around.
@@ -136,9 +136,9 @@ It is the number the process tends to orbit around.
 
 If a random variable $X$ follows a Poisson distribution with parameter $\lambda$, then the probability of observing exactly $k$ events is:
 
-[
+$$
 P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}
-]
+$$
 
 where:
 
@@ -156,9 +156,9 @@ It should be read.
 
 Let us slow it down:
 
-[
+$$
 P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}
-]
+$$
 
 ### $\lambda^k$
 
@@ -200,15 +200,15 @@ It is the logic of the **binomial distribution** pushed into a special limit.
 
 If:
 
-[
+$$
 X \sim \text{Binomial}(n, p)
-]
+$$
 
 then the expected number of successes is:
 
-[
+$$
 n p
-]
+$$
 
 Now imagine:
 
@@ -216,15 +216,15 @@ Now imagine:
 * $p$ becomes very small
 * but the product stays constant
 
-[
+$$
 n p \to \lambda
-]
+$$
 
 Then the binomial model approaches the Poisson model:
 
-[
+$$
 \text{Binomial}(n,p);\longrightarrow;\text{Poisson}(\lambda)
-]
+$$
 
 This is one of the most important conceptual facts about Poisson.
 
@@ -292,27 +292,27 @@ Suppose a help desk receives, on average, 4 requests per hour.
 
 Then:
 
-[
+$$
 \lambda = 4
-]
+$$
 
 What is the probability of receiving exactly 2 requests in one hour?
 
 Using the formula:
 
-[
+$$
 P(X=2)=\frac{4^2 e^{-4}}{2!}
-]
+$$
 
-[
+$$
 P(X=2)=\frac{16e^{-4}}{2}=8e^{-4}
-]
+$$
 
 Numerically,
 
-[
+$$
 P(X=2)\approx 0.1465
-]
+$$
 
 So there is about a **14.65%** chance of receiving exactly two requests in that hour.
 
@@ -343,15 +343,15 @@ This gives a useful intuition:
 
 A remarkable property of the Poisson distribution is this:
 
-[
+$$
 \mathbb{E}[X] = \lambda
-]
+$$
 
 and also
 
-[
+$$
 \mathrm{Var}(X) = \lambda
-]
+$$
 
 So in a Poisson model:
 
@@ -496,15 +496,15 @@ A Poisson random variable counts how many times an event occurs in a fixed inter
 
 Its formula is:
 
-[
+$$
 P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}
-]
+$$
 
 Its mean and variance are both:
 
-[
+$$
 \lambda
-]
+$$
 
 And its conceptual origin is the limit of many tiny chances accumulating into a finite expected count.
 
