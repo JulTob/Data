@@ -22,16 +22,11 @@ We arrive later, with data.
 - variation is everywhere
 - knowledge is still possible
 
-Statistics is the disciplined attempt to read structure from incomplete contact.
-
-Not to replace the world with formulas.  
-Not to worship data as if every spreadsheet were truth.  
-But to build careful bridges from observation to understanding.
+Statistics is the disciplined attempt to read structure from incomplete contact, to build careful bridges from observation to understanding.
 
 A list of numbers is not yet statistics.  
 A graph is not yet statistics.  
 A mean is not yet statistics.
-
 Statistics begins when we ask:
 
 - What process could have produced this?
