@@ -116,7 +116,8 @@ Data is the basis of decisions, of information, of knowledge, of **meaning**. Wi
 A type is an agreement about what counts as a value,
 what counts as a comparison,
 what counts as a measurement,
-what counts as a signal.
+what counts as a signal,
+what counts as information.
 
 It is an agreement on the maps of meaning. 
 
