@@ -13,9 +13,10 @@ Not with tools first, nor with software, nor with the rituals of technique, but 
 To study data is to study the boundary between chaos and pattern.
 Between noise and structure.
 Between what happened, and what can be known.
+Between certainty and wonder.
 
 A good dataset is never the world itself. It is a translation.
-And every translation has grammar, distortion, omission, and power.
+And every translation has grammar, distortion, omission, and information. It contains power: to change our decisions, policies, opinions, or even habits. If we dare to listen. If we dare to learn that language. To read those marks. 
 
 So this is a book about marks that stand for things. About measurements that pretend to capture motion, populations, choices, errors, lives. About the subtle miracle by which scattered observations can become knowledge.
 
@@ -27,7 +28,8 @@ This is why data matters.
 Because somewhere between a raw observation and an idea, there is a transformation:
 from fact to form,
 from form to pattern,
-from pattern to meaning.
+from pattern to meaning,
+from meaning to knowledge.
 
 And that transformation is one of the great intellectual adventures.
 
