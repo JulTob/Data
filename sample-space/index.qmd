@@ -4,7 +4,7 @@ title: "Sample Space"
 
 Data begins with distinction.
 
-Before a probability can be assigned, before a pattern can be detected, before randomness can even be named, something deeper must already have happened:
+Before a probability can be assigned, before a pattern can be detected, before randomness can even be seen, something deeper must already have happened:
 
 the world must have been cut into possibilities.
 
@@ -16,8 +16,7 @@ This field of possible distinction is called the **sample space**.
 
 🔰 At first, this may sound technical. It is not. It is one of the most philosophical ideas in all of probability.
 
-A sample space is not merely a list.  
-It is a decision about what counts as a possible result.
+A sample space is the decision about what counts as a possible result.
 
 That decision depends on the world, but also on the model.
 
@@ -26,7 +25,7 @@ A coin may be modeled as:
 - heads or tails
 - angle of landing
 - number of spins
-- deformation of the metal
+- a cylinder of metal aloys
 - sound at impact
 
 Each of these is a different view of the same event.  
@@ -35,9 +34,9 @@ The **space of relevant outcomes** has.
 
 ⚜️ This is the first lesson:
 
-> probability begins not with chance, but with description.
+> probability begins not with chance, but with a question.
 
-To choose a sample space is to decide what kind of world one is studying.
+To choose a sample space is to decide the Type of answers we understand.
 
 And once that space is chosen, deeper structures emerge:
 
@@ -47,6 +46,7 @@ And once that space is chosen, deeper structures emerge:
 - continuity
 - measure
 - probability
+- information
 
 From there, probability theory becomes the art of reasoning about what may happen, what must happen, and what can be said before the outcome arrives.
 
