@@ -15,7 +15,7 @@ But this order, while practical, can be misleading.
 It makes methods look like recipes.  
 And statistics is not a cookbook.
 
-A method is not just a sequence of operations.  
+A method is more than a sequence of operations.  
 It is a disciplined response to a kind of problem.
 
 🏵 Statistical methods are best understood as structured paths from question to judgement.
@@ -44,8 +44,7 @@ one must ask:
 
 This sounds obvious, but it is one of the most neglected truths in practice.
 
-A powerful technique applied to the wrong question is not sophistication.  
-It is misalignment.
+A powerful technique applied to the wrong question brings forth misalignment.
 
 ---
 
@@ -87,8 +86,7 @@ A failed model changes the summary.
 A poor measurement changes the entire question.  
 A surprising residual plot reopens the structure of the process.
 
-⚜️ Statistics is not a straight corridor.  
-It is a feedback system.
+⚜️ Statistics is far from a straight corridor, but a spiral stair: an ever converging feedback system.
 
 ---
 
