@@ -6,11 +6,9 @@ title: "Uncertainty"
 
 Uncertainty is one of the central words of statistics, and one of the most misunderstood.
 
-It is tempting to think uncertainty means only that we do not know enough.
+It is tempting to think uncertainty means only that we do not know enough. But statistics teaches something subtler:
 
-But statistics teaches something subtler:
-
-> uncertainty is not merely absence of knowledge  
+> Uncertainty is not merely absence of knowledge,  
 > it is structured limitation within a variable world
 
 A process may be only partly observed.  
@@ -19,8 +17,8 @@ Measurements may fluctuate.
 Signals may be noisy.  
 Causes may be multiple and hidden.
 
-So uncertainty is not emptiness.  
-It has shape, source, and consequence.
+So uncertainty is more than emptiness. Not just a hole in our understandment.  
+Emptiness has shape, source, and consequence. The hole has edges. The shape of the hole is revealing a universe inside. 
 
 ---
 
