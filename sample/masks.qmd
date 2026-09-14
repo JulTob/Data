@@ -1,0 +1,120 @@
+---
+title: "Masks: Choosing What Counts"
+---
+
+A filter decides which observations can contribute. A weight decides how strongly they contribute.
+
+Both can be represented by a signal on the same addresses as the data.
+
+## 🔰 A binary mask selects addresses {#sec-sample-masks-a-binary-mask-selects-addresses}
+
+For $S=(1,2,2,5)$, let
+
+$$
+W=(0,1,0,1).
+$$
+
+The selected record contains the values at addresses two and four:
+
+$$
+S|_W=(2,5).
+$$
+
+Its mean is $3.5$.
+
+Multiplying pointwise instead gives
+
+$$
+W\odot S=(0,2,0,5).
+$$
+
+This has the original four addresses. Its mean is $1.75$ because the two inserted zeros still count as values.
+
+Selection and zeroing are distinct operations. Their totals agree, but their observation counts differ.
+
+## 🏵 Let the denominator follow the selection {#sec-sample-masks-let-the-denominator-follow-the-selection}
+
+For nonnegative weights with positive total, define
+
+$$
+M_W(S)
+=
+\frac{\sum_tW[t]S[t]}
+     {\sum_tW[t]}.
+$$
+
+When the weights are zero or one, the denominator counts the selected observations. Our example gives $(2+5)/2=3.5$.
+
+If the mask selects nothing, the denominator is zero. There is no selected mean to report.
+
+A missing value also needs a missing-data rule. In numerical software, multiplying a missing-value marker by zero does not necessarily remove it. Form the valid selected observations before reducing them.
+
+## ⚙️ Weights can carry different meanings {#sec-sample-masks-weights-can-carry-different-meanings}
+
+Consider
+
+$$
+W=(1,1,1,2).
+$$
+
+The weighted mean of the record is
+
+$$
+\frac{1+2+2+2(5)}{1+1+1+2}=3.
+$$
+
+As frequency weights, this is the mean of an expanded record containing two copies of the final value.
+
+The same arithmetic can be used with reliability weights or sampling weights. Those meanings need different justifications and may imply different uncertainty calculations.
+
+The formula describes how values are combined. It does not decide why one observation deserves more influence.
+
+## 💡 A logical question can produce a mask {#sec-sample-masks-a-logical-question-can-produce-a-mask}
+
+Let the predicate be “value greater than one.” Evaluating it at every observation produces
+
+$$
+W[t]=\mathbf1_{\{S[t]>1\}}
+\quad\Rightarrow\quad
+W=(0,1,1,1).
+$$
+
+This selects $(2,2,5)$.
+
+A fuzzy membership rule could instead supply a grade at each address. Using those grades as averaging weights would be a further, explicit operation; the weighted mean would not turn membership into event probability.
+
+```{mermaid}
+%%| label: fig-sample-mask-rule
+%%| fig-cap: "The data supplies values; a condition supplies aligned weights. The reduction needs both weighted contributions and their denominator."
+flowchart TD
+    S["Observed signal"] --> C["Evaluate condition"]
+    C --> W["Aligned mask or weights"]
+    S --> N["Weighted contributions"]
+    W --> N
+    W --> D["Weight total"]
+    N --> M["Weighted mean"]
+    D --> M
+```
+
+## ☯ A mask on possibilities leads to conditioning {#sec-sample-masks-a-mask-on-possibilities-leads-to-conditioning}
+
+We can also select within a generator's possible outcomes. Retain the possibilities compatible with an event, then renormalize their remaining probability mass.
+
+The operation resembles selection in a record, but the domain has changed: possibilities instead of observed addresses.
+
+[Conditioning](conditioning.qmd) develops that construction. Keeping the two domains separate lets the same idea travel without changing its meaning invisibly.
+
+::: {.callout-tip}
+## Try the idea {#sec-sample-masks-try-the-idea}
+
+For $S=(1,2,2,5)$, select values greater than one. What are the selected mean and the mean of the zeroed four-address signal?
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-masks-work-it-through}
+
+The selected record is $(2,2,5)$, with mean $9/3=3$. The zeroed signal is $(0,2,2,5)$, with mean $9/4=2.25$. Their equal total hides a different denominator.
+:::
+
+*Starting slides: [Muestreo, 26, 83, 99, 100](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3df571d182a_0_33).*
+

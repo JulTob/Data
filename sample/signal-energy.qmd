@@ -1,0 +1,155 @@
+---
+title: "Signal Energy: The Power Around a Mark"
+---
+
+An average level can hide the variation riding on it.
+
+A sensor can produce a large steady reading with tiny fluctuations. To understand those fluctuations, first remove the level and then measure what remains.
+
+This gives variance a direct connection to signals.
+
+## 🔰 Square before accumulating {#sec-sample-signal-energy-square-before-accumulating}
+
+For a finite numerical record, define
+
+$$
+\operatorname{Eng}(S)=\sum_{t=1}^{n}S[t]^2.
+$$
+
+Squaring prevents opposite signs from cancelling. The square root
+
+$$
+\|S\|_2=\sqrt{\operatorname{Eng}(S)}
+$$
+
+is the Euclidean norm, called a Euclidean mark in the notes.
+
+Divide by the observation count to obtain mean-square power:
+
+$$
+\operatorname{Pow}(S)=\frac{\operatorname{Eng}(S)}n.
+$$
+
+Here the sums use the counting measure on observations. A continuous-time energy integral would include time measure. These algebraic quantities are not automatically physical energy in joules.
+
+## 🏵 Remove the mark and measure the remainder {#sec-sample-signal-energy-remove-the-mark-and-measure-the-remainder}
+
+Let $M$ be the sample mean and $S^\circ[t]=S[t]-M$.
+
+The empirical variance is
+
+$$
+V_{\mathrm{emp}}(S)
+=
+\frac1n\sum_t(S[t]-M)^2
+=
+\operatorname{Pow}(S^\circ).
+$$
+
+The standard-deviation aura is
+
+$$
+\sigma_S=\sqrt{V_{\mathrm{emp}}(S)}.
+$$
+
+It is the root-mean-square amplitude of the centered signal, expressed in the original value units.
+
+## ⚙️ Work through four values {#sec-sample-signal-energy-work-through-four-values}
+
+For $S=(1,2,2,5)$,
+
+$$
+M=2.5,\qquad S^\circ=(-1.5,-0.5,-0.5,2.5).
+$$
+
+The original energy is $1+4+4+25=34$. The centered energy is
+
+$$
+2.25+0.25+0.25+6.25=9.
+$$
+
+Therefore,
+
+$$
+\operatorname{Pow}(S)=8.5,
+\qquad
+V_{\mathrm{emp}}=2.25,
+\qquad
+\sigma_S=1.5.
+$$
+
+```{python}
+#| label: fig-sample-centered-power
+#| fig-cap: "Centering removes the mean level. The squared centered values total nine, giving empirical variance 9/4."
+#| fig-alt: "A four-value signal 1, 2, 2, 5 is shown beside its centered values minus 1.5, minus 0.5, minus 0.5, and 2.5."
+#| fig-format: svg
+#| fig-width: 8
+#| fig-height: 3.5
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+record = np.array([1, 2, 2, 5], dtype=float)
+addresses = np.arange(1, record.size + 1)
+mean_mark = record.mean()
+centered = record - mean_mark
+figure, axes = plt.subplots(1, 2, figsize=(8, 3.5), layout="constrained")
+axes[0].bar(addresses, record, color="#236B8E")
+axes[0].axhline(mean_mark, color="#A54B30", linestyle="--", label="Mean = 2.5")
+axes[0].set(title="Original record", ylabel="Value")
+axes[0].legend(frameon=False)
+axes[1].bar(addresses, centered, color="#A54B30")
+axes[1].axhline(0, color="#17202A", linewidth=0.8)
+axes[1].set(title="Centered record", ylabel="Deviation from mean")
+for axis in axes:
+    axis.set(xticks=addresses, xlabel="Observation address")
+    axis.grid(axis="y", alpha=0.15)
+    axis.set_axisbelow(True)
+plt.show()
+```
+
+## ☯ The total separates into level and variation {#sec-sample-signal-energy-the-total-separates-into-level-and-variation}
+
+Writing $S[t]=M+S^\circ[t]$ and expanding the square gives a cross term proportional to $\sum_t S^\circ[t]$. That sum is zero, leaving
+
+$$
+\boxed{\operatorname{Pow}(S)=M^2+V_{\mathrm{emp}}(S)}.
+$$
+
+Our example gives $8.5=6.25+2.25$.
+
+Adding a constant changes the level while leaving empirical variance unchanged. Multiplying values by $a$ multiplies variance by $a^2$ and standard deviation by $|a|$.
+
+These rules explain why an aura must retain its units and scaling convention.
+
+## 💡 Describing the record and estimating a generator {#sec-sample-signal-energy-describing-the-record-and-estimating-a-generator}
+
+The denominator $n$ describes the variance of the record's empirical distribution.
+
+If independent, identically distributed observations are used to estimate a generator's finite variance, the familiar correction is
+
+$$
+s^2
+=
+\frac1{n-1}\sum_t(S[t]-M)^2,
+\qquad n>1.
+$$
+
+This is the notes' *pseudovariance*, usually called the corrected sample variance. Under those sampling assumptions, it is unbiased for the generator's variance. Here it equals $9/3=3$.
+
+The correction changes the inferential role of the quantity. It does not change the centered energy of the observed record. Taking its square root also does not, in general, produce an unbiased estimator of the generator's standard deviation.
+
+::: {.callout-tip}
+## Try the idea {#sec-sample-signal-energy-try-the-idea}
+
+Add ten to every value in the example. Which of the mean, centered energy, empirical variance, and standard deviation change?
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-signal-energy-work-it-through}
+
+Only the mean changes, from 2.5 to 12.5. Subtracting the new mean recovers the same centered record. Its energy remains nine, empirical variance 2.25, and standard deviation 1.5.
+:::
+
+*Starting slides: [Muestreo, 33, 34, 41, 53, 54, 56, 57, 58, 64, 90](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3df2e37ee31_0_61).*
+

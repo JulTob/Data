@@ -1,0 +1,98 @@
+---
+title: "Conditioning: The World After a Clue"
+---
+
+Two fair dice have been rolled behind a screen. Someone tells us the first die is two.
+
+The dice have already landed. The clue changes the possibilities relevant to our reasoning.
+
+## 🔰 Retain compatible outcomes {#sec-sample-conditioning-retain-compatible-outcomes}
+
+Before the clue, the model contains 36 equally likely ordered pairs.
+
+The event $B=\{D_1=2\}$ retains just
+
+$$
+(2,1),\ (2,2),\ (2,3),\ (2,4),\ (2,5),\ (2,6).
+$$
+
+Those pairs carried total probability $6/36=1/6$. Conditioning treats that surviving mass as the new whole.
+
+Each retained pair therefore receives conditional probability
+
+$$
+\frac{1/36}{1/6}=\frac16.
+$$
+
+The sum is now uniform on $\{3,4,5,6,7,8\}$, even though its original profile was triangular.
+
+## 🏵 The denominator identifies the new whole {#sec-sample-conditioning-the-denominator-identifies-the-new-whole}
+
+For an event $B$ of positive probability,
+
+$$
+\mathbb P(A\mid B)
+=
+\frac{\mathbb P(A\cap B)}{\mathbb P(B)}.
+$$
+
+The numerator keeps outcomes compatible with both $A$ and $B$. The denominator measures everything compatible with the clue.
+
+With $A=\{D_1+D_2=7\}$ and $B=\{D_1=2\}$, only $(2,5)$ belongs to the intersection. We obtain conditional probability $(1/36)/(1/6)=1/6$.
+
+The formula needs $\mathbb P(B)>0$. Conditioning a continuous model on an exact real value requires a more careful construction than dividing two zero event probabilities. Interval clues already work with the rule above.
+
+## ⚙️ A probability mask performs the same construction {#sec-sample-conditioning-a-probability-mask-performs-the-same-construction}
+
+For a discrete outcome space, let $W_B[f]$ be one when $f$ belongs to $B$ and zero otherwise. Then
+
+$$
+p_B[f]
+=
+\frac{W_B[f]p[f]}{\sum_gW_B[g]p[g]}.
+$$
+
+This is the mask-and-normalize operation on possibilities. It parallels the weighted reduction of observed values, while acting on a different domain.
+
+The selected event has become the reference against which all surviving weights are read.
+
+## 💡 Learning and changing the mechanism are different actions {#sec-sample-conditioning-learning-and-changing-the-mechanism-are-different-actions}
+
+Learning the first die was two does not reroll the second die.
+
+Removing a drawn card from a deck physically changes the source's inventory. Learning which card was removed also changes our knowledge of that inventory.
+
+A model can contain both actions. Keeping them separate prevents an inference rule from silently becoming a claim about intervention or cause.
+
+## ☯ Independence means a clue leaves a law unchanged {#sec-sample-conditioning-independence-means-a-clue-leaves-a-law-unchanged}
+
+For the independent dice,
+
+$$
+\mathbb P(D_2=6\mid D_1=2)=\mathbb P(D_2=6)=\frac16.
+$$
+
+For repeated draws from a six-card deck without replacement,
+
+$$
+\mathbb P(\text{second is six}\mid\text{first is six})=0.
+$$
+
+The clue leaves the second die's law unchanged under the model, while revealing a restriction on the deck's next output.
+
+[Bayes](bayes.qmd) uses this same joint description to turn a statement about evidence given a hypothesis into a statement about the hypothesis given the evidence.
+
+::: {.callout-tip}
+## Try the idea {#sec-sample-conditioning-try-the-idea}
+
+A fair die is known to show an even face. What is the conditional probability that it exceeds three? Identify the new whole before calculating.
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-conditioning-work-it-through}
+
+The new whole is $\{2,4,6\}$. The desired event retains $\{4,6\}$, giving probability $2/3$. Using all six faces in the denominator would ignore the clue.
+:::
+
+*Starting slides: [Muestreo, 68, 81, 83, 85, 86, 87](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3dfe9e5de80_0_682).*
+

@@ -1,0 +1,119 @@
+---
+title: "Bayes: Read the Same Evidence in Reverse"
+---
+
+A detector is good at flagging faulty items. An item has been flagged.
+
+These sentences look close enough to invite a shortcut. But the first starts from faults and asks about flags. The second starts from flags and asks about faults.
+
+We need to keep both kinds of item in view.
+
+## 🔰 Count the routes to a flag {#sec-sample-bayes-count-the-routes-to-a-flag}
+
+Use the numerical assumptions from the presentation in a hypothetical factory:
+
+- One item in a thousand is faulty.
+- The detector flags 99% of faulty items.
+- It also flags 2% of fault-free items.
+
+In a hypothetical group of 100,000 items, the expected counts are:
+
+- 100 faulty items: 99 flagged and 1 unflagged.
+- 99,900 fault-free items: 1,998 flagged and 97,902 unflagged.
+
+These are model-based expected counts; a finite observed batch can differ.
+
+```{mermaid}
+%%| label: fig-sample-bayes-counts
+%%| fig-cap: "Expected counts under the stated detector model. The flagged population receives items through two different routes."
+flowchart TD
+    U["100,000 items"] --> F["100 faulty"]
+    U --> N["99,900 fault-free"]
+    F --> TP["99 flagged"]
+    F --> FN["1 unflagged"]
+    N --> FP["1,998 flagged"]
+    N --> TN["97,902 unflagged"]
+```
+
+## 🏵 Read within the population selected by the evidence {#sec-sample-bayes-read-within-the-population-selected-by-the-evidence}
+
+The flag retains $99+1998=2097$ items in this expected-count picture. Of those, 99 are faulty.
+
+Thus
+
+$$
+\mathbb P(\text{fault}\mid\text{flag})
+=
+\frac{99}{2097}
+\approx0.0472.
+$$
+
+The 99% figure described flags among faults. The 4.72% figure describes faults among flags.
+
+Both are correct under the model because they use different reference populations.
+
+## ⚙️ Derive the reversal from the joint event {#sec-sample-bayes-derive-the-reversal-from-the-joint-event}
+
+Let $F$ mean fault and $E$ mean evidence.
+
+The probability of their intersection can be read in either order:
+
+$$
+\mathbb P(F\cap E)
+=
+\mathbb P(E\mid F)\mathbb P(F)
+=
+\mathbb P(F\mid E)\mathbb P(E).
+$$
+
+When the conditioning events have positive probability, rearranging gives
+
+$$
+\mathbb P(F\mid E)
+=
+\frac{\mathbb P(E\mid F)\mathbb P(F)}
+     {\mathbb P(E)}.
+$$
+
+The denominator includes every route to the evidence. In this binary example,
+
+$$
+\mathbb P(E)
+=
+\mathbb P(E\mid F)\mathbb P(F)
++
+\mathbb P(E\mid F^c)\mathbb P(F^c).
+$$
+
+Bayes' rule is conditioning viewed from the other direction.
+
+## 💡 Evidence has strength within a background {#sec-sample-bayes-evidence-has-strength-within-a-background}
+
+Keep the same detector but imagine half the incoming items are faulty. The conditional probability of a fault after a flag becomes
+
+$$
+\frac{0.99(0.5)}
+     {0.99(0.5)+0.02(0.5)}
+=
+\frac{99}{101}
+\approx0.9802.
+$$
+
+The detector's conditional rates stayed fixed. The incoming mixture changed.
+
+A flag does not carry one universal probability of fault independently of the population where it is used.
+
+::: {.callout-tip}
+## Try the idea {#sec-sample-bayes-try-the-idea}
+
+With the original assumptions, a batch is screened twice. Can we calculate the probability of two flags on a fault-free item as $0.02^2$ from the given facts alone?
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-bayes-work-it-through}
+
+No. We also need the relationship between the repeated detector results. Squaring requires conditional independence of the two flags for fault-free items under the relevant model. Repeating a measurement can repeat the same source of error.
+:::
+
+*Starting slides: [Muestreo, 86, 87](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3e462662969_0_502).*
+

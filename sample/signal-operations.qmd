@@ -1,0 +1,124 @@
+---
+title: "Signal Operations: What Does the Change Preserve?"
+---
+
+A record can change in several directions.
+
+We can move its values, move their addresses, change their scale, or forget their original order. Each operation has a different answer to the question: what survived?
+
+## 🔰 Change the level {#sec-sample-signal-operations-change-the-level}
+
+For the numerical record
+
+$$
+S=(1,2,2,5),
+$$
+
+adding three at every address gives
+
+$$
+S+3=(4,5,5,8).
+$$
+
+All differences between pairs of values remain the same.
+
+A constant signal supplies the added level:
+
+$$
+\operatorname{Lvl}(c)[t]=c.
+$$
+
+If $M$ is the record's mean, centering subtracts that level:
+
+$$
+S^\circ[t]=S[t]-M.
+$$
+
+Here $M=2.5$, so $S^\circ=(-1.5,-0.5,-0.5,2.5)$. Its total is zero. Centering exposes variation relative to the mean while discarding the original level unless we keep $M$ separately.
+
+## ⚙️ Change addresses or compare neighbors {#sec-sample-signal-operations-change-addresses-or-compare-neighbors}
+
+A delay changes where a value is encountered:
+
+$$
+(D_hS)[t]=S[t-h].
+$$
+
+For a finite record, this formula needs a boundary rule wherever $t-h$ lies outside the available domain. We can restrict the output domain, extend by a declared value, or use another explicit convention.
+
+A first difference compares adjacent values:
+
+$$
+(\Delta S)[t]=S[t+1]-S[t].
+$$
+
+For our record, $\Delta S=(1,0,3)$ on three valid adjacent pairs. It describes changes, not the original levels.
+
+If those addresses are times separated by $\Delta t$, then $\Delta S[t]/\Delta t$ has units of change per unit time. A difference alone has the units of the values.
+
+## 🏵 Simple signals are building blocks {#sec-sample-signal-operations-simple-signals-are-building-blocks}
+
+On an integer domain, define the discrete unit pulse
+
+$$
+\delta_k[t]=
+\begin{cases}
+1,&t=k,\\
+0,&t\ne k.
+\end{cases}
+$$
+
+Then every finite record can be reconstructed as
+
+$$
+S[t]=\sum_k S[k]\delta_k[t].
+$$
+
+Each pulse places one value at its own address. This is the Kronecker-delta construction. The continuous Dirac delta is a unit point mass, not an ordinary real-valued function that is one at a single point.
+
+A unit step $H_k[t]=\mathbf1_{\{t\geq k\}}$ begins a level at address $k$. A finite window
+
+$$
+H_a[t]-H_b[t],\qquad a<b,
+$$
+
+selects the integer addresses $a,\ldots,b-1$. The boundary convention explains the width $b-a$.
+
+## 💡 “Normalize” needs a target {#sec-sample-signal-operations-normalize-needs-a-target}
+
+Three common operations preserve different structures:
+
+- Divide a nonnegative potential by its positive total to obtain probability mass.
+- Divide a nonzero numerical record by its Euclidean norm to obtain unit norm.
+- Center a nonconstant record and divide by a declared standard deviation to standardize its values.
+
+For a nonconstant record with empirical standard deviation $\sigma_S$,
+
+$$
+Z[t]=\frac{S[t]-M}{\sigma_S}.
+$$
+
+The result has empirical mean zero and empirical variance one. [Signal Energy](signal-energy.qmd) explains the denominator.
+
+A constant record has $\sigma_S=0$, so this standardization is undefined. Its absence of variation should be handled explicitly.
+
+## ☯ Sorting changes the question answered by an address {#sec-sample-signal-operations-sorting-changes-the-question-answered-by-an-address}
+
+Sorting $R=(2,5,1,2)$ gives $(1,2,2,5)$. The values and their multiplicities survive. Address one now means the lowest rank, rather than the first observation.
+
+That is useful for medians and quantiles. It can erase transitions needed to understand a generator with memory.
+
+::: {.callout-tip}
+## Try the idea {#sec-sample-signal-operations-try-the-idea}
+
+For $S=(1,2,2,5)$, can the first differences $(1,0,3)$ reconstruct the original record on their own? What additional value would suffice?
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-signal-operations-work-it-through}
+
+They determine changes but leave the starting level unknown. Supplying $S[1]=1$ lets us successively add the differences to recover $1,2,2,5$. Every constant shift of the original record has the same first differences.
+:::
+
+*Starting slides: [Muestreo, 41, 42, 43, 44, 58, 59, 60, 61, 62](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3dfe9e5de80_0_311).*
+

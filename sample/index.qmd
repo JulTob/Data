@@ -1,0 +1,81 @@
+---
+title: "Sample: A Grammar of Observation"
+---
+
+A die is rolled. A card is drawn. A thermometer is read.
+
+Each leaves a value. Yet the next value depends on a different kind of arrangement: a die can repeat a face, a deck can lose a card, and a thermometer can resolve only the distinctions its construction allows.
+
+Before a calculation begins, there is already a system to understand.
+
+This part develops the vocabulary of the *Muestreo* presentation into a grammar for that system. We will give each idea room to become useful before asking it to carry another.
+
+## 🏵 The question running through these pages {#sec-sample-index-the-question-running-through-these-pages}
+
+**What does this representation preserve, and what can we safely do with it?**
+
+An address preserves where an observation belongs. A probability preserves relative weight. A logical predicate preserves whether a condition holds. A fuzzy membership profile preserves how a value fits a description.
+
+Their shapes may resemble each other on paper. Their meanings determine their operations.
+
+We will keep the notes' **potential**, **mark**, **aura**, and operator viewpoint. Their definitions will be close to their examples, so a symbol remains connected to something we can explain.
+
+## 🔰 A path through the chapter {#sec-sample-index-a-path-through-the-chapter}
+
+**First, learn to observe.**
+
+- [Observations](observations.qmd): choose the distinction that becomes a datum.
+- [Signals](signals.qmd): give each value an address.
+- [Discrete and continuous](discrete-and-continuous.qmd): distinguish the structure of addresses from the structure of values.
+
+**Then, describe what can produce a record.**
+
+- [Generators](generators.qmd): specify a rule and what it remembers.
+- [Dice and decks](dice-and-decks.qmd): see replacement change the experiment.
+- [Potential](potential.qmd): assign weights with a declared meaning.
+- [Probability](probability.qmd): express each event's share of the total.
+- [Reticence](reticence.qmd): explore reciprocal probability and its limits.
+
+**Next, give descriptions a logic.**
+
+- [Binary logic](binary-logic.qmd): select through yes-or-no conditions.
+- [Fuzzy logic](fuzzy-logic.qmd): describe graded membership.
+- [Fuzzy numbers](fuzzy-numbers.qmd): give a numerical description a profile.
+- [Fuzzy generators](fuzzy-generators.qmd): turn graded rules into outputs through an explicit policy.
+
+**Then, build operations that respect those meanings.**
+
+- [Data algebra](data-algebra.qmd): state the input, output, and contract of an operation.
+- [Signal operations](signal-operations.qmd): change values, addresses, or order deliberately.
+- [Masks](masks.qmd): select and weight observations.
+- [Combining generators](combining-generators.qmd): form pairs before collapsing them into totals.
+- [Mixtures](mixtures.qmd): choose which source will produce the next value.
+- [Convolution](convolution.qmd): collect independent contributions into a sum.
+- [Conditioning](conditioning.qmd): revise the relevant possibilities after a clue.
+- [Bayes](bayes.qmd): read the joint evidence from the other direction.
+
+**Finally, read what a sample can tell us.**
+
+- [Marks and auras](marks-and-auras.qmd): choose a position and a description of reach.
+- [Signal energy](signal-energy.qmd): connect centered power to variance.
+- [Empirical distributions](empirical-distributions.qmd): build a profile from a record.
+- [Sampling design](sampling-design.qmd): examine where the observation procedure reaches.
+- [Sampling](sampling.qmd): bring the pieces together around an unknown generator.
+
+Each page ends with a small question and a worked answer. Explaining the answer in ordinary language is part of the exercise.
+
+## ☯ The place of this chapter {#sec-sample-index-the-place-of-this-chapter}
+
+*Sample* starts with objects we can manipulate. [Sample Space](../sample-space/index.qmd) develops the formal space of possibilities. [Statistics](../statistics/index.qmd) develops the tools for learning from variation.
+
+These perspectives support one another. You can follow the pages in order, then return through the cross-links when a later idea changes how an earlier one looks.
+
+::: {.callout-note collapse="true"}
+## Vocabulary and sources {#sec-sample-index-vocabulary-and-sources}
+
+The starting point is Julio Toboso's [Muestreo presentation](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit). Each page links to its starting slides.
+
+**Reticence** is proposed vocabulary for reciprocal event probability. It is introduced with its standard mathematical equivalents so the name can change without changing the calculation.
+
+The presentation's broad use of *Fuzzy Number* motivates a common architecture for extended values. Here probabilities, membership grades, and finite inventories retain their own contracts. The general “combolución” operation remains an open design question; the concrete pair, mixture, convolution, and conditioning operations are defined individually.
+:::

@@ -1,0 +1,117 @@
+---
+title: "Marks and Auras: Position and Reach"
+---
+
+A record can contain more variation than one glance can hold. We choose a point to orient ourselves, then describe how far the values reach around it.
+
+The presentation calls these roles **mark** and **aura**.
+
+## 🔰 A mark answers a question about position {#sec-sample-marks-and-auras-a-mark-answers-a-question-about-position}
+
+Use the record
+
+$$
+S=(1,2,2,5).
+$$
+
+Different questions choose different marks:
+
+- **Minimum:** where does the observed range begin? At one.
+- **Maximum:** where does it end? At five.
+- **Mean:** where do the values balance? At $(1+2+2+5)/4=2.5$.
+- **Median:** where does ordering divide the record into halves? At two.
+
+The mean need not be an observed value. The median and the mean need not coincide.
+
+A mark gains meaning through its selection rule.
+
+## 🏵 The mean is a balance point {#sec-sample-marks-and-auras-the-mean-is-a-balance-point}
+
+For $n>0$ numerical observations,
+
+$$
+M_{\mathrm{mean}}(S)=\frac1n\sum_tS[t].
+$$
+
+Subtracting this mark leaves deviations whose total is zero:
+
+$$
+\sum_t(S[t]-M_{\mathrm{mean}})=0.
+$$
+
+For our record, those deviations are $(-1.5,-0.5,-0.5,2.5)$. Their positive and negative contributions balance.
+
+That is why the mean responds to a large value far from the others: a distant observation exerts more influence on this balance.
+
+## ⚙️ The median uses order {#sec-sample-marks-and-auras-the-median-uses-order}
+
+For a probability law, a median $m$ satisfies
+
+$$
+\mathbb P(X\leq m)\geq\frac12,
+\qquad
+\mathbb P(X\geq m)\geq\frac12.
+$$
+
+For a finite sample, apply this to its relative counts. At least half the observations lie on either side, counting equality on both sides.
+
+A discrete cumulative distribution can jump over $1/2$. Requiring exact equality would exclude perfectly ordinary medians.
+
+For an even number of observations, taking the midpoint of the two central ordered values gives a conventional choice. Other median values can be possible when those central values differ.
+
+## 💡 An aura needs a declared measure {#sec-sample-marks-and-auras-an-aura-needs-a-declared-measure}
+
+For our record, the full range is
+
+$$
+A_{\mathrm{range}}=\max S-\min S=5-1=4.
+$$
+
+This is a difference between values. It is not the observation count and not the count of integers from one through five.
+
+A five-mark description uses the minimum, lower quartile, median, upper quartile, and maximum. With the **median-of-halves convention** for this four-value record,
+
+$$
+(1,\ 1.5,\ 2,\ 3.5,\ 5)
+$$
+
+gives those marks. The interquartile aura is then
+
+$$
+A_{\mathrm{IQR}}=3.5-1.5=2.
+$$
+
+Quantile conventions can differ, especially for small records. Naming the convention makes the result reproducible.
+
+A standard-deviation aura answers another question: how large are deviations around the mean in a root-mean-square sense? [Signal Energy](signal-energy.qmd) develops it from that question.
+
+## ☯ A summary is an intentional loss {#sec-sample-marks-and-auras-a-summary-is-an-intentional-loss}
+
+The notation $P(M)\{A\}$ retains a profile alongside a mark and an aura. If we keep only $M$ and $A$, the profile is usually not recoverable.
+
+For example, the records
+
+$$
+(-1,-1,1,1)
+\quad\text{and}\quad
+(-\sqrt2,0,0,\sqrt2)
+$$
+
+share mean zero and empirical variance one. Their shapes differ.
+
+Knowing where a signal balances and how far it typically spreads does not determine which values are common.
+
+::: {.callout-tip}
+## Try the idea {#sec-sample-marks-and-auras-try-the-idea}
+
+Replace five by 50 in $S=(1,2,2,5)$. What happens to the mean, median, and range? Explain which definition makes each response happen.
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-marks-and-auras-work-it-through}
+
+The mean becomes $55/4=13.75$, because the balance must respond to the larger value. The median stays two because the central ordered values stay two. The range becomes $50-1=49$ because it follows the endpoints.
+:::
+
+*Starting slides: [Muestreo, 23, 25, 36, 37, 38, 39, 45, 49, 50, 51, 52, 65, 67](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3df571d182a_0_118).*
+

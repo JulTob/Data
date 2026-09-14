@@ -1,0 +1,80 @@
+---
+title: "Mixtures: Choose a Generator"
+---
+
+Two machines can produce the same kinds of values. Before each observation, a selector chooses which machine to use.
+
+The output has one source at a time. Its probability law must account for that choice.
+
+## 🔰 Put the selector into the experiment {#sec-sample-mixtures-put-the-selector-into-the-experiment}
+
+Suppose machine A always emits zero and machine B always emits one.
+
+Choose A with probability $0.75$ and B with probability $0.25$. The output is then zero with probability $0.75$ and one with probability $0.25$.
+
+The selector has turned two deterministic sources into a random output.
+
+More generally, let the source laws be $p_A[f]$ and $p_B[f]$. If the selector chooses A with probability $\alpha$ and B with probability $1-\alpha$, then
+
+$$
+p_{\mathrm{mix}}[f]
+=
+\alpha p_A[f]+(1-\alpha)p_B[f].
+$$
+
+This assumes each selected source follows its stated conditional law. The mixture weights record the selection probabilities.
+
+## 🏵 The source label explains the addition {#sec-sample-mixtures-the-source-label-explains-the-addition}
+
+The event “output is $f$” can occur by two disjoint routes:
+
+- Select A and let A emit $f$.
+- Select B and let B emit $f$.
+
+We add the probabilities of those routes. The source label is part of the hidden joint description even when the final record omits it.
+
+```{mermaid}
+%%| label: fig-sample-mixture
+%%| fig-cap: "The selector chooses one source for an output. Both routes can produce the same recorded value."
+flowchart TD
+    C["Source selector"] -->|"Weight alpha"| A["Generator A"]
+    C -->|"Weight 1 minus alpha"| B["Generator B"]
+    A --> Y["One recorded output"]
+    B --> Y
+```
+
+## ⚙️ Mixing and adding answer different questions {#sec-sample-mixtures-mixing-and-adding-answer-different-questions}
+
+If A always emits zero and B always emits one:
+
+- Choosing one source produces either zero or one.
+- Generating from both and adding produces one every time.
+
+The same two source descriptions support two different experiments.
+
+For probability vectors, a convex combination such as $\alpha p_A+(1-\alpha)p_B$ describes source selection. It does not describe addition of their numerical outcomes.
+
+## 💡 Decide how often the selector is used {#sec-sample-mixtures-decide-how-often-the-selector-is-used}
+
+A fresh, independent source choice for every observation can produce a sequence of independent mixture draws, if the component generators also supply the required fresh independent draws.
+
+Choosing the source once for an entire run creates a different relationship. In our deterministic example, every run is then all zeros or all ones.
+
+The one-observation mixture law is the same in either case. Their sequence laws differ because the selector's state persists in only one of them.
+
+This returns us to the central question of [Generators](generators.qmd): what is remembered between outputs?
+
+::: {.callout-tip}
+## Try the idea {#sec-sample-mixtures-try-the-idea}
+
+A fair selector chooses between a fair six-sided die and a machine that always emits six. What is the probability of observing six? Does the output ever exceed six?
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-mixtures-work-it-through}
+
+The probability is $(1/2)(1/6)+(1/2)(1)=7/12$. No output exceeds six because the experiment chooses one source; it does not add their outputs.
+:::
+
+*Starting slides: [Muestreo, 9, 19, 20, 31, 89](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3df571d182a_0_52). This page develops an additional construction from the presentation's vocabulary.*
+

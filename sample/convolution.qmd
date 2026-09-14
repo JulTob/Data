@@ -1,0 +1,106 @@
+---
+title: "Convolution: Collect the Ways to Make a Sum"
+---
+
+The sum of two dice hides the pair that produced it. To recover the probability of a total, we must collect every pair that could have made it.
+
+Convolution organizes that collection.
+
+## 🔰 Start with two coins {#sec-sample-convolution-start-with-two-coins}
+
+Let $X,Y\in\{0,1\}$ be independent fair coin outcomes.
+
+Their four equally likely pairs give:
+
+- $(0,0)$ produces total zero.
+- $(0,1)$ and $(1,0)$ produce total one.
+- $(1,1)$ produces total two.
+
+The sum therefore has probability profile
+
+$$
+p_{X+Y}=(1/4,\ 1/2,\ 1/4).
+$$
+
+Adding the two original probability vectors coordinate by coordinate would not produce this profile. We added outcome values inside each pair, then collected probability mass by the resulting total.
+
+## 🏵 Fix the total and find its partners {#sec-sample-convolution-fix-the-total-and-find-its-partners}
+
+Suppose the desired total is $z$. If the first value is $x$, the second must be $z-x$.
+
+For independent discrete random variables,
+
+$$
+p_{X+Y}[z]
+=
+\sum_x p_X[x]\,p_Y[z-x].
+$$
+
+This operation is written
+
+$$
+p_{X+Y}=p_X*p_Y.
+$$
+
+For finite supports, take missing profile entries as zero. The sum then collects only valid partners.
+
+To obtain total seven from two fair dice, $x$ can be any face from one to six. Each has one valid partner, so the probability is $6(1/6)(1/6)=1/6$.
+
+To obtain twelve, only the pair $(6,6)$ contributes, giving $1/36$.
+
+## ⚙️ Independence explains the multiplication {#sec-sample-convolution-independence-explains-the-multiplication}
+
+The general construction uses the joint law:
+
+$$
+\mathbb P(X+Y=z)
+=
+\sum_x \mathbb P(X=x,Y=z-x).
+$$
+
+Independence lets us replace each joint weight by the product of marginal weights. That replacement is the extra step.
+
+If $Y=X$ for a fair binary outcome, the sum is zero or two, each with probability $1/2$. There is no total one. Convolving the marginal coin laws would incorrectly invent it.
+
+Convolution of marginal probability profiles describes the sum only when the required joint factorization holds.
+
+## ☯ The same operation appears in signals {#sec-sample-convolution-the-same-operation-appears-in-signals}
+
+A discrete filter can use a short profile $h[k]$ to combine neighboring signal values:
+
+$$
+Y[t]=\sum_k h[k]S[t-k].
+$$
+
+For $h[0]=h[1]=1/2$ and zero elsewhere,
+
+$$
+Y[t]=\frac{S[t]+S[t-1]}2.
+$$
+
+At addresses with an available predecessor, this averages the current and preceding value. The weights form a small **kernel** describing how nearby values contribute.
+
+Probability convolution and signal filtering share the same algebraic operation. Their operands have different interpretations: probability masses in one case, numerical readings and filter coefficients in the other. A deterministic filter does not require its input readings to be independent.
+
+A finite record still needs the [boundary contract](signal-operations.qmd) for unavailable neighbors.
+
+## 💡 A sum may hide too much to reverse {#sec-sample-convolution-a-sum-may-hide-too-much-to-reverse}
+
+Knowing a sum's distribution does not generally identify both source distributions. For example, the same random quantity could be represented as itself plus a constant zero, or through a genuinely composite model when such a model exists.
+
+An inverse problem requires additional knowledge about the sources. Conditioning instead uses a clue to restrict an already specified joint model; it is a separate operation.
+
+::: {.callout-tip}
+## Try the idea {#sec-sample-convolution-try-the-idea}
+
+Let independent $X$ be equally likely to be zero or one, and $Y$ equally likely to be zero or two. List the four sums and their probabilities. What changes if $Y=2X$?
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-convolution-work-it-through}
+
+Independence gives sums $0,1,2,3$, each with probability $1/4$. If $Y=2X$, only pairs $(0,0)$ and $(1,2)$ occur, so the sum is zero or three with probability $1/2$ each. The marginal source laws agree in both constructions; the joint relationship changes.
+:::
+
+*Starting slides: [Muestreo, 12, 31, 84, 89](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3df571d182a_0_86).*
+

@@ -1,0 +1,96 @@
+---
+title: "Potential: A Weight for Each Possibility"
+---
+
+The die and the deck invite a common drawing: place a weight above each possible value.
+
+For a six-card deck, each face has one card. For a twelve-card deck with two of each face, each has two. We can see the arrangement before converting anything into probability.
+
+This is the role of **potential** in the notes.
+
+## 🔰 Give the weights a meaning {#sec-sample-potential-give-the-weights-a-meaning}
+
+A potential profile is a nonnegative function over possible values:
+
+$$
+P:\mathcal V\longrightarrow[0,\infty),
+\qquad f\longmapsto P[f].
+$$
+
+Here $f$ is an address in the space of values. The output $P[f]$ is its weight.
+
+A weight might count cards, count elementary outcomes, or encode a proposed relative propensity. State which interpretation is being used. The same numerical profile can come from different constructions.
+
+For a deck with two cards labeled one and one card labeled two,
+
+$$
+P[1]=2,\qquad P[2]=1,
+\qquad Z_P=\sum_fP[f]=3.
+$$
+
+If omitted values have zero potential, that convention belongs in the definition.
+
+## 🏵 Potential retains a scale {#sec-sample-potential-potential-retains-a-scale}
+
+Compare
+
+$$
+P=(2,1)
+\qquad\text{and}\qquad
+Q=(20,10).
+$$
+
+They have the same proportions. As inventories, however, they describe decks of different sizes. Drawing one card changes a three-card inventory more strongly than a thirty-card inventory.
+
+A normalization can preserve the proportions while discarding this scale. That makes the normalized profile useful for one question and insufficient for another.
+
+The total $Z_P$ records what the weights add up to. In the slides this total is written $|P|$. We will also write $Z_P$ to make its role explicit.
+
+## ⚙️ Capacity is a different kind of weight {#sec-sample-potential-capacity-is-a-different-kind-of-weight}
+
+The presentation assigns potential two to each face when two dice are rolled: a pair can contain that face at most twice.
+
+That is a **capacity profile**. It describes a maximum multiplicity within an observation. It does not count how many of the 36 ordered pairs produce a particular sum.
+
+For face six, the pair $(6,6)$ reaches capacity two. Many other pairs contain one six, and many contain none. A maximum alone cannot distinguish how often these cases occur.
+
+We can retain this idea by naming the contract:
+
+$$
+C_{\max}[f]
+=
+\text{largest possible count of }f\text{ in one emitted collection}.
+$$
+
+An inventory $c[f]$, a capacity $C_{\max}[f]$, and an elementary-outcome weight $P[f]$ can all be profiles. Their updates and normalizations need different justifications.
+
+[Combining Generators](combining-generators.qmd) develops the ordered-pair construction.
+
+## 💡 Equal weight is an assumption with consequences {#sec-sample-potential-equal-weight-is-an-assumption-with-consequences}
+
+Giving each face of a die weight one encodes an equal-weight model. Counting the six labels cannot establish that the physical die is fair.
+
+For a uniform draw from a deck, every individual card has equal chance by the sampling rule. A repeated label receives more weight because more selectable cards carry it.
+
+We obtain the weight of a label by collecting the weights of the elementary choices behind it.
+
+## ☯ Preserve the architecture and its distinctions {#sec-sample-potential-preserve-the-architecture-and-its-distinctions}
+
+A profile gives us a common interface: ask at a value and receive a weight.
+
+The kind of weight determines what we may infer. Later, [Fuzzy Logic](fuzzy-logic.qmd) will use grades of membership. They fit the profile architecture, while obeying a different interpretation from counts.
+
+::: {.callout-tip}
+## Try the idea {#sec-sample-potential-try-the-idea}
+
+Two profiles are $(1,1,1)$ and $(10,10,10)$. Name one question for which they give the same answer and one for which they do not.
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-potential-work-it-through}
+
+If the weights are card counts and the draw is uniform, both give probability $1/3$ for each label on the first draw. They disagree about how many cards can be drawn before the source is empty, and about how strongly one removal changes the next probabilities.
+:::
+
+*Starting slides: [Muestreo, 7, 8, 9, 19, 23](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3df489b62c5_0_0).*
+

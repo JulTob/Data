@@ -1,0 +1,120 @@
+---
+title: "Data Algebra: Operations with a Contract"
+---
+
+A symbol such as “plus” looks small. It can hide a choice about which things are being combined.
+
+Add two measurements taken together, combine every possible pair of values, or add the weights assigned to one event: the arithmetic sign may be familiar while the objects change.
+
+A data algebra makes those choices explicit.
+
+## 🔰 Begin with the objects {#sec-sample-data-algebra-begin-with-the-objects}
+
+The chapter has introduced several types:
+
+- A **value** is one answer, with its units or category.
+- A **signal** assigns values to addresses.
+- A **potential** assigns nonnegative weights to possibilities, with a declared weight interpretation.
+- A **probability profile** assigns normalized mass, or density relative to a specified measure.
+- A **membership profile** assigns grades in $[0,1]$.
+
+These types may share a storage shape. Their allowed operations and their invariants differ.
+
+Adding two probability vectors coordinate by coordinate gives total mass two. It can be interpreted as a combined weight profile, but it is not already a normalized probability vector.
+
+## 🏵 An operation has an input and an output {#sec-sample-data-algebra-an-operation-has-an-input-and-an-output}
+
+The presentation distinguishes several useful families.
+
+**Evaluation** asks for one value at an address:
+
+$$
+S[t]\in\mathcal V.
+$$
+
+**Pointwise combination** aligns two signals on the same addresses:
+
+$$
+(S\oplus R)[t]=S[t]+R[t].
+$$
+
+**All-pairs combination** creates a larger domain:
+
+$$
+(S\boxplus R)[t,u]=S[t]+R[u].
+$$
+
+**Reduction** turns a whole record into a summary, such as $\sum_t S[t]$.
+
+**Transformation** produces another signal, such as a centered or sorted record.
+
+The symbols $\oplus$ and $\boxplus$ make the two addition procedures visible. The equation supplies their precise meaning here.
+
+## ⚙️ The smallest example exposes the difference {#sec-sample-data-algebra-the-smallest-example-exposes-the-difference}
+
+Take aligned numerical records
+
+$$
+S=(1,3),\qquad R=(2,4).
+$$
+
+Their pointwise sum is
+
+$$
+S\oplus R=(3,7).
+$$
+
+Their all-pairs sum is
+
+$$
+S\boxplus R=
+\begin{pmatrix}
+3&5\\
+5&7
+\end{pmatrix}.
+$$
+
+The matrix entries refer to $(t,u)$ pairs. It has a different domain from the original records.
+
+If the original rows were paired measurements from two trials, the two off-diagonal entries were never observed together. Creating them is an operation on the data, not evidence that they occurred.
+
+A probabilistic model may justify using all pairs to describe independent generators. The storage operation alone cannot establish independence.
+
+## 💡 State the contract before overloading the symbol {#sec-sample-data-algebra-state-the-contract-before-overloading-the-symbol}
+
+For each operation, ask:
+
+- What are the input types and units?
+- Which addresses must align?
+- What type and domain does the output have?
+- Which assumptions justify the interpretation?
+- When is the operation undefined?
+
+Examples already encountered include a positive denominator for normalization, matching units for subtraction, and a specified family of fuzzy connectives.
+
+Rejecting an invalid operation preserves meaning. Silently clipping a negative probability or filling an unknown reading with zero would add an unannounced model.
+
+## ☯ A shared architecture can support distinct algebras {#sec-sample-data-algebra-a-shared-architecture-can-support-distinct-algebras}
+
+We may call both a probability law and a fuzzy number extended numerical objects. Their addition still needs a choice.
+
+For independent random quantities, the law of a sum collects joint probability mass. For fuzzy quantities, an extension rule specifies how joint membership is transported. For observed records, pointwise addition uses the pairs already present.
+
+The notes' unfinished union, intersection, and “combolución” operators can be developed within this architecture. The first step is to choose what their operands mean and what the output promises.
+
+The concrete constructions on the next pages give those future abstractions examples to preserve.
+
+::: {.callout-tip}
+## Try the idea {#sec-sample-data-algebra-try-the-idea}
+
+Two probability profiles are $p=(1/2,1/2)$ and $q=(1,0)$. What is $p+q$? What extra declaration would make a normalized average of them describe a generator?
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-data-algebra-work-it-through}
+
+Their coordinate sum is $(3/2,1/2)$, with total two. Dividing by two gives $(3/4,1/4)$. This is the output law of a mixture that chooses between the two original generators with equal probability before producing one output.
+:::
+
+*Starting slides: [Muestreo, 24, 30, 31, 78, 79, 80, 88, 89](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3dfe9e5de80_0_334).*
+

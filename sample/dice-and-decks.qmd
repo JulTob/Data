@@ -1,0 +1,97 @@
+---
+title: "Dice and Decks: Does the Generator Remember?"
+---
+
+Place a fair six-sided die beside six cards labeled $1$ through $6$. Shuffle the cards uniformly.
+
+Before the first observation, either object produces each label with probability $1/6$.
+
+Now observe a six.
+
+What remains possible depends on what we do with the card.
+
+## 🔰 Replacement is a rule of the experiment {#sec-sample-dice-and-decks-replacement-is-a-rule-of-the-experiment}
+
+For the ideal die, assume each roll is independent and fair. Its next six still has probability $1/6$.
+
+For the cards, there are two procedures:
+
+- **Replace and randomize again.** Put the card back and choose uniformly again. With independent choices, the next draw has the same law as the first.
+- **Keep the card out.** The remaining deck contains no six. The next draw cannot be six.
+
+The original alphabet and first-draw probabilities were identical. The update rule changed the sequence.
+
+## 🏵 A deck carries an inventory {#sec-sample-dice-and-decks-a-deck-carries-an-inventory}
+
+Let $c_t[f]$ count cards labeled $f$ just before draw $t$. If each remaining card is equally likely to be selected, then
+
+$$
+p_t[f]=\frac{c_t[f]}{\sum_g c_t[g]}.
+$$
+
+After drawing label $v$ without replacement,
+
+$$
+c_{t+1}[f]=c_t[f]-\mathbf1_{\{f=v\}}.
+$$
+
+The indicator $\mathbf1_{\{f=v\}}$ is one when $f=v$ and zero otherwise. Only the emitted label loses a card.
+
+For a deck with two copies of every face, the first probability of six is $2/12$. After drawing a six, the second is $1/11$. The profile changes because the source has been consumed.
+
+After the final card, drawing is undefined until we specify a reset or replenishment rule.
+
+## ⚙️ Compare two observations {#sec-sample-dice-and-decks-compare-two-observations}
+
+Two sixes from the independent die have probability
+
+$$
+\frac16\cdot\frac16=\frac1{36}.
+$$
+
+Two sixes from the six-card deck without replacement have probability zero.
+
+For a six followed by a five, the deck gives
+
+$$
+\frac16\cdot\frac15=\frac1{30}.
+$$
+
+The second denominator is five because the second choice is made from a smaller inventory.
+
+The multiplication follows the order of the experiment: first six, then five among the cards that remain.
+
+## 💡 A run can carry a guarantee that one draw cannot {#sec-sample-dice-and-decks-a-run-can-carry-a-guarantee-that-one-draw-cannot}
+
+Drawing all six cards guarantees one appearance of each face. Six die rolls supply no such guarantee.
+
+For the die, the probability of at least one six in six independent rolls is
+
+$$
+1-\left(\frac56\right)^6\approx0.665.
+$$
+
+There is still about a one-in-three chance of seeing no six. “One chance in six” has never promised one occurrence in every block of six.
+
+Conversely, a particular card in a uniformly shuffled deck has probability $1/6$ of occupying any fixed position. Its marginal probabilities look uniform across positions even though the draws depend on one another.
+
+## ☯ The observation may change the source {#sec-sample-dice-and-decks-the-observation-may-change-the-source}
+
+This distinction travels beyond games. Sampling units from a finite population without replacement, consuming stock from a warehouse, and drawing independent simulated values require different models.
+
+The generator's state tells us whether repetition offers a fresh version of the same trial.
+
+::: {.callout-tip}
+## Try the idea {#sec-sample-dice-and-decks-try-the-idea}
+
+A deck contains two red and two blue cards. Draw without replacement. After observing red, what is the chance of another red? What would it be with replacement and independent randomization?
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-dice-and-decks-work-it-through}
+
+Without replacement, one red remains among three cards, giving $1/3$. With replacement, two red remain among four, giving $1/2$. The first observation changes the next inventory only in the first procedure.
+:::
+
+*Starting slides: [Muestreo, 6, 7, 9, 98](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3e1ab53374d_0_15).*
+

@@ -1,0 +1,129 @@
+---
+title: "Empirical Distributions: Let the Record Speak"
+---
+
+A potential profile can describe a proposed source. We can also build one from the observations themselves.
+
+Each occurrence contributes one unit of weight to its observed value.
+
+## 🔰 Count the record {#sec-sample-empirical-distributions-count-the-record}
+
+For a record with $n>0$ observations, define
+
+$$
+c_S[f]=\sum_{t=1}^{n}\mathbf1_{\{S[t]=f\}}.
+$$
+
+The indicator contributes one whenever the observation matches $f$.
+
+The presentation's 28 die throws are
+
+$$
+\begin{gathered}
+1,6,2,5,4,6,3,2,4,1,3,5,2,6,\\
+4,1,3,5,4,6,2,3,1,4,5,6,2,3.
+\end{gathered}
+$$
+
+Their face counts are
+
+$$
+(c_S[1],\ldots,c_S[6])=(4,5,5,5,4,5).
+$$
+
+Every observation contributes once, so the counts total exactly 28.
+
+## 🏵 Normalize the counts {#sec-sample-empirical-distributions-normalize-the-counts}
+
+The empirical probability mass function is
+
+$$
+\widehat p_S[f]=\frac{c_S[f]}n.
+$$
+
+This is an exact description of the unweighted record. The denominator equals the observation count, not approximately but exactly.
+
+It is also the probability law obtained by choosing one of the observed addresses uniformly at random and returning its value.
+
+That interpretation gives the empirical distribution a concrete generator: resample the recorded observations with replacement.
+
+```{python}
+#| label: fig-sample-empirical-profile
+#| fig-cap: "The original 28 observations and their empirical probability profile. The horizontal reference is the proposed fair-die law, not an assumed property of the unknown source."
+#| fig-alt: "A sequence of 28 die outcomes is shown above a six-bar empirical distribution with counts four, five, five, five, four, five and a reference line at one sixth."
+#| fig-format: svg
+#| fig-width: 9
+#| fig-height: 5.5
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+rolls = np.array([
+    1, 6, 2, 5, 4, 6, 3, 2, 4, 1, 3, 5, 2, 6,
+    4, 1, 3, 5, 4, 6, 2, 3, 1, 4, 5, 6, 2, 3
+])
+faces = np.arange(1, 7)
+counts = np.bincount(rolls, minlength=7)[1:7]
+figure, axes = plt.subplots(2, 1, figsize=(9, 5.5), layout="constrained")
+axes[0].plot(np.arange(1, rolls.size + 1), rolls, "o-", color="#236B8E", linewidth=0.8)
+axes[0].set(xlabel="Observation address", ylabel="Face", yticks=faces)
+axes[1].bar(faces, counts / rolls.size, color="#236B8E")
+axes[1].axhline(1 / 6, color="#A54B30", linestyle="--", label="Fair-die reference")
+axes[1].set(xlabel="Face", ylabel="Empirical probability", xticks=faces, ylim=(0, 0.23))
+axes[1].legend(frameon=False)
+for axis in axes:
+    axis.grid(axis="y", alpha=0.15)
+    axis.set_axisbelow(True)
+plt.show()
+```
+
+## ⚙️ The mean can be read from either representation {#sec-sample-empirical-distributions-the-mean-can-be-read-from-either-representation}
+
+Grouping observations by their values gives
+
+$$
+\frac1n\sum_tS[t]
+=
+\sum_f f\,\widehat p_S[f].
+$$
+
+The sample mean is exactly the expected value under the empirical distribution.
+
+For the 28 throws, it is $99/28\approx3.536$. The proposed fair-die generator has mean $3.5$. Those are different objects: a summary of this record and a property of a model.
+
+The equality in the display does not equate the observed mean with the mean of the unknown source.
+
+## 💡 A histogram changes what remains visible {#sec-sample-empirical-distributions-a-histogram-changes-what-remains-visible}
+
+Counts discard the original observation order. They can be sufficient for some questions about independent repeated draws while missing the transitions needed to study a source with memory.
+
+Real-valued measurements also have a discrete empirical distribution: each recorded value carries its observed share of the mass. Drawing a histogram density adds bins. For a bin of width $w$, its density height is
+
+$$
+\frac{\text{observations in bin}}{nw}.
+$$
+
+Multiplying the height by the width recovers the bin's relative frequency.
+
+## ☯ Description becomes estimation through assumptions {#sec-sample-empirical-distributions-description-becomes-estimation-through-assumptions}
+
+Under independent, identically distributed sampling, the relative frequency of each fixed event converges to its probability as the record grows. Other sampling structures need their own arguments.
+
+A source that tosses a coin once and repeats forever has an empirical profile concentrated on one outcome in every run. The record does not approach a half-and-half profile.
+
+Also, signed differences between two normalized probability profiles always sum to zero. That cancellation cannot establish that the profiles agree.
+
+::: {.callout-tip}
+## Try the idea {#sec-sample-empirical-distributions-try-the-idea}
+
+A record contains $2,2,5$. Write its empirical law and mean. Can we conclude that a value absent from the record is impossible for the original generator?
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-empirical-distributions-work-it-through}
+
+The empirical law gives mass $2/3$ to two and $1/3$ to five, with mean three. It assigns zero to unseen values as a description of this record. Their true generating probabilities may still be positive.
+:::
+
+*Starting slides: [Muestreo, 40, 69, 70, 71, 72](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3e5e37f54f7_0_5).*
+

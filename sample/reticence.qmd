@@ -1,0 +1,98 @@
+---
+title: "Reticence: Reading Probability Backwards"
+---
+
+“One chance in six” can be read from either end.
+
+The fraction $1/6$ describes the share of trials that produce an event under the model. The number six gives a scale on which to think about repeated opportunities.
+
+This change of viewpoint makes reciprocal probability a useful bridge.
+
+## 🏵 A proposed name with an explicit definition {#sec-sample-reticence-a-proposed-name-with-an-explicit-definition}
+
+In this book, let **reticence** be a working name for
+
+$$
+\mathcal R(A)=\frac1{\mathbb P(A)},
+\qquad \mathbb P(A)>0.
+$$
+
+The established mathematical description is *reciprocal event probability*. The name is a conceptual aid, not a claim that a generator has intentions or physically opposes an outcome.
+
+For a fair die:
+
+- A six has probability $1/6$ and reticence $6$.
+- An even face has probability $1/2$ and reticence $2$.
+- A face in $\{1,\ldots,6\}$ has probability one and reticence one.
+
+As an event becomes less likely, its reticence grows. For an event of zero probability, we may use $+\infty$ as an extended-value convention; ordinary division by zero remains undefined.
+
+“Resistance” suggests a physical mechanism. “Reticence” gives us a looser metaphor while leaving the mathematical quantity unchanged. Neither name determines which reciprocal was intended; the equation does.
+
+## 🔰 When does it count attempts? {#sec-sample-reticence-when-does-it-count-attempts}
+
+Repeat independent trials, each with the same success probability $p>0$. Let $T$ count trials up to and including the first success.
+
+Call the expected number of trials $m$. We always spend one trial. With probability $1-p$ we fail and face the same waiting problem again:
+
+$$
+m=1+(1-p)m.
+$$
+
+Therefore,
+
+$$
+m=\frac1p.
+$$
+
+This is the mean of the geometric waiting-time distribution. Reticence has an operational interpretation here: **the expected number of attempts, including the successful one**.
+
+It is an average across repeated runs. It does not promise success by attempt $\mathcal R$.
+
+For the six on a fair die, the mean wait is six rolls. As [Dice and Decks](dice-and-decks.qmd) showed, the chance of seeing at least one six by then is only about $0.665$.
+
+## ⚙️ Several quantities can sound like “the opposite” {#sec-sample-reticence-several-quantities-can-sound-like-the-opposite}
+
+For $p=1/6$, distinguish these readings:
+
+- **Complement probability:** $1-p=5/6$, the chance of no six on one roll.
+- **Reticence:** $1/p=6$, the reciprocal probability.
+- **Odds against:** $(1-p)/p=5$, five units of failure weight per unit of success weight.
+- **Surprise:** $-\log_2p=\log_2 6\approx2.585$ bits.
+
+Under the independent repeated-trial model, odds against also equal the expected number of failures before the first success. They are $\mathcal R-1$.
+
+Surprise takes a logarithm of reticence:
+
+$$
+I(A)=\log_2\mathcal R(A).
+$$
+
+For independent events, probabilities multiply, reticences multiply, and surprises add. Two independent sixes have probability $1/36$, reticence $36$, and surprise $2\log_2 6$ bits. This is a first bridge to [Shannon's information-theoretic scale](https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf).
+
+## ⚠️ The waiting interpretation belongs to a procedure {#sec-sample-reticence-the-waiting-interpretation-belongs-to-a-procedure}
+
+A shuffled six-card deck has first-draw probability $1/6$ for its six. But its position is equally likely to be $1,2,\ldots,6$, giving mean position
+
+$$
+\frac{1+2+3+4+5+6}{6}=3.5.
+$$
+
+The initial reciprocal probability is still six. It is not the mean wait in this changing-inventory procedure.
+
+Reticence also belongs to an event. In a continuous model, even a possible exact value can have probability zero; a finite-resolution question should specify an interval. Taking the reciprocal of a continuous density would produce a quantity with units that changes under a change of coordinates. For finite-resolution observations, first calculate an interval probability.
+
+::: {.callout-tip}
+## Try the idea {#sec-sample-reticence-try-the-idea}
+
+An event has probability $1/4$. Give its reticence, complement probability, odds against, and surprise. Which quantity counts failed attempts on average under independent repetition?
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-reticence-work-it-through}
+
+The values are $4$, $3/4$, $3$, and $2$ bits. Odds against, $3$, count failures on average under the stated repeated-trial model. Reticence, $4$, also includes the final successful attempt.
+:::
+
+*Starting slides: [Muestreo, 20, 71, 97](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3dfe9e5de80_0_248). This page develops an additional construction from the presentation's vocabulary.*
+

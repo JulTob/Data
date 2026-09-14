@@ -1,0 +1,100 @@
+---
+title: "Sampling Design: Where the Instrument Reaches"
+---
+
+A bigger record can sharpen an answer to the wrong question.
+
+Before counting observations, examine the rule that lets an observation enter the record. The sampler is part of the instrument.
+
+## 🔰 Specify which population the sample should describe {#sec-sample-sampling-design-specify-which-population-the-sample-should-describe}
+
+A population may be a finite collection of units or a conceptual stream of future outcomes. The selection procedure must connect the observations to the intended target.
+
+Random draws from a deck, consecutive measurements from one sensor, and one response from every classroom are different designs.
+
+A statement about the population requires that connection to be visible.
+
+## 🏵 Simple random sampling chooses whole samples fairly {#sec-sample-sampling-design-simple-random-sampling-chooses-whole-samples-fairly}
+
+In simple random sampling without replacement from $N$ finite units, every subset of size $n$ has the same chance of selection.
+
+Each unit then has inclusion probability $n/N$. Equal individual inclusion probabilities alone do not define the design: different procedures can preserve those probabilities while allowing different combinations of units.
+
+Selections are dependent. Once a unit is included, it cannot be chosen again in that sample. This is the deck's inventory rule in another setting.
+
+A complete census removes uncertainty about which units were left unobserved. It can still contain measurement error or missing information within a unit.
+
+## ⚙️ Strata and clusters organize access differently {#sec-sample-sampling-design-strata-and-clusters-organize-access-differently}
+
+**Stratification** divides the population into known groups and samples within each. It can ensure that small but important groups are represented.
+
+Suppose groups A and B make up 75% and 25% of a population. If their sample means are two and six, an estimate of the population mean using those shares is
+
+$$
+0.75(2)+0.25(6)=3.
+$$
+
+Taking equal numbers from each group and averaging them without population weights would instead give four. That result describes an equal mixture of the groups.
+
+**Cluster sampling** selects groups such as schools or collection sites. It can reduce the practical cost of reaching observations. Similarity within a selected group affects how much additional information another nearby observation contributes.
+
+Sampling within every group and selecting only some groups serve different purposes, even when both use a grouping variable.
+
+## 💡 Regular spacing can align with a hidden rhythm {#sec-sample-sampling-design-regular-spacing-can-align-with-a-hidden-rhythm}
+
+For the sequence
+
+$$
+0,1,0,1,0,1,\ldots,
+$$
+
+taking every second address gives only zeros or only ones.
+
+A systematic sampler normally randomizes its starting position. In this example, choosing the two phases with equal probability makes the sample mean zero or one with equal probability. Its average across repetitions is $1/2$, but each individual sample misses the alternation.
+
+```{python}
+#| label: fig-sample-design-alignment
+#| fig-cap: "One phase of an every-second-address sampler sees only zeros. Choosing a random starting phase changes which constant record appears; neither phase reveals the alternation."
+#| fig-alt: "An alternating sequence of zeros and ones has every odd-numbered address highlighted; all highlighted values are zero."
+#| fig-format: svg
+#| fig-width: 8
+#| fig-height: 3
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+addresses = np.arange(1, 25)
+values = (addresses - 1) % 2
+figure, axis = plt.subplots(figsize=(8, 3), layout="constrained")
+axis.plot(addresses, values, "o-", color="#82929B", linewidth=0.8, label="Underlying sequence")
+axis.scatter(addresses[::2], values[::2], color="#A54B30", s=55, zorder=3, label="Selected phase")
+axis.set(xlabel="Observation address", ylabel="Value", yticks=[0, 1], ylim=(-0.15, 1.45))
+axis.legend(frameon=False, loc="upper right")
+axis.grid(alpha=0.15)
+plt.show()
+```
+
+This is a direct connection to signals: observation spacing can conceal variation.
+
+## ☯ More data helps through a model {#sec-sample-sampling-design-more-data-helps-through-a-model}
+
+Under independent repetition, averaging can reduce random variation. Increasing observations within the same overlooked selection pattern can leave the central ambiguity intact.
+
+Ask which change would help: more observations, a different phase, another group, a longer time span, or a better measurement.
+
+The useful sample size belongs to the design and the question together.
+
+::: {.callout-tip}
+## Try the idea {#sec-sample-sampling-design-try-the-idea}
+
+You estimate a school's average travel time using equal-sized samples from two groups that contain 90% and 10% of its students. Their observed means are 10 and 30 minutes. What population-weighted estimate should you report?
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-sampling-design-work-it-through}
+
+Use $0.9(10)+0.1(30)=12$ minutes, assuming the samples adequately represent their respective groups. The unweighted average 20 minutes describes an equal mixture of the two groups, rather than their school population shares.
+:::
+
+*Starting slides: [Muestreo, 26, 97, 98, 99, 100, 101](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3df571d182a_0_33).*
+

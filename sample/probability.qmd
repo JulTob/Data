@@ -1,0 +1,124 @@
+---
+title: "Probability: Sharing the Total"
+---
+
+A deck contains two cards labeled one and one card labeled two. Its potential profile is $(2,1)$.
+
+To answer “What fraction of equally likely cards carry label one?”, we compare the weight two with the total weight three.
+
+Probability expresses that share.
+
+## 🔰 Normalize a nonnegative total {#sec-sample-probability-normalize-a-nonnegative-total}
+
+For discrete possibilities, suppose
+
+$$
+P[f]\geq0,
+\qquad
+0<Z_P=\sum_fP[f]<\infty.
+$$
+
+Define
+
+$$
+p[f]=\frac{P[f]}{Z_P}.
+$$
+
+Then $p[f]\geq0$ and $\sum_fp[f]=1$.
+
+The normalized profile is a probability mass function. It gives $(2/3,1/3)$ for our deck.
+
+The conditions do work: an all-zero profile has no share to distribute; negative weights would produce negative probabilities; an infinite total cannot be normalized by this division.
+
+## 🏵 A probability belongs to an event {#sec-sample-probability-a-probability-belongs-to-an-event}
+
+An event specifies which outcomes count as an answer. For a die, “even” selects $\{2,4,6\}$.
+
+Its probability collects the mass assigned to those possibilities:
+
+$$
+\mathbb P(A)=\sum_{f\in A}p[f].
+$$
+
+With a fair die,
+
+$$
+\mathbb P(\text{even})
+=
+\frac16+\frac16+\frac16
+=
+\frac12.
+$$
+
+The notation $p[f]$ asks about one value. The notation $\mathbb P(A)$ asks about an event, which can contain several values.
+
+We can now change the question without changing the underlying weights.
+
+## ⚙️ Normalization removes common scale {#sec-sample-probability-normalization-removes-common-scale}
+
+For any constant $c>0$,
+
+$$
+\frac{cP[f]}{\sum_g cP[g]}
+=
+\frac{P[f]}{\sum_gP[g]}.
+$$
+
+Thus $(2,1)$ and $(20,10)$ have the same normalized profile.
+
+For two exhaustive alternatives, all probability vectors have the form $(1-\theta,\theta)$ with $0\leq\theta\leq1$. The possible vectors form a line segment. This is the simplest **probability simplex** from the presentation.
+
+More alternatives give more coordinates, still nonnegative and still summing to one. We can return to the geometry later; the essential contract is already visible.
+
+## 🔰 For a continuous model, include the width {#sec-sample-probability-for-a-continuous-model-include-the-width}
+
+Suppose a location $X$ is modeled as uniform along a segment from zero to $0.5$ meters.
+
+Probability is spread along length. A density of $2$ per meter gives
+
+$$
+\mathbb P(0.1\leq X\leq0.2)
+=
+\int_{0.1}^{0.2}2\,dx
+=
+0.2.
+$$
+
+The density's height is two; the event's probability is $0.2$. Height and probability have different units.
+
+Writing the same segment in centimeters changes the density to $0.02$ per centimeter. The corresponding interval from 10 to 20 centimeters still has probability $0.2$.
+
+A density describes **probability per unit of the chosen measure**. Its value can exceed one because its integral supplies the probability.
+
+More generally, an integrable nonnegative profile with positive total can be normalized by
+
+$$
+\rho(x)=\frac{P(x)}{\int P(u)\,du}.
+$$
+
+The integral specifies the measure being used, here ordinary length.
+
+## 💡 Small intervals and single points {#sec-sample-probability-small-intervals-and-single-points}
+
+Every interval of positive width inside the uniform segment has positive probability. A singleton has zero length and therefore zero probability under this model.
+
+No smallest positive interval has been introduced. A point is a different set from every positive-width interval around it.
+
+A physical reading has finite resolution, so the event described by a displayed number often corresponds to a bin of possible physical values. A continuous model can then answer the finite-resolution question by integrating over that bin.
+
+Some real-valued laws also contain point masses. Saying “the values are real numbers” alone does not establish that every singleton has zero probability.
+
+::: {.callout-tip}
+## Try the idea {#sec-sample-probability-try-the-idea}
+
+A variable is uniform on $[0,0.25]$ meters. What is its density, and what is the probability of the interval $[0.10,0.15]$?
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-probability-work-it-through}
+
+The density is $4$ per meter, since $4(0.25)=1$. The interval has width $0.05$ meters, so its probability is $4(0.05)=0.2$. A density above one has produced an ordinary probability between zero and one.
+:::
+
+*Starting slides: [Muestreo, 20, 21, 22, 35, 75](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3dfe9e5de80_0_248).*
+

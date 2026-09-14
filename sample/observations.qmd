@@ -1,0 +1,95 @@
+---
+title: "Observations: What Did We Keep?"
+---
+
+A die lands showing four. We write “4.”
+
+The die also landed somewhere, at a particular angle, after a particular motion. Almost all of that has vanished from the record. What remains is the answer to one chosen question: which face is on top?
+
+An observation begins with a distinction worth keeping.
+
+## 🔰 A datum answers a question {#sec-sample-observations-a-datum-answers-a-question}
+
+We could ask several questions about the same roll:
+
+- Which face appeared?
+- Was the result even?
+- Where did the die stop?
+- How long did it move?
+
+The answers have different types. A face is one of six labels; evenness is Boolean; position needs coordinates; duration has units.
+
+The apparatus alone does not determine the datum. The observation rule does some of the work.
+
+For two dice showing $(2,5)$, we can preserve the pair, record the sum $7$, or record the maximum $5$. Each answer is exact for its question. None contains everything the pair contains.
+
+```{mermaid}
+%%| label: fig-sample-observation-choice
+%%| fig-cap: "An observation rule groups physical outcomes according to the distinction we keep."
+flowchart TD
+    A["Pair: 2 and 5"] --> S["Sum: 7"]
+    B["Pair: 3 and 4"] --> S
+    A --> M["Maximum: 5"]
+    B --> N["Maximum: 4"]
+```
+
+The common sum hides a difference that the maxima preserve.
+
+## 🏵 The value needs a place in the record {#sec-sample-observations-the-value-needs-a-place-in-the-record}
+
+An observation can be written as an address-value pair:
+
+$$
+(t,s_t).
+$$
+
+The address identifies the observation. It might contain a trial number, a timestamp, a location, or a combination such as “sensor B at noon.”
+
+Two equal values need not be the same observation. If the record is
+
+$$
+(1,4),\quad(2,4),\quad(3,2),
+$$
+
+then four occurred twice. Converting the values into the ordinary set $\{2,4\}$ would lose that multiplicity.
+
+A sample can therefore be stored as a sequence, a keyed collection, or another structure that preserves the distinctions we need. “Collection” should never silently mean “discard duplicates.”
+
+## ⚙️ Measurement carries a contract {#sec-sample-observations-measurement-carries-a-contract}
+
+Suppose a thermometer displays $27.0\,^\circ\mathrm C$.
+
+The decimal place tells us something about the display's resolution. It does not, by itself, certify that the physical temperature is within $0.05\,^\circ\mathrm C$ of that number. Calibration, noise, and rounding are separate parts of the measurement process.
+
+A useful record makes room for them:
+
+- **Identity:** which observation does this value belong to?
+- **Meaning:** what quantity or category was observed?
+- **Units and encoding:** what do the symbols mean?
+- **Procedure:** how was the observation obtained?
+- **Uncertainty, if supplied:** what interpretation does it carry?
+
+An uncertainty annotation such as $27\pm5$ needs its own definition. We will return to it in [Fuzzy Numbers](fuzzy-numbers.qmd).
+
+## 💡 Choose the question before the compression {#sec-sample-observations-choose-the-question-before-the-compression}
+
+If the task is to check whether dice are fair, recording only “even” loses the distinction between faces two, four, and six. A bias among those faces could become invisible.
+
+If the task is to count even results, the same compression may preserve exactly what is needed.
+
+The usefulness of a datum belongs to the relationship between a question and a record.
+
+::: {.callout-tip}
+## Try the idea {#sec-sample-observations-try-the-idea}
+
+Two rolls produce $(1,6)$ and $(3,4)$. A recorder keeps only their sums. Which distinction has disappeared? Name a question that can still be answered.
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-observations-work-it-through}
+
+Both sums are seven, so the individual faces and the difference between the pairs have disappeared. We can still answer “Was the total greater than six?” We cannot recover whether either die showed six.
+:::
+
+*Starting slides: [Muestreo, 13, 24, 27, 28](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3dfe9e5de80_0_0).*
+
