@@ -56,6 +56,7 @@ The map is always less than the territory.
 
 ### 4. Hidden structure
 Processes often depend on factors we do not observe or cannot fully measure.
+There can be a horizon where knowledge is uncertain, time can hide the signal into noise, or a veil can filter information out. 
 
 This makes even a rich dataset incomplete in principle.
 
