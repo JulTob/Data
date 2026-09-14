@@ -9,7 +9,7 @@ book:
     - index.qmd
     - part: "Sample"
       chapters:
-        - sample/sample.qmd
+        - sample/sampling.qmd
     - part: "Sample Space"
       chapters:
         - sample-space/index.qmd
