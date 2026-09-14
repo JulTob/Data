@@ -7,6 +7,9 @@ book:
   author: "Julio Toboso"
   chapters:
     - index.qmd
+    - part: "Sample"
+      chapters:
+        - sample/sample.qmd
     - part: "Sample Space"
       chapters:
         - sample-space/index.qmd
