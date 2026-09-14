@@ -29,6 +29,7 @@ book:
         - statistics/distributions/pareto.qmd
         - statistics/distributions/binomial.qmd
         - statistics/statistical-modeling.qmd
+        - statistics/sampling.qmd
         - statistics/statistical-methods.qmd        
     
 format:

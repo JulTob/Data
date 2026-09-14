@@ -1,0 +1,938 @@
+---
+title: "Sampling: Listening to the Generator"
+description: "A path through signals, potentials, marks, auras, and the limits of what a sample can tell us."
+lang: en
+format:
+  html:
+    toc: true
+    toc-depth: 2
+execute:
+  echo: false
+  warning: false
+---
+
+A die lands on the table. We record a four.
+
+That mark is small enough to fit in a spreadsheet cell. The event that produced it involved a hand, a surface, an orientation, a history of motion. Our record preserves one distinction from that encounter: which face came to rest on top.
+
+Now place a second die beside it. We can record the ordered pair, add the faces, keep their maximum, or ask whether either die shows a six. Each choice makes a different observation of the same event. Each preserves something that the others may lose.
+
+Sampling begins with this choice of attention.
+
+The deeper question arrives afterwards. Given the marks that survived our attention, what can we learn about the process that left them?
+
+This chapter develops the language of **signals**, **potentials**, **marks**, and **auras** introduced in the *Muestreo* notes. It follows the path from a generating model to its observations, then returns along the uncertain path of inference. The [theory of types](../sample-space/types.qmd) tells us which operations make sense; the [probability space](../sample-space/kolmogorov.qmd) gives those operations a coherent measure.
+
+## 🔰 An observation has an address {#sec-sampling-address}
+
+A signal assigns values to a domain:
+
+$$
+S:\mathbb T\longrightarrow\mathcal V,
+\qquad t\longmapsto S[t].
+$$
+
+The **address** $t$ tells us where to ask. The **value space** $\mathcal V$ tells us what kind of answer we can receive.
+
+An address might identify a second, a pixel, a patient, a trial, or a location. Time is one possible domain. Order and distance require additional structure: patient identifiers do not acquire a meaningful separation merely because we number them.
+
+For a finite record, let $\mathbb T_n=\{1,\ldots,n\}$. Then $n$ counts observations. If those observations were taken at times $t_1,\ldots,t_n$, the duration $t_n-t_1$ answers a different question. Twelve equally spaced measurements span eleven intervals between their first and last timestamps.
+
+The values also have a type. A wind alert recorded as white, yellow, orange, or red is an ordinal observation. Its labels support ordering; they do not, by themselves, specify probabilities or degrees of fuzzy membership. We must supply those structures when we need them.
+
+### A signal and the process that could produce it
+
+Write $\mathsf F$ for a generating model. Formally, a stochastic process gives a random variable $X_t$ at each address. Once one realization $\omega$ occurs, we observe
+
+$$
+S[t]=X_t(\omega).
+$$
+
+Keeping this distinction lets us ask both what happened in this record and what might happen in another.
+
+A distribution of individual values does not generally specify the whole generator. Consider two sources:
+
+- The first flips a fair coin independently at every address.
+- The second flips a fair coin once, then repeats that result forever.
+
+At any fixed address, both give zero and one with probability $1/2$. Their records behave very differently. Dependence is part of the generating structure.
+
+```{mermaid}
+%%| label: fig-sampling-dialogue
+%%| fig-cap: "A proposed generator produces predictions. Observations test both the generator and the way we chose to observe it."
+flowchart TD
+    R["System under study"] --> O["Sampling and measurement"]
+    O --> S["Observed signal"]
+    F["Proposed generator"] --> P["Predicted patterns"]
+    S --> C["Comparison"]
+    P --> C
+    C -->|"Revise the model"| F
+    C -->|"Revise the observation"| O
+```
+
+The return arrows matter. An unexpected record may expose a poor model, an unhelpful measurement, or a sampling procedure that misses the variation we wanted to study.
+
+## 🏵 Potential: giving weight to possibilities {#sec-sampling-potential}
+
+For discrete values $f\in\mathcal V$, define a **potential** $P[f]$ as a nonnegative weight. If
+
+$$
+0<Z_P:=\sum_{f\in\mathcal V}P[f]<\infty,
+$$
+
+we can normalize it:
+
+$$
+p[f]=\frac{P[f]}{Z_P}.
+$$
+
+The result is a probability mass function. Multiplying every potential by the same positive constant leaves $p$ unchanged. Probability retains relative weight while discarding the common scale.
+
+A fair six-sided die has $P[f]=1$ for $f\in\{1,\ldots,6\}$ and zero elsewhere. Its total potential is six, so each face receives probability $1/6$.
+
+Here equal weights encode a substantive assumption: the six elementary outcomes are equally likely. Normalization makes a proposed weighting mathematically coherent. Whether that weighting describes a physical die remains an empirical question.
+
+For $k$ possible values, the normalized vector belongs to the probability simplex:
+
+$$
+\Delta^{k-1}
+=
+\left\{(p_1,\ldots,p_k):p_j\geq0,\ \sum_{j=1}^{k}p_j=1\right\}.
+$$
+
+Zeros are allowed. A coin occupies the line segment $(1-\theta,\theta)$ with $0\leq\theta\leq1$; the six-sided die occupies a simplex with six coordinates.
+
+::: {.callout-note}
+## A contract for an extended uncertain value
+
+The notes use *Fuzzy Number* as a broad intuition for a value surrounded by possibilities. That architectural idea can accommodate several kinds of uncertainty, provided each carries an explicit interpretation.
+
+A fuzzy membership function $\mu_A(f)\in[0,1]$ grades membership in a concept such as “warm.” A probability law assigns mass to events. Membership grades need not add to one, and normalizing them introduces an additional probabilistic model; it does not establish that model from the membership grades alone.
+
+Likewise, $27\pm5$ needs a declared meaning: bounds, a standard deviation, a confidence interval, or a specified fuzzy membership profile lead to different calculations.
+
+Here the probabilistic branch of $\mathsf F$ uses additive weights with finite positive total. The wider vocabulary remains available, but its operations must respect the chosen uncertainty type. This distinction follows the membership interpretation in [Zadeh's original *Fuzzy Sets* paper](https://doi.org/10.1016/S0019-9958(65)90241-X).
+:::
+
+For continuous values, a nonnegative integrable profile can instead be normalized against a specified measure. With ordinary length measure,
+
+$$
+p(x)=\frac{P(x)}{\int_{\mathbb R}P(u)\,du},
+\qquad
+\mathbb P(a\leq X\leq b)=\int_a^b p(x)\,dx.
+$$
+
+The function $p$ is then a density. Its integral over an interval supplies probability. The underlying measure is part of the definition.
+
+## ☯ Two dice, several worlds of observation {#sec-sampling-two-dice}
+
+Let $D_1,D_2$ be independent fair dice. The ordered pair has $36$ equally likely outcomes. We can arrange them in a square, one address for each pair.
+
+Now choose what to record.
+
+Keeping $(D_1,D_2)$ preserves both faces. Recording $D_1+D_2$ merges all pairs with the same sum. Recording $\max(D_1,D_2)$ merges pairs according to their largest face. A transformation groups elementary outcomes; their probability masses accumulate in the group.
+
+For $Y=h(D_1,D_2)$,
+
+$$
+\mathbb P(Y=y)
+=
+\sum_{\substack{a,b\\h(a,b)=y}}
+\mathbb P(D_1=a,D_2=b).
+$$
+
+This is the induced distribution, also called the *pushforward* of the joint law. It is the common mechanism behind the square, the triangle of sums, and the rising profile of maxima in the notes.
+
+For the sum, the unnormalized counts are
+
+$$
+P_{+}[s]=
+\begin{cases}
+6-|7-s|,&s\in\{2,\ldots,12\},\\
+0,&\text{otherwise}.
+\end{cases}
+$$
+
+There are six ways to make seven. There is one way to make twelve. Both belong to a generator with total potential $36$.
+
+For the maximum, the number of pairs whose largest face is $m$ is
+
+$$
+P_{\max}[m]=m^2-(m-1)^2=2m-1,
+\qquad m\in\{1,\ldots,6\}.
+$$
+
+The square of side $m$ contains all pairs with both faces at most $m$. Removing the smaller square leaves the pairs whose maximum is exactly $m$.
+
+```{python}
+#| label: fig-sampling-dice
+#| fig-cap: "Two observations of the same 36 equally likely pairs. Each upper cell shows the recorded value; each lower bar counts how many cells produce it. Each set of bars totals 36."
+#| fig-alt: "Two six-by-six grids show the sum and maximum of a pair of dice. The corresponding count distributions are triangular for the sum and the odd numbers one through eleven for the maximum."
+#| fig-format: svg
+#| fig-width: 10
+#| fig-height: 7.8
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+faces = np.arange(1, 7)
+pair_sum = np.add.outer(faces, faces)
+pair_maximum = np.maximum.outer(faces, faces)
+figure, axes = plt.subplots(2, 2, figsize=(10, 7.8), layout="constrained")
+
+for column, (grid, title, color) in enumerate([
+    (pair_sum, "Record the sum", "#236B8E"),
+    (pair_maximum, "Record the maximum", "#A54B30"),
+]):
+    grid_axis = axes[0, column]
+    grid_axis.imshow(
+        grid, origin="lower", extent=(0.5, 6.5, 0.5, 6.5),
+        cmap="Blues" if column == 0 else "Oranges", alpha=0.45
+    )
+    for row_index, first_face in enumerate(faces):
+        for column_index, second_face in enumerate(faces):
+            grid_axis.text(
+                second_face, first_face, str(grid[row_index, column_index]),
+                ha="center", va="center", color="#17202A"
+            )
+    grid_axis.set(
+        xticks=faces, yticks=faces, xlabel="Second die",
+        ylabel="First die", title=title
+    )
+    values, multiplicities = np.unique(grid, return_counts=True)
+    count_axis = axes[1, column]
+    count_axis.bar(values, multiplicities, color=color, width=0.72)
+    count_axis.set(
+        xticks=values, xlabel="Recorded value",
+        ylabel="Number of elementary pairs"
+    )
+    count_axis.grid(axis="y", alpha=0.2)
+    count_axis.set_axisbelow(True)
+
+plt.show()
+```
+
+### What does “two of each face” count?
+
+The notes also consider a profile with potential two at each face: either die could display that face, and a pair could contain it twice. This describes an occurrence capacity. It does not specify the law of the pair or its sum.
+
+If we pool the two observed faces and then choose one of them at random, the chosen face has a uniform marginal law before the dice are rolled. Normalizing the capacity profile $(2,2,2,2,2,2)$ gives this same law, although capacity and expected count have different meanings. The law of the sum still has its triangular profile.
+
+The observation rule decides which object the potential describes.
+
+### Convolution is one particular way of combining
+
+When two random variables are independent, the pushforward under addition becomes
+
+$$
+p_{X+Y}[z]=\sum_x p_X[x]\,p_Y[z-x]=(p_X*p_Y)[z].
+$$
+
+We first combine possible pairs by multiplication, then collect the pairs with the same sum by addition. This is convolution.
+
+If the variables depend on each other, the joint probabilities must replace the product. For example, adding a die to an exact copy of itself produces only even totals; convolving two uniform die laws would give the wrong answer.
+
+## ⚙️ A mask changes what we hear {#sec-sampling-masks}
+
+A mask assigns a weight to each observation address:
+
+$$
+W:\mathbb T_n\longrightarrow[0,\infty).
+$$
+
+With $W[t]\in\{0,1\}$, it selects observations. Other nonnegative weights can give observations different influence. A weighted mean is
+
+$$
+M_W(S)=
+\frac{\sum_t W[t]S[t]}{\sum_t W[t]},
+\qquad \sum_tW[t]>0.
+$$
+
+The denominator is part of the operation. Multiplying excluded observations by zero and then averaging over all $n$ addresses would treat those zeros as measured values. Selection requires that the denominator follow the selection.
+
+Weights also need a purpose. A frequency weight, a measurement-precision weight, and an inverse-inclusion-probability weight carry different assumptions, even when their arithmetic looks similar.
+
+### Conditioning as a mask on possibilities
+
+We can filter the joint space of the dice instead of the observed record. Suppose we learn that the first die is two. Retain the six pairs $(2,1),\ldots,(2,6)$, then normalize within that surviving set.
+
+The sum is now uniform on $\{3,\ldots,8\}$:
+
+$$
+\mathbb P(D_1+D_2=s\mid D_1=2)=\frac16,
+\qquad s\in\{3,\ldots,8\}.
+$$
+
+More generally, for an event $B$ with positive probability,
+
+$$
+\mathbb P(A\mid B)=
+\frac{\mathbb P(A\cap B)}{\mathbb P(B)}.
+$$
+
+Convolution combines contributions into a sum. Conditioning restricts possibilities using information already available. Recovering unknown contributions from the distribution of their sum is a further inverse problem, which can require assumptions beyond the sum itself.
+
+This locates the notes' question about conditioning and an “inverse convolution”: the operations are related through the joint model, but knowing only a sum distribution does not generally identify its separate generators.
+
+## 🏵 Marks and auras: choosing what to preserve {#sec-sampling-marks}
+
+A **mark** places a representative point. An **aura** describes an aspect of extension around, or across, the values.
+
+The mean is a mark defined by balance. A median is a mark defined by ordering. A minimum is a mark defined by a boundary. Each is useful because it answers a different question.
+
+An aura may be a standard deviation, an interquartile range, a full range, or a richer description of shape. Calling these quantities auras reminds us of their role; calculating them still requires choosing which role matters.
+
+The sketch $P(M)\{A\}$ can record a profile, a mark, and an aura. A mark and an aura alone usually leave the profile undetermined. Two distributions can share a mean and a standard deviation while assigning very different probabilities to extreme values.
+
+For a nonempty finite numerical record,
+
+$$
+\min_t S[t]\leq S[t]\leq\max_t S[t].
+$$
+
+The extrema occur somewhere in that record. Its range is $\max S-\min S$. Counting all integers between two endpoints would instead give $\max S-\min S+1$, and only when that complete integer interval is the object being counted.
+
+A median $m$ of a probability law satisfies
+
+$$
+\mathbb P(X\leq m)\geq\frac12,
+\qquad
+\mathbb P(X\geq m)\geq\frac12.
+$$
+
+This definition still works when a discrete cumulative distribution jumps across $1/2$. In an even-sized sample, the conventional midpoint of the two central ordered values supplies one such median. Quantile interpolation conventions should be stated when they affect the result.
+
+[Variation](variation.qmd) develops these summaries individually. Here we want to understand the operations that connect them.
+
+
+## ⚙️ Variance is the power of a centered signal {#sec-sampling-energy}
+
+A numerical record can be treated as a vector. Its inner product with another record on the same addresses is
+
+$$
+\langle S,R\rangle=\sum_{t=1}^{n}S[t]R[t].
+$$
+
+Using the counting measure on those addresses, define its energy and mean-square power by
+
+$$
+\operatorname{Eng}(S)=\langle S,S\rangle,
+\qquad
+\operatorname{Pow}(S)=\frac{\operatorname{Eng}(S)}{n}.
+$$
+
+These are the finite-record versions of the signal-processing ideas. A physical time integral would also need time units and appropriate interval weights.
+
+Let the mean mark be $M=\bar s=n^{-1}\sum_t S[t]$. Centering removes that constant level:
+
+$$
+S^\circ[t]=S[t]-M,
+\qquad
+\sum_tS^\circ[t]=0.
+$$
+
+Expand the energy of $S=M\mathbf1+S^\circ$:
+
+$$
+\begin{aligned}
+\sum_t S[t]^2
+&=\sum_t\left(M+S^\circ[t]\right)^2\\
+&=nM^2+2M\sum_tS^\circ[t]+\sum_tS^\circ[t]^2\\
+&=nM^2+\operatorname{Eng}(S^\circ).
+\end{aligned}
+$$
+
+The cross term vanishes because the centered signal balances around zero. Dividing by $n$ gives
+
+$$
+\boxed{
+\operatorname{Pow}(S)=M^2+V_{\mathrm{emp}}(S),
+\qquad
+V_{\mathrm{emp}}(S)=\operatorname{Pow}(S^\circ)
+}
+$$
+
+The variance of the empirical distribution is exactly the mean-square power that remains after centering. The standard-deviation aura is its root-mean-square amplitude:
+
+$$
+A_\sigma(S)=\sqrt{V_{\mathrm{emp}}(S)}.
+$$
+
+For the record $(1,1,1,1,5,5,5,5)$, the mean is three. The centered values are all $-2$ or $2$, so their power is four. The original power is thirteen: nine from the constant level and four from the centered fluctuations.
+
+This equivalence is useful whenever a large signal level can hide small but consequential variation. A sensor with a large offset may have high total mean-square power while its centered fluctuations are small.
+
+### Different ways of changing scale
+
+Three operations deserve separate names:
+
+- **Probability normalization** divides a nonnegative potential by its positive total $Z_P$.
+- **Unit-norm scaling** divides a nonzero numerical signal by $\|S\|_2=\sqrt{\operatorname{Eng}(S)}$.
+- **Standardization** centers a signal and divides by a specified standard-deviation measure.
+
+For the empirical convention above,
+
+$$
+Z[t]=\frac{S[t]-M}{A_\sigma(S)}
+$$
+
+has mean zero and empirical variance one, provided $A_\sigma(S)>0$. A constant signal cannot be standardized this way.
+
+The algebraic total $\sum_t S[t]$, called $|S|$ in the notes, may be zero even for a nonzero signal. A centered signal supplies an immediate example. That total, the observation count $n$, and the norm $\|S\|_2$ serve different contracts.
+
+### Changing units changes the aura
+
+For a random variable with finite variance,
+
+$$
+\mathbb E[aX+b]=a\mathbb E[X]+b,
+\qquad
+\operatorname{Var}(aX+b)=a^2\operatorname{Var}(X).
+$$
+
+Translation moves the mean mark. Scaling multiplies a standard-deviation aura by $|a|$.
+
+The coin game in the notes makes this concrete. Let $X\in\{0,1\}$ indicate whether a fair coin prediction succeeds. Paying five units to receive nine on success gives net return
+
+$$
+W=-5+9X.
+$$
+
+The two returns are $-5$ and $4$, each with probability $1/2$. Consequently,
+
+$$
+\mathbb E[W]=-\frac12,
+\qquad
+\operatorname{Var}(W)=\frac{81}{4},
+\qquad
+\sigma_W=\frac92.
+$$
+
+The mean describes the balance across repeated plays. The aura describes the scale of variation around it. Neither alone describes the two-point shape.
+
+## 🪄 Let the sample describe its own distribution {#sec-sampling-induction}
+
+So far, the potential belonged to a proposed generator. We can also construct one from the record itself.
+
+Count how often each value occurs:
+
+$$
+P_S[f]=c_n[f]=\sum_{t=1}^{n}\mathbf1_{\{S[t]=f\}}.
+$$
+
+Every observation contributes once, so $\sum_f c_n[f]=n$. Normalizing gives the **induced**, or **empirical**, probability law:
+
+$$
+\widehat p_n[f]=\frac{c_n[f]}{n}.
+$$
+
+This equality is exact for an unweighted record. Each new observation adds one count; it also changes the denominator against which all counts are compared.
+
+The 28 die throws in the notes give
+
+$$
+(c_n[1],\ldots,c_n[6])=(4,5,5,5,4,5).
+$$
+
+If the proposed generator is a fair die, its probabilities are all $1/6$. The observed frequencies are close, but not identical.
+
+```{python}
+#| label: fig-sampling-record
+#| fig-cap: "The 28 throws from the notes, their sorted version, and their common empirical distribution. Sorting replaces observation address with rank. The histogram retains counts and discards order."
+#| fig-alt: "The original sequence varies irregularly between one and six. Its sorted version rises in steps. Both have face counts four, five, five, five, four, five; bars compare these empirical probabilities with one sixth."
+#| fig-format: svg
+#| fig-width: 10
+#| fig-height: 7.8
+
+observed_rolls = np.array([
+    1, 6, 2, 5, 4, 6, 3, 2, 4, 1, 3, 5, 2, 6,
+    4, 1, 3, 5, 4, 6, 2, 3, 1, 4, 5, 6, 2, 3
+])
+addresses = np.arange(1, observed_rolls.size + 1)
+face_counts = np.bincount(observed_rolls, minlength=7)[1:7]
+empirical_probability = face_counts / observed_rolls.size
+figure, axes = plt.subplots(3, 1, figsize=(10, 7.8), layout="constrained")
+
+axes[0].plot(addresses, observed_rolls, "o-", color="#236B8E", linewidth=0.8)
+axes[0].set(
+    xlabel="Observation address", ylabel="Face",
+    yticks=faces, title="The observed record"
+)
+axes[1].step(addresses, np.sort(observed_rolls), where="mid", color="#A54B30")
+axes[1].plot(addresses, np.sort(observed_rolls), "o", color="#A54B30", markersize=4)
+axes[1].set(
+    xlabel="Rank after sorting", ylabel="Face",
+    yticks=faces, title="The same values in a different order"
+)
+axes[2].bar(
+    faces - 0.18, empirical_probability, width=0.36,
+    color="#236B8E", label="Empirical probability"
+)
+axes[2].bar(
+    faces + 0.18, np.full(6, 1 / 6), width=0.36,
+    color="#C5A253", label="Proposed fair-die probability"
+)
+axes[2].set(
+    xlabel="Face", ylabel="Probability", xticks=faces,
+    ylim=(0, 0.23), title="Counts retain one view of the record"
+)
+axes[2].legend(frameon=False)
+for axis in axes:
+    axis.grid(axis="y", alpha=0.18)
+    axis.set_axisbelow(True)
+
+plt.show()
+```
+
+### The exact identity hiding inside the sample mean
+
+Group the same observations by their values rather than their addresses:
+
+$$
+\bar s
+=
+\frac1n\sum_tS[t]
+=
+\sum_f f\,\widehat p_n[f].
+$$
+
+The mean of the record is exactly the expectation under its empirical distribution. It need not equal the expectation under the unknown generator.
+
+For the 28 throws,
+
+$$
+\bar s=\frac{99}{28}\approx3.536,
+\qquad
+\mathbb E_{\text{fair die}}[X]=3.5.
+$$
+
+The first number describes this record. The second describes the proposed generating law. Sampling theory studies their relationship across possible records.
+
+### A total error of zero can hide a real discrepancy
+
+Define $e_n[f]=\widehat p_n[f]-p[f]$. Since both probability laws sum to one,
+
+$$
+\sum_f e_n[f]=0.
+$$
+
+This cancellation holds even when the two distributions differ substantially. A discrepancy measure must prevent positive and negative differences from cancelling. Total variation does so:
+
+$$
+d_{\mathrm{TV}}(\widehat p_n,p)
+=
+\frac12\sum_f|\widehat p_n[f]-p[f]|.
+$$
+
+For these throws and the fair-die reference, the signed sum is zero but the total variation is $1/21\approx0.0476$.
+
+Under independent, identically distributed sampling, the frequency of each fixed event converges to its probability by the law of large numbers. Dependence needs its own conditions. The source that flips once and repeats forever never approaches a half-and-half frequency within one record.
+
+::: {.callout-note collapse="true"}
+## Continuous observations and the meaning of a point mass
+
+An empirical distribution remains discrete even when the measured values are real numbers:
+
+$$
+\widehat\Pi_n=\frac1n\sum_{t=1}^{n}\delta_{S[t]},
+\qquad
+\delta_a(A)=\mathbf1_{\{a\in A\}}.
+$$
+
+Here $\delta_a$ is a unit point mass. It is a measure, with total mass one. It is not an ordinary function that is one at a single real point and zero elsewhere; such a function integrates to zero against ordinary length measure.
+
+On a discrete index set, the elementary pulse $\delta_{ij}=\mathbf1_{\{i=j\}}$ is the Kronecker delta. This distinction keeps the notes' pulse idea compatible with both sums and integrals.
+
+A histogram density adds another choice: intervals and their widths. Relative frequency in an interval estimates its probability; dividing that relative frequency by interval width gives the histogram's estimate of density within that interval.
+:::
+
+## ⚙️ The measuring operator also fluctuates {#sec-sampling-estimators}
+
+A statistic turns a record into a value. Before we observe the record, that output is itself uncertain.
+
+For example,
+
+$$
+\widehat\mu=\frac1n\sum_{t=1}^{n}X_t
+$$
+
+is a random variable over the possible samples. Its distribution is a **sampling distribution**. This is where the notes' operator viewpoint becomes inference: the operation is fixed, but its input changes from sample to sample.
+
+If $X_1,\ldots,X_n$ are independent and identically distributed with finite mean $\mu$ and variance $\sigma^2$,
+
+$$
+\mathbb E[\widehat\mu]=\mu,
+\qquad
+\operatorname{Var}(\widehat\mu)=\frac{\sigma^2}{n},
+\qquad
+\operatorname{SE}(\widehat\mu)=\frac{\sigma}{\sqrt n}.
+$$
+
+The standard deviation of individual observations and the standard error of their mean describe different levels of variation. The first belongs to the values; the second belongs to repeated estimates.
+
+With dependence, the general formula contains the terms that averaging cannot silently discard:
+
+$$
+\operatorname{Var}\!\left(\frac1n\sum_tX_t\right)
+=
+\frac1{n^2}
+\left(
+\sum_t\operatorname{Var}(X_t)
++
+2\sum_{t<u}\operatorname{Cov}(X_t,X_u)
+\right).
+$$
+
+Positive covariance can make many observations carry much less information than the same number of independent ones.
+
+### Error belongs to an outcome; bias belongs to a procedure
+
+For a target parameter $\theta$, the realized estimation error is $\widehat\theta-\theta$.
+
+Bias is the average of that error across repeated sampling:
+
+$$
+\operatorname{Bias}_\theta(\widehat\theta)
+=
+\mathbb E_\theta[\widehat\theta]-\theta.
+$$
+
+A single estimate differing from its target does not establish that its procedure is biased. When the relevant second moments exist,
+
+$$
+\operatorname{MSE}_\theta(\widehat\theta)
+=
+\operatorname{Var}_\theta(\widehat\theta)
++
+\operatorname{Bias}_\theta(\widehat\theta)^2.
+$$
+
+This separates instability across samples from a systematic displacement of their average.
+
+### Why the corrected variance divides by $n-1$
+
+The empirical variance describes the record using denominator $n$. If our goal changes to estimating the generator's variance, estimating the mean from the same sample matters.
+
+For independent, identically distributed observations with finite variance,
+
+$$
+\mathbb E\!\left[\sum_t(X_t-\overline X)^2\right]=(n-1)\sigma^2.
+$$
+
+Hence, for $n>1$,
+
+$$
+s^2
+=
+\frac1{n-1}\sum_t(X_t-\overline X)^2
+=
+\frac{n}{n-1}V_{\mathrm{emp}}
+$$
+
+is an unbiased estimator of $\sigma^2$. The empirical variance and corrected sample variance answer different questions; their denominators record that distinction.
+
+Taking a square root does not preserve unbiasedness. The familiar $s=\sqrt{s^2}$ is generally a biased estimator of $\sigma$, even though $s^2$ is unbiased for $\sigma^2$.
+
+## 🔰 From a coin to the precision of an estimate {#sec-sampling-coin}
+
+A binary outcome $C\in\{0,1\}$ is especially revealing. Since $C^2=C$,
+
+$$
+\mathbb E[C]=p,
+\qquad
+\operatorname{Var}(C)=p-p^2=p(1-p).
+$$
+
+Its mean is already a probability. Repeat independent trials with the same $p$, and the number of successes becomes
+
+$$
+B=\sum_{t=1}^{n}C_t
+\sim\operatorname{Binomial}(n,p).
+$$
+
+There are $\binom nk$ ways to place $k$ successes among $n$ addresses. Each particular arrangement has probability $p^k(1-p)^{n-k}$, giving
+
+$$
+\mathbb P(B=k)=\binom nkp^k(1-p)^{n-k}.
+$$
+
+For five trials and exactly one success, there are five possible positions for that success. With $p=0.9$, its probability is $5(0.9)(0.1)^4=0.00045$.
+
+The sample proportion is another transformation:
+
+$$
+\widehat p=\frac Bn,
+\qquad
+\mathbb E[\widehat p]=p,
+\qquad
+\operatorname{Var}(\widehat p)=\frac{p(1-p)}n.
+$$
+
+At $p=1/2$, the standard error is $0.05$ for $n=100$ and $0.025$ for $n=400$. Halving this uncertainty requires four times as many independent observations.
+
+For a fixed $0<p<1$, the central limit theorem gives
+
+$$
+\frac{B-np}{\sqrt{np(1-p)}}\xrightarrow{d}\mathcal N(0,1).
+$$
+
+A finite binomial remains discrete. Normal approximation describes its standardized shape increasingly well in the appropriate large-sample regime; probabilities near the boundaries can make the approximation poor. In notation $\mathcal N(\mu,\sigma^2)$, the second parameter is variance, so the corresponding approximation for $B$ is $\mathcal N(np,np(1-p))$.
+
+The [Binomial chapter](distributions/binomial.qmd) develops the distribution. Here it shows how a generator, an observation sequence, a counting operator, and an estimator belong to one construction.
+
+
+## 💡 The sampler is part of the instrument {#sec-sampling-design}
+
+The $1/\sqrt n$ rate says what repeated averaging can do under its assumptions. It says little about whether our observations reach the parts of the world relevant to the question.
+
+Sampling design controls that contact.
+
+**Simple random sampling without replacement** gives every size-$n$ subset of a finite population of size $N$ the same chance of selection. Every unit then has inclusion probability $n/N$, but selections are dependent: including one unit changes which others can join it. Equal individual inclusion probabilities alone do not define this design.
+
+If the population values are $y_1,\ldots,y_N$, define
+
+$$
+\mu_U=\frac1N\sum_{i=1}^{N}y_i,
+\qquad
+S_U^2=\frac1{N-1}\sum_{i=1}^{N}(y_i-\mu_U)^2.
+$$
+
+Under that sampling design,
+
+$$
+\operatorname{Var}_{\mathrm{design}}(\overline X)
+=
+\left(1-\frac nN\right)\frac{S_U^2}{n}.
+$$
+
+The finite-population correction records that observing a larger fraction of the population leaves fewer unseen units. At a census, $n=N$, this sampling uncertainty is zero. Measurement error can still remain. [Penn State's treatment of simple random sampling](https://online.stat.psu.edu/stat506/Lesson01.html) gives the design and its variance.
+
+**Stratified sampling** arranges contact within known groups. To estimate the population mean after disproportionate sampling, combine stratum means with population shares:
+
+$$
+\widehat\mu_{\mathrm{strat}}
+=
+\sum_h\frac{N_h}{N}\,\overline X_h.
+$$
+
+A deliberately balanced sample of unequal populations needs those weights to represent their population mixture.
+
+**Cluster sampling** selects groups, such as clinics or schools, often to make collection practical. Similarity among units within a group affects the covariance terms in an estimator's variance. A hundred observations concentrated within a few groups need not provide the precision of a hundred independent observations.
+
+**Systematic sampling** takes observations at regular intervals, normally with a randomized starting position. This is where the connection to signals becomes concrete. For the sequence
+
+$$
+0,1,0,1,0,1,\ldots,
+$$
+
+sampling every second address returns only zeros or only ones, depending on the start. A longer record with the same alignment does not reveal the alternation.
+
+With a random choice between the two phases, the estimated mean is unbiased for $1/2$, yet each resulting sample mean is either zero or one. Randomization and precision are separate properties.
+
+```{python}
+#| label: fig-sampling-size-design
+#| fig-cap: "More independent observations improve precision at a square-root rate (left, logarithmic axes). A systematic sampler aligned with a repeating pattern can miss its variation (right)."
+#| fig-alt: "A log-log plot shows the standard error of a fair-coin proportion falling as one over two square roots of n. A second plot shows an alternating binary signal, with every-second-address samples all equal to zero."
+#| fig-format: svg
+#| fig-width: 10
+#| fig-height: 3.7
+
+sample_sizes = np.unique(np.geomspace(10, 10000, 120).astype(int))
+standard_errors = 0.5 / np.sqrt(sample_sizes)
+time_addresses = np.arange(1, 25)
+alternating_signal = (time_addresses - 1) % 2
+selected_addresses = time_addresses[::2]
+selected_values = alternating_signal[::2]
+
+figure, axes = plt.subplots(1, 2, figsize=(10, 3.7), layout="constrained")
+axes[0].loglog(sample_sizes, standard_errors, color="#236B8E", linewidth=2)
+axes[0].scatter(
+    [100, 400], [0.05, 0.025], color="#A54B30", zorder=3
+)
+axes[0].set(
+    xlabel="Independent observations n", ylabel="Standard error",
+    title="Precision has a cost"
+)
+axes[0].grid(which="both", alpha=0.18)
+axes[1].plot(
+    time_addresses, alternating_signal, "o-", color="#82929B",
+    linewidth=0.7, markersize=4, label="Underlying sequence"
+)
+axes[1].scatter(
+    selected_addresses, selected_values, color="#A54B30",
+    s=50, zorder=3, label="Every second address, one phase"
+)
+axes[1].set(
+    xlabel="Observation address", ylabel="Value",
+    yticks=[0, 1], ylim=(-0.15, 1.3), title="Alignment can hide variation"
+)
+axes[1].legend(frameon=False, fontsize=8, loc="upper right")
+plt.show()
+```
+
+Before collecting more data, ask what the sampling rule makes visible. A larger dataset can reproduce the same observational blind spot with increasing consistency.
+
+## ☯ Shannon: the distinctions left in the record {#sec-sampling-information}
+
+A probability law also describes how surprising its possible outcomes are. For a discrete outcome with $p[f]>0$, its information content in bits is
+
+$$
+I_p(f)=-\log_2 p[f].
+$$
+
+Averaging that surprise over the law gives entropy:
+
+$$
+H(p)=-\sum_f p[f]\log_2p[f],
+$$
+
+with $0\log 0=0$. A fair coin has entropy one bit. The unit measures uncertainty among possible messages; it does not measure their meaning or practical importance. This is the distinction made in [Shannon's original theory of communication](https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf).
+
+Return to the coin game $W=-5+9X$. The transformation assigns a different numerical scale to the two outcomes, but it is one-to-one. Their probabilities remain $1/2$ and $1/2$:
+
+$$
+H(W)=H(X)=1\text{ bit},
+\qquad
+\operatorname{Var}(W)=81\operatorname{Var}(X).
+$$
+
+Variance measures numerical dispersion. Discrete entropy depends on the probability weights, and is unchanged by relabeling outcomes bijectively. Both describe an aura of uncertainty, but they preserve different distinctions.
+
+### Forgetting the order can be justified
+
+A histogram forgets the sequence that produced its counts. Whether that discarded order matters for inference depends on the proposed generator.
+
+Under an independent, identically distributed discrete model, the likelihood of a record factors as
+
+$$
+L(p;S)
+=
+\prod_{t=1}^{n}p[S[t]]
+=
+\prod_f p[f]^{c_n[f]}.
+$$
+
+All dependence on the unknown mass function passes through the counts. They are sufficient statistics for this model: the discarded order supplies no additional information about its parameters.
+
+For a generator with memory, the likelihood can depend on transitions. Sorting or counting alone may then erase exactly the evidence we need.
+
+The usefulness of a compression rests on the question and the model under which we intend to answer it.
+
+### Measuring how well a proposed generator predicts
+
+Suppose the true distribution is $p$, while a model uses $q$. The expected logarithmic loss is the cross-entropy. When the expressions are finite,
+
+$$
+\begin{aligned}
+\mathbb E_p[-\log_2q(X)]
+&=-\sum_f p[f]\log_2q[f]\\
+&=H(p)+\underbrace{\sum_f p[f]\log_2\frac{p[f]}{q[f]}}_{D_{\mathrm{KL}}(p\Vert q)}.
+\end{aligned}
+$$
+
+The first term is uncertainty remaining even with the correct law. The second is the additional expected loss from the proposed law's mismatch. If $q$ rules out an outcome with positive true probability, the logarithmic loss is infinite when that outcome occurs.
+
+For conditionally independent binary responses, a regression model proposes a probability $\pi_i$ given the observed covariates. Its total logarithmic loss is
+
+$$
+-\ell
+=
+-\sum_i\left[
+y_i\ln\pi_i+(1-y_i)\ln(1-\pi_i)
+\right].
+$$
+
+Here $\ln$ uses natural logarithms, so the loss is measured in nats. Dividing by $n\ln2$ gives the mean loss in bits per response.
+
+With individual, unweighted Bernoulli responses, the saturated log-likelihood is zero and the deviance is $D=-2\ell$. Thus the same language leads into [section 2.5 of the GLM course](https://asunmayoral.github.io/GLM/caso1/caso1_binaria.html#sec-u12-inferencia).
+
+A model that encodes the observed answers can obtain zero loss on them. To decide whether it has learned something reusable, we must also examine complexity, assumptions, and performance on observations it did not use for fitting.
+
+## 🪄 Evidence changes the weights {#sec-sampling-evidence}
+
+Conditioning also explains the rare-event example in the notes. Consider a hypothetical fault detector:
+
+- One item in a thousand has the fault.
+- The detector flags 99% of faulty items.
+- It also flags 2% of fault-free items.
+
+Among $100\,000$ items, the expected counts are $100$ faulty and $99\,900$ fault-free. That gives $99$ correctly flagged faults and $1\,998$ false alarms.
+
+```{mermaid}
+%%| label: fig-sampling-evidence
+%%| fig-cap: "Expected counts in a hypothetical group of 100,000 items. A positive result retains both kinds of flagged item."
+flowchart TD
+    U["100,000 items"] --> F["100 faulty"]
+    U --> N["99,900 fault-free"]
+    F --> TP["99 flagged"]
+    F --> FN["1 unflagged"]
+    N --> FP["1,998 flagged"]
+    N --> TN["97,902 unflagged"]
+```
+
+A flagged item therefore has conditional fault probability
+
+$$
+\mathbb P(\text{fault}\mid +)
+=
+\frac{0.99(0.001)}
+     {0.99(0.001)+0.02(0.999)}
+=
+\frac{99}{2097}
+\approx0.0472.
+$$
+
+The flag selects a new mixture from the original population. Both true faults and false alarms survive the selection. Their relative weights determine the answer.
+
+More generally, Bayes' rule combines prior weight and the probability of the evidence under each possibility:
+
+$$
+\mathbb P(A\mid B)
+=
+\frac{\mathbb P(B\mid A)\mathbb P(A)}{\mathbb P(B)},
+\qquad \mathbb P(B)>0.
+$$
+
+A persuasive observation can still leave substantial uncertainty when the original possibilities were very unevenly weighted. Reasoning well requires keeping the denominator in view.
+
+## 🏵 What would another observation change? {#sec-sampling-practice}
+
+We began with a die and an address at which to record its face. Following that record led to a potential, a distribution, a mark, an aura, and a distribution of the mark itself.
+
+At each step, the useful question was what the operation preserved.
+
+A histogram preserves counts. Centering preserves differences while removing a level. A sampling design determines which units can contribute evidence. A fitted generator proposes how the next observation might behave.
+
+Understanding becomes practical when these choices can be explained before the calculation starts. The next measurement can then be chosen with a purpose: resolving an ambiguity, reaching an overlooked group, testing a dependence, or challenging the part of the model that currently rests on the weakest evidence.
+
+::: {.callout-tip}
+## Three small experiments in understanding
+
+1. Two independent fair dice are rolled. Compare the probability that their maximum is at least five with the probability that their sum is at least ten. Explain why one generating pair gives two different answers.
+
+2. A record is $(1,1,1,5)$. Find its mean, centered energy, empirical variance, and corrected sample variance. Which quantities describe the record, and what additional sampling assumptions give the correction its inferential meaning?
+
+3. A source flips a fair coin once and repeats that result one thousand times. What are the mean and variance of the *sample-mean estimator* across repeated runs of this source? Why does the usual independent-sampling formula fail?
+:::
+
+::: {.callout-note collapse="true"}
+## Work through the experiments
+
+**Two observations of the dice.** The maximum is at least five for $36-4^2=20$ pairs, giving $5/9$. The sum is at least ten for $3+2+1=6$ pairs, giving $1/6$. The observation maps merge different sets of elementary outcomes.
+
+**A mark and its centered power.** The mean is two; the centered record is $(-1,-1,-1,3)$. Its energy is twelve, so the empirical variance is three and the corrected sample variance is four. The correction is unbiased for a generator's variance under independent, identically distributed sampling with finite variance; the arithmetic alone does not establish that sampling model.
+
+**Repeated evidence.** The sample mean is the original coin result: zero or one, each with probability $1/2$. Its expectation is $1/2$ and its variance is $1/4$, regardless of the number of repetitions. Every pair of observations has covariance $1/4$. The repetitions reproduce the same outcome rather than providing new independent evidence.
+:::
+
+::: {.callout-note collapse="true"}
+## Source and scope
+
+This chapter develops Julio Toboso's [*Muestreo* presentation](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit), including its language of signals, potentials, marks, and auras; its dice transformations; its 28-throw record; and its bridges between signal operators and sampling.
+
+The rare-event calculation retains the presentation's numerical assumptions and is expressed here as a hypothetical fault detector. The information-theoretic discussion extends the notes' compression perspective and connects it to the GLM course.
+
+The presentation also sketches a wider Boolean and fuzzy algebra, with unfinished union, intersection, and “combolución” operators. Their intended general semantics remain open. The conditional and convolution operations used in this chapter are the explicitly defined probabilistic ones.
+
+Related chapters: [Types](../sample-space/types.qmd), [Kolmogorov's framework](../sample-space/kolmogorov.qmd), [Variation](variation.qmd), [Uncertainty](uncertainty.qmd), [Binomial distribution](distributions/binomial.qmd), [Statistical Modeling](statistical-modeling.qmd), and [Statistical Methods](statistical-methods.qmd).
+:::
