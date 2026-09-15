@@ -1,0 +1,118 @@
+---
+title: "Discrete and Continuous: Two Choices"
+---
+
+A sound wave varies through time. A recorder takes a reading every fraction of a second and stores one of a finite collection of numerical codes.
+
+Two choices have occurred: where to observe, and which values to distinguish.
+
+Both can be discrete or continuous.
+
+## 🔰 Ask about the domain and the values separately {#sec-sample-discrete-and-continuous-ask-about-the-domain-and-the-values-separately}
+
+A discrete observation domain has individually indexed addresses. A continuous-time model allows a value to be specified at every time in an interval.
+
+The value alphabet is a different question:
+
+- A die observed at numbered trials has a discrete domain and discrete values.
+- An ideal real-valued sensor sampled once per second has a discrete domain and a continuous value model.
+- An ideal switch monitored at every time has a continuous domain and values in $\{0,1\}$.
+- An ideal voltage waveform has a continuous domain and a continuous value model.
+
+A continuous domain does not require a continuous function. The switch can jump.
+
+Likewise, a continuous value model does not imply that a stored computer number has infinitely many bits. The mathematical model and its numerical representation have different resolutions.
+
+```{python}
+#| label: fig-sample-domain-values
+#| fig-cap: "Sampling changes the available addresses; quantization changes the available values. Either can be applied independently."
+#| fig-alt: "Four plots show a smooth signal, samples of that signal, the signal rounded to integer levels, and samples rounded to integer levels."
+#| fig-format: svg
+#| fig-width: 9
+#| fig-height: 6
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+dense_times = np.linspace(0, 4, 801)
+sample_times = np.arange(0, 4.01, 0.5)
+dense_values = 1.2 + 0.8 * np.sin(np.pi * dense_times / 2)
+sample_values = 1.2 + 0.8 * np.sin(np.pi * sample_times / 2)
+figure, axes = plt.subplots(2, 2, figsize=(9, 6), layout="constrained")
+axes[0, 0].plot(dense_times, dense_values, color="#236B8E")
+axes[0, 1].stem(sample_times, sample_values, basefmt=" ")
+axes[1, 0].step(
+    dense_times, np.rint(dense_values), where="mid", color="#A54B30"
+)
+axes[1, 1].stem(sample_times, np.rint(sample_values), basefmt=" ")
+titles = [
+    "Continuous time, real-valued model",
+    "Sampled time, real-valued model",
+    "Continuous time, quantized values",
+    "Sampled time, quantized values"
+]
+for axis, title in zip(axes.flat, titles):
+    axis.set(title=title, xlabel="Time", ylabel="Value", ylim=(-0.2, 2.4))
+    axis.grid(alpha=0.15)
+plt.show()
+```
+
+## 🏵 Sampling and quantization have different jobs {#sec-sample-discrete-and-continuous-sampling-and-quantization-have-different-jobs}
+
+For a continuous-time signal $x(t)$, sampling at an interval $\Delta t>0$ produces
+
+$$
+S[k]=x(k\Delta t).
+$$
+
+Quantization applies a rule $Q$ to the values:
+
+$$
+D[k]=Q(S[k]).
+$$
+
+Rounding to the nearest integer is one quantizer. Thresholding into “low” and “high” is another. Both merge values that the previous representation could distinguish.
+
+Sampling can miss changes between addresses. Quantization can hide changes within a value bin. Improving one resolution does not automatically improve the other.
+
+## ⚙️ Counting addresses and measuring duration {#sec-sample-discrete-and-continuous-counting-addresses-and-measuring-duration}
+
+Four observations at times $0,1,2,3$ seconds give
+
+$$
+n=4,\qquad
+\text{elapsed span}=3\text{ seconds}.
+$$
+
+The count and the elapsed span answer different questions.
+
+Similarly, summing four temperatures does not produce a time integral. An approximation to an integral needs interval widths and an agreed rule for which reading represents each interval:
+
+$$
+\int_a^b x(t)\,dt
+\ \approx\
+\sum_k x(t_k)\,\Delta t_k.
+$$
+
+Those interval weights carry units of time. They explain why adding more sample points should not, by itself, double the physical area under a fixed waveform.
+
+## 💡 Discrete does not mean finite {#sec-sample-discrete-and-continuous-discrete-does-not-mean-finite}
+
+The whole numbers form a discrete, countably infinite collection. A continuous interval can have finite length. “How many?” and “how much length?” use different measures.
+
+We will use this distinction again in [Probability](probability.qmd): point masses are accumulated by sums, while densities are accumulated against a measure such as interval length.
+
+::: {.callout-tip}
+## Try the idea {#sec-sample-discrete-and-continuous-try-the-idea}
+
+A thermostat reads every second and reports either “cold” or “warm.” Which part is sampling, which is quantization, and what improvement would preserve small temperature changes?
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-discrete-and-continuous-work-it-through}
+
+Reading every second samples the time domain. Reporting two labels quantizes the values. Retaining more temperature levels can preserve smaller changes in value; recording more often addresses changes between readings.
+:::
+
+*Starting slides: [Muestreo, 4, 5, 32, 63, 66](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3df2e37ee31_0_46).*
+

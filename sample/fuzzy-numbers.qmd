@@ -1,0 +1,114 @@
+---
+title: "Fuzzy Numbers: A Value with a Profile"
+---
+
+“About twenty-seven” places a number within a neighborhood of acceptable descriptions.
+
+The center matters, but so does how quickly the description stops fitting as we move away. A fuzzy number can preserve that shape.
+
+## 🔰 Build one number with a profile {#sec-sample-fuzzy-numbers-build-one-number-with-a-profile}
+
+For a simple triangular example, define
+
+$$
+\mu_{\widetilde x}(v)
+=
+\max\!\left(0,\ 1-\frac{|v-27|}{5}\right).
+$$
+
+Its membership is one at 27, decreases linearly on either side, and reaches zero at 22 and 32.
+
+Some evaluations make the definition tangible:
+
+- $\mu_{\widetilde x}(27)=1$.
+- $\mu_{\widetilde x}(26)=0.8$.
+- $\mu_{\widetilde x}(29.5)=0.5$.
+- $\mu_{\widetilde x}(33)=0$.
+
+The input $v$ is a candidate numerical value. The output is how well it fits this extended numerical description.
+
+In the simple family used here, a fuzzy number attains full membership and every positive membership threshold selects a bounded closed interval. Arbitrary fuzzy sets, such as a description with two separated peaks, need not satisfy this interval-shaped contract.
+
+## 🏵 Marks and auras make the description readable {#sec-sample-fuzzy-numbers-marks-and-auras-make-the-description-readable}
+
+The presentation's notation
+
+$$
+\widetilde x=P(M)\{A\}
+$$
+
+invites three declarations: profile, representative mark, and aura.
+
+For our example we can state:
+
+- **Profile:** triangular membership.
+- **Mark:** the peak $M=27$.
+- **Aura:** half-width $A=5$.
+
+The aura here is a half-width, with the same units as the numerical values. It is not a standard deviation. Another profile or another aura definition would produce another object.
+
+The notation carries a useful architecture once its components have names and contracts.
+
+## ⚙️ Ask how strict the description should be {#sec-sample-fuzzy-numbers-ask-how-strict-the-description-should-be}
+
+Choose a membership threshold $0<\alpha\leq1$ and keep values whose membership reaches it:
+
+$$
+[\widetilde x]_\alpha
+=
+\{v:\mu_{\widetilde x}(v)\geq\alpha\}.
+$$
+
+This is an **alpha-cut**: an ordinary set selected from a graded one.
+
+For the triangle,
+
+$$
+[\widetilde x]_\alpha
+=
+[\,27-5(1-\alpha),\ 27+5(1-\alpha)\,].
+$$
+
+At $\alpha=0.5$, the accepted interval is $[24.5,29.5]$. At $\alpha=1$, only 27 remains.
+
+The threshold is a membership requirement. It is not a confidence level or a probability of coverage.
+
+## 💡 The same shorthand can hide different objects {#sec-sample-fuzzy-numbers-the-same-shorthand-can-hide-different-objects}
+
+The notation $27\pm5$ could describe:
+
+- Hard bounds from 22 to 32.
+- A mean of 27 with standard deviation 5 under a specified probability law.
+- A confidence interval produced by a sampling procedure.
+- Our triangular membership profile.
+
+The shorthand leaves those meanings unresolved. Choosing a familiar formula before choosing the meaning would settle the wrong question.
+
+The broad *Fuzzy Number* of the slides can remain the inspiration for an extended-value architecture. Within calculations, attach the uncertainty type explicitly.
+
+## ☯ Transform the whole description {#sec-sample-fuzzy-numbers-transform-the-whole-description}
+
+If we shift every candidate value upward by three, the new fuzzy number has peak 30 and the same half-width five:
+
+$$
+\mu_{\widetilde y}(v)=\mu_{\widetilde x}(v-3).
+$$
+
+Each alpha-cut shifts by three as well. We have transported the complete membership profile, rather than choosing one representative value and discarding its neighborhood.
+
+Producing one number from that profile requires another operation. [Fuzzy Generators](fuzzy-generators.qmd) gives that operation its own page.
+
+::: {.callout-tip}
+## Try the idea {#sec-sample-fuzzy-numbers-try-the-idea}
+
+For the triangular description centered at 27 with half-width 5, find the $\alpha=0.8$ cut. What happens to it after shifting all values upward by three?
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-fuzzy-numbers-work-it-through}
+
+The half-width of the cut is $5(1-0.8)=1$, so it is $[26,28]$. After the shift it is $[29,31]$. The grade threshold has stayed the same while the accepted numerical values moved.
+:::
+
+*Starting slides: [Muestreo, 3, 23, 25, 65](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3df2e37ee31_0_36).*
+

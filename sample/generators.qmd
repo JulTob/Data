@@ -1,0 +1,96 @@
+---
+title: "Generators: Rules Behind the Record"
+---
+
+A record tells us what appeared. A generator tells us how another value could appear.
+
+The distinction becomes visible when we ask for the next observation. A list can repeat a value already present in it. A generator must supply a rule for producing that value again.
+
+## 🔰 A generator needs more than a list of possibilities {#sec-sample-generators-a-generator-needs-more-than-a-list-of-possibilities}
+
+Consider a box that emits either zero or one. Knowing its alphabet $\{0,1\}$ leaves many possible rules:
+
+- Alternate between zero and one.
+- Toss a fair coin independently for each output.
+- Toss once and repeat that result forever.
+- Emit one whenever a temperature exceeds a threshold.
+
+All produce binary signals. Their behavior across addresses differs.
+
+A useful generator description specifies four things:
+
+- **Values:** what it can emit.
+- **State:** what it remembers between outputs.
+- **Production rule:** how the next value is chosen from the current conditions.
+- **Update rule:** what changes after that output.
+
+Inputs from the environment may also affect production and update.
+
+```{mermaid}
+%%| label: fig-sample-generator-state
+%%| fig-cap: "A generator produces an output and updates its state. External inputs or a random source enter only when the model requires them."
+flowchart TD
+    S["Current state"] --> R["Production rule"]
+    I["Inputs or random source"] --> R
+    R --> V["Emitted value"]
+    S --> U["State update"]
+    I --> U
+    V --> U
+    U --> S
+```
+
+The feedback arrow gives memory a place in the architecture.
+
+## 🏵 A distribution is one view of a generator {#sec-sample-generators-a-distribution-is-one-view-of-a-generator}
+
+Suppose two machines both show zero or one with equal probability at any fixed address.
+
+The first tosses independently at every step. The second tosses once and repeats forever.
+
+For either machine, before a run begins,
+
+$$
+\mathbb P(X_t=0)=\mathbb P(X_t=1)=\frac12.
+$$
+
+But after observing the first output, their next outputs differ:
+
+- For independent tosses, a first zero leaves the next toss equally balanced.
+- For the repeating machine, a first zero determines every later output.
+
+A distribution at one address cannot, by itself, describe these relationships between addresses.
+
+This is why the presentation's generating structure $\mathsf F$ deserves to be larger than its potential profile $P[f]$.
+
+## ⚙️ A deterministic rule can still be observed imperfectly {#sec-sample-generators-a-deterministic-rule-can-still-be-observed-imperfectly}
+
+The alternating generator has a simple rule. If we do not know its starting phase, its next output may be uncertain to us.
+
+A computer's pseudorandom generator also updates a state by a deterministic rule. Supplying the same initial state reproduces the sequence. Whether its output is suitable for a particular experiment requires more than checking whether a short record looks irregular.
+
+We should distinguish the mechanism, what we know about it, and the statistical model used for its outputs. A complicated physical explanation need not be reconstructed before a useful probability model can be tested.
+
+## 💡 Generation and inference face opposite ways {#sec-sample-generators-generation-and-inference-face-opposite-ways}
+
+With a specified generator, we ask what records it could produce.
+
+With a record in hand, we ask which generators remain consistent with it. Several may survive. Four alternating outputs could come from an alternating mechanism or from independent coin tosses.
+
+The record constrains an explanation. A short record rarely determines it uniquely.
+
+[Dice and Decks](dice-and-decks.qmd) gives us a generator whose state is easy to see and count.
+
+::: {.callout-tip}
+## Try the idea {#sec-sample-generators-try-the-idea}
+
+A machine emits $1,1,1,1$. Give two different rules compatible with this record. What additional observation would help distinguish them?
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-generators-work-it-through}
+
+It might repeat its first coin toss forever, or toss independently and happen to produce four ones. A later zero would rule out the first description if the machine has not been reset. More ones would leave both possible, with different probabilities under the two models.
+:::
+
+*Starting slides: [Muestreo, 6, 13, 16, 17, 68](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3e1ab53374d_0_15).*
+

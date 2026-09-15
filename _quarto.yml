@@ -9,6 +9,31 @@ book:
     - index.qmd
     - part: "Sample"
       chapters:
+        - sample/index.qmd
+        - sample/observations.qmd
+        - sample/signals.qmd
+        - sample/discrete-and-continuous.qmd
+        - sample/generators.qmd
+        - sample/dice-and-decks.qmd
+        - sample/potential.qmd
+        - sample/probability.qmd
+        - sample/reticence.qmd
+        - sample/binary-logic.qmd
+        - sample/fuzzy-logic.qmd
+        - sample/fuzzy-numbers.qmd
+        - sample/fuzzy-generators.qmd
+        - sample/data-algebra.qmd
+        - sample/signal-operations.qmd
+        - sample/masks.qmd
+        - sample/combining-generators.qmd
+        - sample/mixtures.qmd
+        - sample/convolution.qmd
+        - sample/conditioning.qmd
+        - sample/bayes.qmd
+        - sample/marks-and-auras.qmd
+        - sample/signal-energy.qmd
+        - sample/empirical-distributions.qmd
+        - sample/sampling-design.qmd
         - sample/sampling.qmd
     - part: "Sample Space"
       chapters:

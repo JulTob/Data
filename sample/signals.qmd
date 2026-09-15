@@ -1,0 +1,105 @@
+---
+title: "Signals: Values with Addresses"
+---
+
+The values $1,2,2,5$ can describe four die throws. They can also describe measurements at four places.
+
+The numbers alone do not tell us which arrangement we have. Their addresses provide the missing structure.
+
+## 🔰 A signal assigns values to addresses {#sec-sample-signals-a-signal-assigns-values-to-addresses}
+
+Write
+
+$$
+S:\mathbb T\longrightarrow\mathcal V,
+\qquad t\longmapsto S[t].
+$$
+
+Read this aloud: **at an address $t$ in the domain $\mathbb T$, the signal supplies a value of type $\mathcal V$.**
+
+The notation $S[t]$ keeps the notes' idea of evaluation. We ask at an address; we receive a value.
+
+For four throws,
+
+$$
+\mathbb T=\{1,2,3,4\},
+\qquad
+S[1]=1,\ S[2]=2,\ S[3]=2,\ S[4]=5.
+$$
+
+The domain describes the places where questions are allowed. The value type describes the answers that make sense.
+
+## 🏵 The address supplies relationships {#sec-sample-signals-the-address-supplies-relationships}
+
+Time carries an order and measurable intervals. A pixel grid supplies neighbors in two dimensions. A list of patient identifiers supplies identity, but its numbering need not describe distance or order in any medically meaningful sense.
+
+Operations must respect that difference.
+
+Subtracting successive voltages can describe change over time. Subtracting the ages of patient 103 and patient 104 does not become a time derivative because the identifiers happen to be consecutive.
+
+The structure of $\mathbb T$ is part of the signal.
+
+## ⚙️ Alignment comes before arithmetic {#sec-sample-signals-alignment-comes-before-arithmetic}
+
+Suppose two sensors observe the same room:
+
+$$
+A[\text{noon}]=20,\qquad
+B[\text{noon}]=21.
+$$
+
+Their difference at noon is meaningful if their units and calibration are comparable.
+
+If row one of one file means noon and row one of another means midnight, subtracting the rows silently creates a different experiment. Equal array lengths do not establish matching addresses.
+
+A combined observation can instead preserve both readings:
+
+$$
+C[t]=(A[t],B[t]).
+$$
+
+Its value type is now a pair. We have changed the kind of answer without changing the address domain.
+
+## 💡 Order is information we may choose to lose {#sec-sample-signals-order-is-information-we-may-choose-to-lose}
+
+Consider
+
+$$
+S=(1,2,2,5),
+\qquad
+R=(2,5,1,2).
+$$
+
+They contain the same values with the same multiplicities. Their temporal behavior differs. One rises; the other rises, falls, and rises again.
+
+Sorting preserves the collection of values while replacing observation order with rank. A histogram goes further: it retains how often each value occurred.
+
+For a process with memory, those transformations can remove the evidence that reveals the memory.
+
+## ☯ A profile is also a signal {#sec-sample-signals-a-profile-is-also-a-signal}
+
+The notation can describe more than a record through time.
+
+A potential profile $P[f]$ assigns a weight to each possible value $f$. Its addresses are values, and its outputs are weights. The original record $S[t]$ instead assigns an observed value to each observation address.
+
+The same architecture supports both:
+
+- $S[t]$: observation address $\to$ observed value.
+- $P[f]$: possible value $\to$ potential weight.
+
+Keeping their domains visible prevents us from summing over observations when we intended to sum over possibilities.
+
+::: {.callout-tip}
+## Try the idea {#sec-sample-signals-try-the-idea}
+
+Two files each contain 24 temperatures. Is their element-by-element difference automatically meaningful? What must be checked first?
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-signals-work-it-through}
+
+Check which times and locations the rows represent, whether the units agree, and how the measurements were obtained. Twenty-four rows establish a count. They do not establish alignment.
+:::
+
+*Starting slides: [Muestreo, 4, 5, 14, 15](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3df2e37ee31_0_46).*
+

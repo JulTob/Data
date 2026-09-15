@@ -1,0 +1,7 @@
+lang: en
+format:
+  html:
+    toc: true
+    toc-depth: 2
+execute:
+  echo: false

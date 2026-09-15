@@ -1,0 +1,107 @@
+---
+title: "Fuzzy Generators: From Grades to Outputs"
+---
+
+A fuzzy profile describes how values fit. A machine must eventually emit something: a command, a number, or another profile.
+
+The missing piece is an output policy.
+
+This is where the slides' broad idea of a generating structure can connect fuzzy descriptions to an actual sequence.
+
+## 🔰 A profile needs a rule for producing outputs {#sec-sample-fuzzy-generators-a-profile-needs-a-rule-for-producing-outputs}
+
+Suppose a value is described as “about 27” by the triangle on the previous page.
+
+Several procedures are possible:
+
+- Emit its peak, 27.
+- Emit an interval selected by a membership threshold.
+- Emit its whole profile for another stage to interpret.
+- Introduce a probability model and draw a random value.
+
+These procedures preserve different parts of the description. The membership profile alone does not choose among them.
+
+In particular, always emitting the peak is a deterministic generator. Its outputs do not sample the full triangle.
+
+## 🏵 A small fuzzy controller can generate a number {#sec-sample-fuzzy-generators-a-small-fuzzy-controller-can-generate-a-number}
+
+Imagine a demonstration fan controller with two rules:
+
+- When the input fits “cool,” suggest output level 20.
+- When the input fits “warm,” suggest output level 80.
+
+These levels are illustrative commands on a scale from zero to 100.
+
+For a particular input, suppose the rule activation grades are $a_{\mathrm{cool}}=0.4$ and $a_{\mathrm{warm}}=0.6$. Choose the weighted output policy
+
+$$
+y=
+\frac{20a_{\mathrm{cool}}+80a_{\mathrm{warm}}}
+     {a_{\mathrm{cool}}+a_{\mathrm{warm}}}
+=
+56.
+$$
+
+Constant rule outputs combined this way form a simple zero-order Sugeno system. The grades express rule activation; the weighted-average output is a chosen inference policy. [MathWorks' description of Sugeno systems](https://www.mathworks.com/help/fuzzy/types-of-fuzzy-inference-systems.html) gives this construction.
+
+```{mermaid}
+%%| label: fig-sample-fuzzy-output
+%%| fig-cap: "Two graded rules contribute to one command through a declared weighted-average policy."
+flowchart TD
+    X["Measured input"] --> C["Cool rule: grade 0.4"]
+    X --> W["Warm rule: grade 0.6"]
+    C --> Y["Weighted output: 56"]
+    W --> Y
+```
+
+The grades happen to sum to one here. The formula only requires their sum to be positive. Other membership definitions need not create a partition.
+
+If every rule has zero activation, the denominator is zero. The controller needs an explicit fallback or an error state; the formula cannot invent a command.
+
+## ⚙️ Following an input creates a signal {#sec-sample-fuzzy-generators-following-an-input-creates-a-signal}
+
+At each address $t$, evaluate the rules on the input $X[t]$ and apply the output policy:
+
+$$
+Y[t]
+=
+\frac{\sum_j a_j(X[t])\,c_j}
+     {\sum_j a_j(X[t])}.
+$$
+
+Here $c_j$ is the constant output suggested by rule $j$.
+
+For cool/warm grades $(0.8,0.2)$, $(0.4,0.6)$, and $(0.1,0.9)$, the outputs are
+
+$$
+32,\quad56,\quad74.
+$$
+
+We have built a numerical signal through fuzzy reasoning. Given the same inputs and rule definitions, this example produces the same outputs.
+
+A controller with memory would add state and update rules, just as our general [Generator](generators.qmd) architecture allows.
+
+## 💡 Randomization is an additional policy {#sec-sample-fuzzy-generators-randomization-is-an-additional-policy}
+
+We could instead choose output 20 with probability $0.4$ and output 80 with probability $0.6$. That random selector has mean 56, but every individual output is either 20 or 80.
+
+The deterministic command 56 and the random selector are different generators.
+
+Likewise, normalizing an integrable membership profile against a chosen measure creates a possible probability model. It does not prove that observations follow that model. Another output policy could use its alpha-cuts or its peak.
+
+This distinction lets us unify the interface without collapsing the meanings: an extended description enters; a declared policy produces the output type.
+
+::: {.callout-tip}
+## Try the idea {#sec-sample-fuzzy-generators-try-the-idea}
+
+The cool and warm activation grades are both $0.3$. What does the weighted-average controller emit? What would be missing if both grades were zero?
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-fuzzy-generators-work-it-through}
+
+It emits $(20(0.3)+80(0.3))/0.6=50$. The total activation need not be one. If both grades were zero, no rule would contribute and the weighted average would be undefined; a separately specified fallback would be required.
+:::
+
+*Starting slides: [Muestreo, 3, 6, 15, 88](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3df2e37ee31_0_36). This page develops an additional construction from the presentation's vocabulary.*
+

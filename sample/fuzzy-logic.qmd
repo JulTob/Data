@@ -1,0 +1,111 @@
+---
+title: "Fuzzy Logic: Giving a Boundary Width"
+---
+
+A thermostat can switch on at exactly $25\,^\circ\mathrm C$. The rule is crisp: just below the threshold it is off; at the threshold it is on.
+
+The description “warm enough” can have a different purpose. We may want nearby temperatures to fit it to nearby degrees.
+
+Fuzzy logic gives that graded description a mathematical form.
+
+## 🔰 Define membership before calculating with it {#sec-sample-fuzzy-logic-define-membership-before-calculating-with-it}
+
+Let $\mu_{\mathrm{warm}}(x)$ describe how well temperature $x$, in degrees Celsius, fits “warm enough” for a chosen task:
+
+$$
+\mu_{\mathrm{warm}}(x)=
+\begin{cases}
+0,&x\leq20,\\
+(x-20)/10,&20<x<30,\\
+1,&x\geq30.
+\end{cases}
+$$
+
+At $26\,^\circ\mathrm C$, the membership is $0.6$.
+
+The thresholds and slope express our chosen meaning of the phrase. A plant nursery and a swimming pool may require different definitions. The model can be explicit even when its concept has a gradual boundary.
+
+```{python}
+#| label: fig-sample-fuzzy-boundary
+#| fig-cap: "A crisp predicate and a graded description of the same temperature axis. The membership curve is an explicit modeling choice."
+#| fig-alt: "A step at 25 degrees is compared with a membership ramp from zero at 20 to one at 30. At 26 degrees the fuzzy membership is 0.6."
+#| fig-format: svg
+#| fig-width: 8
+#| fig-height: 3.5
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+temperatures = np.linspace(15, 35, 401)
+membership = np.clip((temperatures - 20) / 10, 0, 1)
+crisp = (temperatures >= 25).astype(float)
+figure, axis = plt.subplots(figsize=(8, 3.5), layout="constrained")
+axis.step(temperatures, crisp, where="post", label="At least 25 C", color="#82929B")
+axis.plot(temperatures, membership, label="Warm enough: chosen grade", color="#236B8E")
+axis.scatter([26], [0.6], color="#A54B30", zorder=3)
+axis.annotate("(26, 0.6)", (26, 0.6), xytext=(27, 0.45))
+axis.set(xlabel="Temperature in degrees Celsius", ylabel="Truth or membership grade", ylim=(-0.05, 1.1))
+axis.legend(frameon=False)
+axis.grid(alpha=0.15)
+plt.show()
+```
+
+## 🏵 Probability and membership answer different questions {#sec-sample-fuzzy-logic-probability-and-membership-answer-different-questions}
+
+Suppose the temperature is known to be exactly 26 in our model. Its membership in “warm enough” is still $0.6$.
+
+That number does not say there is a 60% chance that the temperature is 26, or that 60% of thermometers will report warmth. It evaluates the description for a given input.
+
+A probability model could separately describe our uncertainty about the temperature. We may need both a distribution over possible temperatures and a membership rule that evaluates each one.
+
+Sharing the interval $[0,1]$ does not make the meanings interchangeable.
+
+## ⚙️ Choose a family of connectives {#sec-sample-fuzzy-logic-choose-a-family-of-connectives}
+
+A common introductory choice is
+
+$$
+\operatorname{NOT}(a)=1-a,\qquad
+\operatorname{AND}(a,b)=\min(a,b),\qquad
+\operatorname{OR}(a,b)=\max(a,b).
+$$
+
+These extend the Boolean truth tables at zero and one. Other valid families exist; for example, product conjunction uses $ab$ with its dual disjunction $a+b-ab$. The choice affects how partial grades combine. These conventions are described in [MathWorks' foundations of fuzzy logic](https://www.mathworks.com/help/fuzzy/foundations-of-fuzzy-logic.html).
+
+For membership grades $0.6$ and $0.8$:
+
+- Minimum conjunction gives $0.6$.
+- Product conjunction gives $0.48$.
+- Maximum disjunction gives $0.8$.
+- The product family's disjunction gives $0.92$.
+
+Both families agree on Boolean inputs. They express different behavior between the endpoints.
+
+## 💡 Some familiar identities change {#sec-sample-fuzzy-logic-some-familiar-identities-change}
+
+With minimum AND and the complement $1-a$,
+
+$$
+\min(0.6,1-0.6)=0.4.
+$$
+
+A description and its graded complement can both fit partially. Their conjunction need not be zero.
+
+This tells us which laws survived the extension. It does not turn a partially fitting description into a contradiction in the underlying measured value.
+
+Membership grades stay in $[0,1]$. Applying $1-a$ to $a=2$ is ordinary subtraction, but it is outside this membership contract. A missing measurement also needs explicit handling; assigning it grade $0.5$ would add a meaning we have not justified.
+
+::: {.callout-tip}
+## Try the idea {#sec-sample-fuzzy-logic-try-the-idea}
+
+A reading has grade $0.7$ in “warm enough.” Under the minimum/maximum family, find its complement and the conjunction with its complement. Does either number describe the frequency of cold days?
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-fuzzy-logic-work-it-through}
+
+The complement is $0.3$ and the conjunction is $\min(0.7,0.3)=0.3$. Both evaluate descriptions at this reading. Frequencies of days require observations or a probability model over days.
+:::
+
+*Starting slides: [Muestreo, 3, 15, 74, 75, 76, 77](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3df2e37ee31_0_36).*
+

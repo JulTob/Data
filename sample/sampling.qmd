@@ -1,0 +1,96 @@
+---
+title: "Sampling: Listening to the Generator"
+---
+
+A die lands. We keep a face, place it at an address, and add it to a record.
+
+After several observations, the record starts to suggest a pattern. The next question asks how far that suggestion can travel: from these observed values to the process that may produce another.
+
+Sampling is where our grammar of observation becomes a method of inquiry.
+
+## 🔰 Keep three objects in view {#sec-sample-sampling-keep-three-objects-in-view}
+
+A useful investigation distinguishes:
+
+- **The target:** a property of the population or generator that we want to learn.
+- **The record:** the observations our procedure actually collected.
+- **The proposed model:** an explanation connecting that procedure and record to the target.
+
+A model may predict future observations. A record can challenge those predictions. The selection procedure determines which challenges the model was exposed to.
+
+```{mermaid}
+%%| label: fig-sample-inference-dialogue
+%%| fig-cap: "Inference compares predictions with observations and can revise either the generating model or the observation procedure."
+flowchart TD
+    G["Proposed generator"] --> P["Predicted patterns"]
+    O["Observation procedure"] --> S["Recorded sample"]
+    P --> C["Comparison"]
+    S --> C
+    C -->|"Revise model"| G
+    C -->|"Improve observation"| O
+```
+
+## 🏵 A statistic is an operator used for a purpose {#sec-sample-sampling-a-statistic-is-an-operator-used-for-a-purpose}
+
+The mean operator turns a numerical record into a mark. When that mark is used to learn a population mean, it becomes an estimator.
+
+The arithmetic can remain the same while its role changes.
+
+A property of this record can be calculated exactly. A claim about the unseen generator needs assumptions about how the record arose.
+
+The 28 throws from [Empirical Distributions](empirical-distributions.qmd) have mean $99/28$. That exact fraction does not certify a corresponding exact mean for the source.
+
+## ⚙️ Repeating the experiment also changes its summaries {#sec-sample-sampling-repeating-the-experiment-also-changes-its-summaries}
+
+For independent binary observations with a common probability $p$ of one, the sample mean is the observed proportion:
+
+$$
+\widehat p=\frac{\text{number of ones}}n.
+$$
+
+Across repeated samples, its standard deviation is
+
+$$
+\operatorname{SE}(\widehat p)=\sqrt{\frac{p(1-p)}n}.
+$$
+
+This **standard error** describes variation between estimates. The standard deviation of individual binary observations is $\sqrt{p(1-p)}$.
+
+At $p=1/2$, increasing the number of independent observations from 100 to 400 reduces the standard error from $0.05$ to $0.025$.
+
+The [Binomial chapter](../statistics/distributions/binomial.qmd) develops the distribution behind this result. For a source that tosses once and repeats, the independent-sampling formula does not apply: the sample mean remains the original zero or one.
+
+## 💡 A missing event remains a question {#sec-sample-sampling-a-missing-event-remains-a-question}
+
+Suppose a short record contains no sixes.
+
+Its empirical probability of six is zero. Taking that empirical value as a true probability would assign infinite reticence to six and rule it out of the model.
+
+The absence of sixes in a finite sample does not justify that conclusion. It may reflect rarity, dependence, selection, or an impossible outcome; the record alone has not decided which.
+
+Likewise, a single estimate's error does not establish the bias of a procedure. Bias concerns its average behavior across possible samples. Learning about a procedure requires thinking beyond one realized output.
+
+## ☯ Choose the next observation to resolve an ambiguity {#sec-sample-sampling-choose-the-next-observation-to-resolve-an-ambiguity}
+
+If the uncertainty is about face weights, further draws may help. If it is about replacement, inspect or change the reset rule. If it is about a hidden rhythm, alter the observation spacing. If it is about the meaning of “warm,” a larger sample cannot substitute for a membership definition.
+
+Each ambiguity asks for a different kind of work.
+
+That is the practical purpose of this chapter's vocabulary: an observation, potential, probability, membership, mark, and aura give different parts of the problem somewhere to live.
+
+[Sample Space](../sample-space/index.qmd) makes the possibilities more formal. [Statistical Modeling](../statistics/statistical-modeling.qmd) and [Statistical Methods](../statistics/statistical-methods.qmd) develop the next inferential steps.
+
+::: {.callout-tip}
+## Explain the whole construction {#sec-sample-sampling-explain-the-whole-construction}
+
+You receive a list of numbers from one to six. Before deciding whether their source is a fair die, name three questions about how the record was generated or collected.
+:::
+
+::: {.callout-note collapse="true"}
+## Work it through {#sec-sample-sampling-work-it-through}
+
+Possible questions include: Were outputs independent rolls, draws without replacement, or repeated copies? Were all outcomes retained, or did a mask remove some? Do the addresses preserve the original order? Were the displayed numbers individual faces or summaries of several values? Each answer changes which probability model and comparison are appropriate.
+:::
+
+*Starting slides: [Muestreo, 29, 55, 69, 73, 97, 102, 103, 104](https://docs.google.com/presentation/d/1LEgSjd6pmv4Bcz6Rj9TNubUUBGySXH-Gsv7GQanM39w/edit#slide=id.g3dfe9e5de80_0_231).*
+
