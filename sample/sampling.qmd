@@ -1,0 +1,227 @@
+---
+title: "Sampling"
+---
+
+Before probability, before formula, before model, there is a quieter act.
+
+Someone looks.
+
+A telescope opens toward a patch of sky.  
+A thermometer waits in a room.  
+A ballot box collects folded pieces of paper.  
+A biologist walks a transect through a forest and marks what she meets.  
+A microphone listens to a corridor at three in the afternoon.
+
+None of these gestures know yet what they will find. Each one has already made a decision. Each one has taken a piece of the world and turned it into a fragment that can be counted, compared, remembered.
+
+That fragment is a **sample**.
+
+To sample is not to grasp the world.  
+It is to touch it, briefly, in a chosen place, with a chosen instrument, and to keep a record of the contact.
+
+Everything that follows in this book, all probability, all inference, all statistical form, rests on that first, small, humble act.
+
+---
+
+## 🔰 What a sample is
+
+A sample is not the world.
+
+The world is too large.  
+The world is too fast.  
+The world is too still.  
+The world is too many.
+
+We cannot ask every person, weigh every fish, catch every photon, or repeat every experiment forever. So we take a part. A handful. A snapshot. A slice.
+
+A sample is:
+
+- a **part** taken from a **whole**
+- gathered under some rule, however rough
+- with the hope that it says something about the whole it came from
+
+That last hope is the hinge of everything.
+
+> A sample is only meaningful because we intend to reason from it back to something larger.
+
+If we did not, a sample would be a curiosity. A pile of numbers. A private diary.
+
+Sampling exists because we want to know more than we have looked at.
+
+---
+
+## 🏵 The whole behind the part
+
+Every sample points, silently, at a larger thing.
+
+That larger thing has many names:
+
+- the **population**
+- the **process**
+- the **source**
+- the **generator**
+- the **world**
+
+Sometimes the whole is finite and concrete: all students in a school, all trees on an island, all invoices in a quarter.
+
+Sometimes the whole is not a thing at all, but a tendency. A machine that could produce infinitely many parts. A weather system that could produce infinitely many mornings. A random experiment that could be repeated forever, if we were patient enough.
+
+The whole may be countable, or unbounded, or hypothetical, or barely thinkable.
+
+But a sample only becomes useful when we are willing to say, out loud:
+
+> *this* is the whole I am reaching toward.
+
+A sample without a stated whole is a shrug pretending to be a measurement.
+
+---
+
+## ⚙️ Observation and experiment
+
+There are two great ways of reaching the world.
+
+We can **watch** it.  
+Or we can **poke** it.
+
+### Observation
+
+In observation, we do not disturb.
+
+We record what happens as it happens. Prices, births, migrations, temperatures, votes, clicks, arrivals. The world moves according to its own logic. We stand aside and write.
+
+Observation is respectful. It is patient. It is often the only option, because we cannot rerun a hurricane, a war, a pandemic, a childhood, a market crash.
+
+But observation has a limit: we see what the world chose to show. We cannot separate causes that always travel together. Something that shines in the data may only shine because it was standing beside the real source of light.
+
+### Experiment
+
+In experiment, we intervene.
+
+We change one thing on purpose. We hold others still. We assign, on purpose, some units to one condition and some to another. Then we compare.
+
+Experiment is more powerful, because it can break apart entanglements that observation cannot. It is also more expensive, more constrained, more ethically loaded, and often impossible in the messy human world.
+
+### The quiet lesson
+
+> Observation shows the world as it is willing to be seen.  
+> Experiment shows the world as it responds when pushed.
+
+Both are sampling. Both take a part. But they take it in very different ways, and the difference matters more than any formula that comes later.
+
+---
+
+## ☯ What a sample preserves and what it loses
+
+Every sample carries two truths at once.
+
+It preserves something.  
+It loses something.
+
+A sample of a river preserves what the cup can hold. It loses the current, the temperature at dawn, the fish that turned aside from the shore, the sediment that settled the night before.
+
+A sample of a population preserves the people who answered. It loses the ones who never picked up the phone. It loses the questions we did not think to ask.
+
+A sample of a market preserves the trades that were recorded. It loses the offers that were never made because someone lost faith.
+
+This is not failure. This is the shape of any finite contact with an infinite world.
+
+⚜️ The discipline of sampling is not to pretend that nothing is lost.
+
+The discipline is to know what was lost, and to reason accordingly.
+
+---
+
+## ⚠️ Bias
+
+**Bias** is the word we use when the loss is not neutral.
+
+If a sample loses some parts of the whole more than others, it does not just shrink the picture.  
+It tilts it.
+
+A survey that reaches only people with phones learns about people with phones.  
+A study that follows only patients who returned learns about patients who returned.  
+A dataset built from posts that went viral learns about virality, not about the world.
+
+Bias is not the same as being small.
+
+A tiny honest sample can still speak carefully about the whole.  
+A huge biased sample can shout with confidence about a distortion.
+
+> Size does not cure bias.  
+> Size only makes the wrong answer louder.
+
+The first defense against bias is not mathematics. It is imagination. Before touching the numbers, ask:
+
+- Who is missing from this sample?
+- Why are they missing?
+- What did the instrument fail to see?
+- What did the situation make invisible?
+
+A statistician who cannot answer those questions is not yet ready to compute.
+
+---
+
+## 💡 Variation
+
+Even without bias, no two samples are the same.
+
+Weigh ten apples today. Weigh ten more tomorrow.  
+Ask a hundred people. Ask a hundred others.  
+Roll a die twenty times. Roll it twenty more.
+
+The numbers will not match. Not exactly. Not even close, sometimes.
+
+This is not error.  
+This is not carelessness.  
+This is the world.
+
+Variation is what makes statistics necessary and what makes it possible. A world without variation would need no samples: one measurement would settle everything. A world of pure noise would defeat any sample: nothing would ever stabilize.
+
+We live in the middle.
+
+> Things differ.  
+> But their differences have shape.
+
+Sampling is how we begin to see that shape.
+
+---
+
+## 🔰 A first vocabulary
+
+We do not need much yet. Just enough to speak clearly.
+
+- A **unit** is one thing in the whole. A person. A tree. A moment. A file.
+- A **population** is the set of all units we care about.
+- A **sample** is a subset of the population we actually observed.
+- The **sample size** is how many units are in the sample, often written $n$.
+- A **variable** is what we recorded about each unit. Height. Vote. Delay. Color.
+
+That is enough of a scaffold to begin.
+
+Everything else in this book, distributions, uncertainty, models, tests, is built patiently on top of this small frame.
+
+---
+
+## 🏵 Sampling is a promise
+
+A sample is not just a fragment of the world.
+
+It is a **promise** about how the fragment was taken.
+
+Two piles of numbers may look identical on paper and mean entirely different things because of how they were collected. A well-designed sample is worth far more than a large careless one. This is why sampling design will return, again and again, in later chapters.
+
+For now, hold on to this quiet idea:
+
+> The moment you decide *how* to look, you have already decided *what you will be able to know*.
+
+Statistics begins there.
+
+Not in a formula.  
+Not in a curve.  
+Not in a computer.
+
+But in the choice to reach out, carefully, toward a world that is larger than any single glance, and to write down what came back.
+
+That is the first act of the discipline.
+
+The rest is craft.
