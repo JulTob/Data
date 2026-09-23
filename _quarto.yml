@@ -7,9 +7,6 @@ book:
   author: "Julio Toboso"
   chapters:
     - index.qmd
-    - part: "Sample"
-      chapters:
-        - sample/sampling.qmd
     - part: "Sample Space"
       chapters:
         - sample-space/index.qmd
@@ -31,6 +28,7 @@ book:
         - statistics/distributions/lognormal.qmd
         - statistics/distributions/pareto.qmd
         - statistics/distributions/binomial.qmd
+        - statistics/distributions/poisson.qmd
         - statistics/statistical-modeling.qmd
         - statistics/statistical-methods.qmd        
     
