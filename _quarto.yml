@@ -33,10 +33,14 @@ book:
         - statistics/statistical-methods.qmd        
     
 format:
-  html:
+  live-html:
     theme: lux
     code-copy: true
     code-fold: show
 
 execute:
   execute-notebooks: auto
+
+live:
+  show-solutions: true
+  show-hints: true
