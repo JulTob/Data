@@ -516,14 +516,24 @@ That is a worldview.
 
 ## Optional: quick Python check
 
-```{python}
+Try changing `lam` (the average rate $\lambda$) or `k` (the count you are asking
+about) and press *Run Code*. The first run boots a small Python engine right in
+your browser; it takes a few seconds. After that, edits run instantly.
+
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JulTob/Data/blob/main/notebooks/poisson_probability.ipynb)
+
+```{pyodide}
+#| autorun: false
+#| min-lines: 6
+#| max-lines: 15
+
 import math
 
-λ = 4
-k = 2
+lam = 4
+k   = 2
 
-probability = (λ**k) * math.exp(-λ) / math.factorial(k)
-probability
+probability = (lam ** k) * math.exp(-lam) / math.factorial(k)
+print(f"P(X = {k}) with lambda = {lam}  ->  {probability:.4f}")
 ```
 
 You should obtain approximately:
@@ -531,6 +541,10 @@ You should obtain approximately:
 ```text
 0.1465
 ```
+
+Try `lam = 6, k = 8` for the "6 visits per minute" exercise below, or push
+`lam` up to `12` to see how the probability of any single specific count keeps
+shrinking as the distribution spreads out.
 
 ---
 
