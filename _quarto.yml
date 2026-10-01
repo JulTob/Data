@@ -18,7 +18,7 @@ book:
         - sample-space/types.qmd
         - sample-space/outcomes-and-events.qmd
         - sample-space/finite-and-infinite.qmd
-        - sample-space/kolmogorov.qmd   
+        - sample-space/kolmogorov.qmd
     - part: "Statistics"
       chapters:
         - statistics/index.qmd
@@ -31,9 +31,10 @@ book:
         - statistics/distributions/lognormal.qmd
         - statistics/distributions/pareto.qmd
         - statistics/distributions/binomial.qmd
+        - statistics/distributions/poisson.qmd
         - statistics/statistical-modeling.qmd
-        - statistics/statistical-methods.qmd        
-    
+        - statistics/statistical-methods.qmd
+
 format:
   html:
     theme: lux
@@ -41,4 +42,4 @@ format:
     code-fold: show
 
 execute:
-  execute-notebooks: auto
+  freeze: auto
