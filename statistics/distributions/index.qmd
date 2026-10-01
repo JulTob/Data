@@ -2,6 +2,18 @@
 title: "Distributions"
 ---
 
+::: {.callout-note collapse="false"}
+## 🧪 Try the code in your browser
+
+Some of the Python cells in this chapter are **live**: you can edit them and press
+*Run Code* right in the page. The first run downloads a small Python engine
+([Pyodide](https://pyodide.org)) inside your browser, which takes a few seconds.
+After that, edits run instantly. No install, no login.
+
+If you would rather open the same exercise in Google Colab, use the badge next to
+each live cell.
+:::
+
 A dataset is not only a collection of values.
 
 It also has a shape.
@@ -212,118 +224,40 @@ Try changing the number of observations and the number of bins.
 
 Watch what happens.
 
-```{python}
-#| label: fig-hist-convergence
-#| fig-cap: "Histogram approaching a smooth distribution"
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JulTob/Data/blob/main/notebooks/distributions_histogram.ipynb)
 
-#| label: fig-hist-convergence
-#| fig-cap: "Histogram approaching a probability density as data increases and bins are refined"
+```{pyodide}
+#| autorun: false
+#| min-lines: 12
+#| max-lines: 25
+#| caption: "Histogram approaching a smooth distribution"
 
 import numpy as np
-import pandas as pd
-import plotly.graph_objects as go
+import matplotlib.pyplot as plt
 
-seed = 42
-rng = np.random.default_rng(seed)
+sample_size = 200
+bin_count   = 15
 
-frames_spec = [
-    (32, 8),
-    (64, 10),
-    (128, 12),
-    (256, 16),
-    (512, 20),
-    (1024, 24),
-    (2048, 30),
-]
+rng     = np.random.default_rng(42)
+samples = rng.normal(0, 1, sample_size)
 
-max_sample_size = max(sample_size for sample_size, _ in frames_spec)
-full_sample = rng.normal(0, 1, max_sample_size)
+x_grid  = np.linspace(-4, 4, 400)
+density = (1 / np.sqrt(2 * np.pi)) * np.exp(-0.5 * x_grid ** 2)
 
-x_grid = np.linspace(-4, 4, 400)
-normal_density = (
-    1 / np.sqrt(2 * np.pi)
-) * np.exp(
-    -0.5 * x_grid**2
-)
-
-first_sample_size, first_bins = frames_spec[0]
-first_sample = full_sample[:first_sample_size]
-
-fig = go.Figure(
-    data = [
-        go.Histogram(
-            x = first_sample,
-            histnorm = "probability density",
-            nbinsx = first_bins,
-            marker_color = "tomato",
-            name = "Histogram"
-        ),
-        go.Scatter(
-            x = x_grid,
-            y = normal_density,
-            mode = "lines",
-            name = "Normal density"
-        )
-    ]
-)
-
-frames = []
-
-for sample_size, bins_count in frames_spec:
-    sample_prefix = full_sample[:sample_size]
-
-    frames.append(
-        go.Frame(
-            data = [
-                go.Histogram(
-                    x = sample_prefix,
-                    histnorm = "probability density",
-                    nbinsx = bins_count,
-                    marker_color = "tomato",
-                    name = "Histogram"
-                ),
-                go.Scatter(
-                    x = x_grid,
-                    y = normal_density,
-                    mode = "lines",
-                    name = "Normal density"
-                )
-            ],
-            name = f"N={sample_size}, bins={bins_count}"
-        )
-    )
-
-fig.frames = frames
-
-fig.update_layout(
-    title = "Histogram → probability density",
-    xaxis_title = "x",
-    yaxis_title = "Density",
-    bargap = 0.02,
-    updatemenus = [
-        {
-            "type": "buttons",
-            "buttons": [
-                {
-                    "label": "Play",
-                    "method": "animate",
-                    "args": [
-                        None,
-                        {
-                            "frame": {"duration": 900, "redraw": True},
-                            "transition": {"duration": 300},
-                            "fromcurrent": True
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
-)
-
-fig.show()
-
+fig, ax = plt.subplots(figsize=(6, 4))
+ax.hist(samples, bins=bin_count, density=True,
+        color="tomato", alpha=0.7, label="Histogram")
+ax.plot(x_grid, density, color="black", lw=2, label="Normal density")
+ax.set_title(f"N = {sample_size} samples, {bin_count} bins")
+ax.set_xlabel("x")
+ax.set_ylabel("Density")
+ax.legend()
+plt.show()
 ```
+
+Try nudging `sample_size` up to `2000` and `bin_count` up to `30`.
+Notice how the bars start hugging the smooth curve as the sample grows.
+
 ---
 
 ## ⚠️ The danger of decorative fitting
