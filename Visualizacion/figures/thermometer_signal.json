@@ -1,0 +1,17 @@
+{
+  "source_csv": "/mnt/data/plotwright_figure/thermometer_samples.csv",
+  "y_column": "temperature_c",
+  "kind": "signal",
+  "count": 3,
+  "positions": [
+    0.0,
+    1.0,
+    2.0
+  ],
+  "measurements": [
+    20.0,
+    20.3,
+    20.6
+  ],
+  "synthetic": null
+}
