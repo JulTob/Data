@@ -46,7 +46,23 @@ y_{[n]} = T(t_{[n]}) + b + \varepsilon_{[n]}.
 
 Here $T(t_{[n]})$ is the temperature we wish to know, $b$ is a constant measurement bias, and $\varepsilon_{[n]}$ represents the remaining measurement error. We are __assuming__ this model for the example; it is not a universal law of thermometers.
 
-Imagine the logger records 20.0 °C, 20.3 °C, and 20.6 °C at one-minute intervals. These are invented illustrative readings, not experimental evidence. The measured change from the first to the third reading is 0.6 °C. Under our model:
+Imagine the logger records 20.0 °C, 20.3 °C, and 20.6 °C at one-minute intervals. These are invented illustrative readings, not experimental evidence. The measured change from the first to the third reading is 0.6 °C.
+
+![Three illustrated thermometer samples](https://raw.githubusercontent.com/JulTob/Data/docs/measurement-experiment-signal-20261106/Visualizacion/figures/thermometer_signal.svg)
+
+_Figure: three discrete measurements, generated from [the sample CSV](https://github.com/JulTob/Data/blob/docs/measurement-experiment-signal-20261106/Visualizacion/figures/thermometer_samples.csv) with [reproducible plotting code](https://github.com/JulTob/Data/blob/docs/measurement-experiment-signal-20261106/Visualizacion/scientific_figures.py). The dots represent recorded samples in this invented example, not a known continuous temperature trajectory. The image uses a review-branch URL; replace it with the accepted permanent asset location when incorporating this draft into the Wiki._
+
+A compact, editable Mermaid XY version is possible if the actual Wiki supports the XY chart syntax, but its connecting line is only a visual guide between sample points (not an observation of intermediate values):
+
+```mermaid
+xychart-beta
+    title "Measured room temperature (illustrative)"
+    x-axis ["0", "1", "2"]
+    y-axis "Room temperature (°C)"
+    line [20, 20.3, 20.6]
+```
+
+Under our model:
 
 ```math
 y_{[2]}-y_{[0]} = T(t_{[2]})-T(t_{[0]}) + \varepsilon_{[2]}-\varepsilon_{[0]}.
